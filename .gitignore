@@ -1,0 +1,7 @@
+# Python (backend, if using FastAPI or similar)
+__pycache__/
+.env
+env/
+.venv/
+venv/
+*.pyc
