@@ -2,9 +2,6 @@
   "name": "linkedin-scraper",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "postinstall": "npx playwright install chromium"
-  },
   "dependencies": {
     "playwright": "^1.53.0"
   }
