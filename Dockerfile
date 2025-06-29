@@ -22,23 +22,20 @@ RUN apt-get update && \
     libwayland-client0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js and npm
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+# Install Node.js (required for Playwright)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
 
 WORKDIR /app
 COPY . .
 
-# Install Playwright and browsers directly
-RUN npm init -y && \
-    npm install playwright && \
-    npx playwright install --with-deps chromium
-
-# Install Python dependencies
+# Install Playwright via pip (Python package)
 RUN pip install --no-cache-dir -r requirements.txt
 
-ENV PYTHONUNBUFFERED=1
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+# Install Playwright browsers to a known location
+ENV PLAYWRIGHT_BROWSERS_PATH=/app/ms-playwright
+RUN playwright install chromium
+RUN playwright install-deps
 
 EXPOSE 8000
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -108,7 +108,7 @@ class LinkedInScraperAPI:
                 async with async_playwright() as p:
                     browser = await p.chromium.launch(
                         headless=True,
-                        executable_path="/ms-playwright/chromium-*/chrome-linux/chrome"
+                        executable_path="/app/ms-playwright/chromium-*/chrome-linux/chrome"
                     )
                     await browser.close()
                 self._browser_checked = True
