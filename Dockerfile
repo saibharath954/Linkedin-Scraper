@@ -33,6 +33,10 @@ COPY . .
 ENV PYTHONUNBUFFERED=1
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
+# Add this before the CMD line
+RUN playwright install --with-deps chromium
+RUN playwright install-deps
+
 # Expose port
 EXPOSE 8000
 
