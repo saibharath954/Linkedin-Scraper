@@ -42,6 +42,7 @@ app.add_middleware(
 
 class LinkedInScraperAPI:
     def __init__(self, headless: bool = True, slow_mo: int = 100):
+        self._browser_checked = False
         self.headless = headless
         self.slow_mo = slow_mo
         self.timeout = 45000  # Increased timeout
