@@ -108,47 +108,16 @@ class LinkedInScraperAPI:
         if not self._browser_checked:
             try:
                 async with async_playwright() as p:
-                    # Try multiple possible browser paths
-                    browser_paths = [
-                        None,  # Default path
-                        "/ms-playwright/chromium-*/chrome-linux/chrome",
-                        "/usr/local/lib/python3.10/site-packages/playwright/driver/package/.local-browsers/chromium-*/chrome-linux/chrome",
-                        "/opt/render/.cache/ms-playwright/chromium-*/chrome-linux/chrome"
-                    ]
-                    
-                    last_error = None
-                    for path in browser_paths:
-                        try:
-                            launch_options = {
-                                "headless": True,
-                                "timeout": 30000,
-                                "args": [
-                                    "--disable-gpu",
-                                    "--disable-dev-shm-usage",
-                                    "--disable-setuid-sandbox",
-                                    "--no-sandbox",
-                                    "--single-process"
-                                ]
-                            }
-                            if path:
-                                # Find the first matching path
-                                matches = list(Path("/").glob(path.lstrip("/")))
-                                if matches:
-                                    actual_path = str(matches[0])
-                                    launch_options["executable_path"] = actual_path
-                                    logger.info(f"Found browser at: {actual_path}")
-                            
-                            browser = await p.chromium.launch(**launch_options)
-                            await browser.close()
-                            self._browser_checked = True
-                            logger.info("Browser setup successful")
-                            return
-                        except Exception as e:
-                            last_error = e
-                            logger.warning(f"Browser launch attempt failed: {str(e)}")
-                            continue
-                    
-                    raise RuntimeError(f"All browser launch attempts failed. Last error: {str(last_error)}")
+                    browser = await p.chromium.launch(
+                        headless=True,
+                        args=[
+                            "--disable-gpu",
+                            "--no-sandbox",
+                            "--disable-dev-shm-usage"
+                        ]
+                    )
+                    await browser.close()
+                    self._browser_checked = True
             except Exception as e:
                 logger.error(f"Browser setup failed: {str(e)}")
                 raise RuntimeError(f"Browser setup failed: {str(e)}")

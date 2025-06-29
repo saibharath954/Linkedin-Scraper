@@ -1,27 +1,33 @@
-# Use the official Playwright Python image as base
+# Use the official Playwright image with Python
 FROM mcr.microsoft.com/playwright/python:v1.40.0-jammy
 
 # Set work directory
 WORKDIR /app
 
-# Copy requirements first (for caching)
+# Install system dependencies (already included in base image)
+# Just ensure essential tools are present
+RUN apt-get update && \
+    apt-get install -y \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for caching
 COPY requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright browsers (already included in the base image)
-# Just verify installation
-RUN playwright install chromium && \
+# Explicitly install browsers to known location
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN mkdir -p /ms-playwright && \
+    playwright install chromium && \
     playwright install --list
 
-# Copy the rest of the application
+# Copy application code
 COPY . .
 
 # Set environment variables
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
 
 # Expose port
 EXPOSE 8000
