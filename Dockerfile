@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.10-slim-bullseye
 
 # Install system dependencies
 RUN apt-get update && \
@@ -22,30 +22,26 @@ RUN apt-get update && \
     libwayland-client0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js (required for Playwright)
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install -y nodejs
-
 WORKDIR /app
 COPY . .
 
-# Install Playwright via pip (Python package)
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright browsers to a known location
+# Install Playwright browsers to user directory
 ENV PLAYWRIGHT_BROWSERS_PATH=/app/ms-playwright
-RUN playwright install chromium
-RUN playwright install-deps
+RUN python3 -m playwright install chromium --with-deps
 
-# Verify browser installation
-RUN echo "=== Listing browser files ===" && \
-    find / -name "chrome-linux" -type d -exec ls -la {} \; && \
-    echo "=== Playwright version ===" && \
-    playwright --version && \
-    echo "=== Installed browsers ===" && \
-    playwright install --list && \
-    echo "=== Checking chromium path ===" && \
-    ls -la /app/ms-playwright/chromium-*/chrome-linux/
-    
+# Verify installation
+RUN echo "=== Playwright Info ===" && \
+    python3 -m playwright --version && \
+    echo "=== Installed Browsers ===" && \
+    python3 -m playwright install --list && \
+    ls -la $PLAYWRIGHT_BROWSERS_PATH/chromium-*/chrome-linux/ && \
+    echo "=== Chromium Location ===" && \
+    find / -name "chrome-linux" -type d -exec ls -la {} \;
+
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+
 EXPOSE 8000
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]

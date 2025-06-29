@@ -106,14 +106,38 @@ class LinkedInScraperAPI:
         if not self._browser_checked:
             try:
                 async with async_playwright() as p:
-                    browser = await p.chromium.launch(
-                        headless=True,
-                        executable_path="/app/ms-playwright/chromium-*/chrome-linux/chrome"
-                    )
-                    await browser.close()
-                self._browser_checked = True
+                    # Try multiple possible browser paths
+                    browser_paths = [
+                        None,  # Try default path first
+                        "/app/ms-playwright/chromium-*/chrome-linux/chrome",
+                        "/ms-playwright/chromium-*/chrome-linux/chrome",
+                        "/opt/render/.cache/ms-playwright/chromium-*/chrome-linux/chrome"
+                    ]
+                    
+                    last_error = None
+                    for path in browser_paths:
+                        try:
+                            launch_options = {
+                                "headless": True,
+                                "timeout": 30000
+                            }
+                            if path:
+                                launch_options["executable_path"] = path
+                            
+                            browser = await p.chromium.launch(**launch_options)
+                            await browser.close()
+                            self._browser_checked = True
+                            logger.info(f"Browser setup successful using path: {path}")
+                            return
+                        except Exception as e:
+                            last_error = e
+                            logger.warning(f"Attempt with path {path} failed: {str(e)}")
+                            continue
+                    
+                    raise RuntimeError(f"All browser launch attempts failed. Last error: {str(last_error)}")
             except Exception as e:
-                raise RuntimeError(f"Browser setup failed: {e}")
+                logger.error(f"Browser setup failed: {str(e)}")
+                raise RuntimeError(f"Browser setup failed: {str(e)}")
 
     async def scrape_company(self, company_url: str) -> Optional[str]:
         await self._ensure_browser()
