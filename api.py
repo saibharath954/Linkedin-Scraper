@@ -110,10 +110,9 @@ class LinkedInScraperAPI:
                 async with async_playwright() as p:
                     # Try multiple possible browser paths
                     browser_paths = [
-                        None,  # Try default path first
+                        None,  # Default path
                         "/ms-playwright/chromium-*/chrome-linux/chrome",
-                        "/root/.cache/ms-playwright/chromium-*/chrome-linux/chrome",
-                        "/app/ms-playwright/chromium-*/chrome-linux/chrome",
+                        "/usr/local/lib/python3.10/site-packages/playwright/driver/package/.local-browsers/chromium-*/chrome-linux/chrome",
                         "/opt/render/.cache/ms-playwright/chromium-*/chrome-linux/chrome"
                     ]
                     
@@ -132,20 +131,21 @@ class LinkedInScraperAPI:
                                 ]
                             }
                             if path:
-                                # Expand the glob pattern to find the actual executable
-                                expanded_paths = list(Path("/").glob(path.lstrip("/")))
-                                if expanded_paths:
-                                    launch_options["executable_path"] = str(expanded_paths[0])
-                                    logger.info(f"Found browser at: {expanded_paths[0]}")
+                                # Find the first matching path
+                                matches = list(Path("/").glob(path.lstrip("/")))
+                                if matches:
+                                    actual_path = str(matches[0])
+                                    launch_options["executable_path"] = actual_path
+                                    logger.info(f"Found browser at: {actual_path}")
                             
                             browser = await p.chromium.launch(**launch_options)
                             await browser.close()
                             self._browser_checked = True
-                            logger.info(f"Browser setup successful using path: {path}")
+                            logger.info("Browser setup successful")
                             return
                         except Exception as e:
                             last_error = e
-                            logger.warning(f"Attempt with path {path} failed: {str(e)}")
+                            logger.warning(f"Browser launch attempt failed: {str(e)}")
                             continue
                     
                     raise RuntimeError(f"All browser launch attempts failed. Last error: {str(last_error)}")
