@@ -103,14 +103,17 @@ class LinkedInScraperAPI:
         ]
 
     async def _ensure_browser(self):
-            if not self._browser_checked:
-                try:
-                    async with async_playwright() as p:
-                        browser = await p.chromium.launch(headless=True)
-                        await browser.close()
-                    self._browser_checked = True
-                except Exception as e:
-                    raise RuntimeError(f"Browser setup failed: {e}")
+        if not self._browser_checked:
+            try:
+                async with async_playwright() as p:
+                    browser = await p.chromium.launch(
+                        headless=True,
+                        executable_path="/ms-playwright/chromium-*/chrome-linux/chrome"
+                    )
+                    await browser.close()
+                self._browser_checked = True
+            except Exception as e:
+                raise RuntimeError(f"Browser setup failed: {e}")
 
     async def scrape_company(self, company_url: str) -> Optional[str]:
         await self._ensure_browser()

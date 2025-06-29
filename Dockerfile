@@ -6,36 +6,47 @@ RUN apt-get update && \
     apt-get install -y \
     wget \
     gnupg \
+    libnss3 \
+    libnspr4 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libasound2 \
+    libatspi2.0-0 \
+    libwayland-client0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js and npm
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
     apt-get install -y nodejs
 
-# Install Playwright browsers
+# Set working directory
+WORKDIR /app
+
+# Copy all files (including playwright.config.py)
+COPY . .
+
+# Install Playwright and browsers
 RUN npm init -y && \
     npm install playwright@1.53.0 && \
     npx playwright install --with-deps chromium
 
-# Set working directory
-WORKDIR /app
-
-# Copy Python requirements
-COPY requirements.txt .
-
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application files
-COPY . .
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
-# Add this before the CMD line
-RUN playwright install --with-deps chromium
-RUN playwright install-deps
+# Verify browser installation
+RUN ls -la /ms-playwright/chromium-*/chrome-linux/
 
 # Expose port
 EXPOSE 8000
