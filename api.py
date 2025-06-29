@@ -11,6 +11,8 @@ from urllib.parse import quote
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import os
+from pathlib import Path
 
 app = FastAPI()
 
@@ -109,8 +111,9 @@ class LinkedInScraperAPI:
                     # Try multiple possible browser paths
                     browser_paths = [
                         None,  # Try default path first
-                        "/app/ms-playwright/chromium-*/chrome-linux/chrome",
                         "/ms-playwright/chromium-*/chrome-linux/chrome",
+                        "/root/.cache/ms-playwright/chromium-*/chrome-linux/chrome",
+                        "/app/ms-playwright/chromium-*/chrome-linux/chrome",
                         "/opt/render/.cache/ms-playwright/chromium-*/chrome-linux/chrome"
                     ]
                     
@@ -119,10 +122,21 @@ class LinkedInScraperAPI:
                         try:
                             launch_options = {
                                 "headless": True,
-                                "timeout": 30000
+                                "timeout": 30000,
+                                "args": [
+                                    "--disable-gpu",
+                                    "--disable-dev-shm-usage",
+                                    "--disable-setuid-sandbox",
+                                    "--no-sandbox",
+                                    "--single-process"
+                                ]
                             }
                             if path:
-                                launch_options["executable_path"] = path
+                                # Expand the glob pattern to find the actual executable
+                                expanded_paths = list(Path("/").glob(path.lstrip("/")))
+                                if expanded_paths:
+                                    launch_options["executable_path"] = str(expanded_paths[0])
+                                    logger.info(f"Found browser at: {expanded_paths[0]}")
                             
                             browser = await p.chromium.launch(**launch_options)
                             await browser.close()
