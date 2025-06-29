@@ -37,5 +37,15 @@ ENV PLAYWRIGHT_BROWSERS_PATH=/app/ms-playwright
 RUN playwright install chromium
 RUN playwright install-deps
 
+# Verify browser installation
+RUN echo "=== Listing browser files ===" && \
+    find / -name "chrome-linux" -type d -exec ls -la {} \; && \
+    echo "=== Playwright version ===" && \
+    playwright --version && \
+    echo "=== Installed browsers ===" && \
+    playwright install --list && \
+    echo "=== Checking chromium path ===" && \
+    ls -la /app/ms-playwright/chromium-*/chrome-linux/
+    
 EXPOSE 8000
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
