@@ -101,6 +101,17 @@ class LinkedInScraperAPI:
             r'(?:last month)'
         ]
 
+    # Ensure browser is installed on startup
+    async def check_browser():
+        try:
+            async with async_playwright() as p:
+                browser = await p.chromium.launch()
+                await browser.close()
+        except Exception as e:
+            raise RuntimeError(f"Browser check failed: {str(e)}")
+
+    asyncio.run(check_browser())
+    
     async def scrape_company(self, company_url: str) -> Optional[str]:
         """Scrape a single company URL"""
         company_name = self._extract_company_name(company_url)
