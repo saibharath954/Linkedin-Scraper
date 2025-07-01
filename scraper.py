@@ -8,47 +8,25 @@ from playwright.async_api import async_playwright, Page, Browser, BrowserContext
 import json
 from datetime import datetime, timedelta
 from urllib.parse import quote
-from fastapi import FastAPI, HTTPException, Query
-from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-import os
-from pathlib import Path
-
-app = FastAPI()
 
 # Configure logging with more detailed output
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('linkedin_scraper_api.log'),
+        logging.FileHandler('linkedin_scraper_detailed.log'),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
-app = FastAPI(
-    title="LinkedIn Company Post Timestamp API",
-    description="API to fetch the timestamp of the last post from LinkedIn company pages",
-    version="1.0.0"
-)
-
-# Enable CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-class LinkedInScraperAPI:
-    def __init__(self, headless: bool = True, slow_mo: int = 100):
-        self._browser_checked = False
+class AdvancedLinkedInScraper:
+    def __init__(self, headless: bool = False, slow_mo: int = 100):
         self.headless = headless
         self.slow_mo = slow_mo
         self.timeout = 45000  # Increased timeout
         self.max_retries = 3
+        self.debug_mode = True
         
         # More diverse user agents
         self.user_agents = [
@@ -104,31 +82,16 @@ class LinkedInScraperAPI:
             r'(?:last month)'
         ]
 
-    async def _ensure_browser(self):
-        if not self._browser_checked:
-            try:
-                async with async_playwright() as p:
-                    browser = await p.chromium.launch(
-                        headless=True,
-                        args=[
-                            "--disable-gpu",
-                            "--no-sandbox",
-                            "--disable-dev-shm-usage"
-                        ]
-                    )
-                    await browser.close()
-                    self._browser_checked = True
-            except Exception as e:
-                logger.error(f"Browser setup failed: {str(e)}")
-                raise RuntimeError(f"Browser setup failed: {str(e)}")
-
-    async def scrape_company(self, company_url: str) -> Optional[str]:
-        await self._ensure_browser()
-        """Scrape a single company URL"""
-        company_name = self._extract_company_name(company_url)
-        if not company_name:
-            raise ValueError(f"Invalid LinkedIn company URL: {company_url}")
-            
+    async def get_company_last_post_timestamp(self, company_name: str) -> Optional[str]:
+        """Get timestamp with enhanced debugging and multiple strategies"""
+        
+        # Try multiple URL formats
+        urls_to_try = [
+            f"https://www.linkedin.com/company/{company_name}/",
+            f"https://www.linkedin.com/company/{company_name}/posts/",
+            f"https://www.linkedin.com/company/{company_name}/feed/",
+        ]
+        
         for attempt in range(self.max_retries):
             logger.info(f"🔄 Attempt {attempt + 1}/{self.max_retries} for company: {company_name}")
             
@@ -139,30 +102,34 @@ class LinkedInScraperAPI:
                 
                 try:
                     # Try different URL formats
-                    url = f"https://www.linkedin.com/company/{company_name}/"
-                    logger.info(f"🌐 Trying URL: {url}")
-                    
-                    # Navigate with better error handling
-                    await self._navigate_with_retry(page, url)
-                    
-                    # Enhanced popup handling
-                    await self._handle_all_popups_comprehensive(page)
-                    
-                    # Better content loading
-                    await self._load_content_strategically(page)
-                    
-                    # Comprehensive timestamp search
-                    timestamp = await self._find_timestamp_advanced(page, company_name, attempt)
-                    
-                    if timestamp:
-                        logger.info(f"✅ SUCCESS: Found timestamp for {company_name}: {timestamp}")
-                        return self._standardize_timestamp(timestamp)
-                    else:
-                        logger.warning(f"⚠️ No timestamp found for {company_name}")
+                    for url_index, url in enumerate(urls_to_try):
+                        logger.info(f"🌐 Trying URL {url_index + 1}/{len(urls_to_try)}: {url}")
                         
-                except Exception as e:
-                    logger.error(f"❌ Error processing {company_name}: {str(e)}")
-                    continue
+                        try:
+                            # Navigate with better error handling
+                            await self._navigate_with_retry(page, url)
+                            
+                            # Enhanced popup handling
+                            await self._handle_all_popups_comprehensive(page)
+                            
+                            # Better content loading
+                            await self._load_content_strategically(page)
+                            
+                            # Comprehensive timestamp search
+                            timestamp = await self._find_timestamp_advanced(page, company_name, attempt)
+                            
+                            if timestamp:
+                                logger.info(f"✅ SUCCESS: Found timestamp for {company_name}: {timestamp}")
+                                return self._standardize_timestamp(timestamp)
+                            else:
+                                logger.warning(f"⚠️ No timestamp found with URL: {url}")
+                                
+                        except Exception as e:
+                            logger.error(f"❌ Error with URL {url}: {str(e)}")
+                            continue
+                    
+                    # Save comprehensive debug info
+                    await self._save_comprehensive_debug(page, company_name, attempt)
                     
                 finally:
                     await browser.close()
@@ -173,21 +140,6 @@ class LinkedInScraperAPI:
                 await asyncio.sleep(delay)
         
         logger.error(f"❌ FAILED: Could not get timestamp for {company_name} after all attempts")
-        return None
-
-    def _extract_company_name(self, url: str) -> Optional[str]:
-        """Extract company name from LinkedIn URL"""
-        patterns = [
-            r"linkedin\.com/company/([^/]+)",
-            r"linkedin\.com/company/([^/]+)/posts",
-            r"linkedin\.com/company/([^/]+)/about",
-            r"linkedin\.com/company/([^/]+)/feed"
-        ]
-        
-        for pattern in patterns:
-            match = re.search(pattern, url)
-            if match:
-                return match.group(1)
         return None
 
     async def _launch_browser(self, playwright) -> Browser:
@@ -292,17 +244,37 @@ class LinkedInScraperAPI:
         max_popup_attempts = 10
         
         popup_selectors = [
+            # Generic dismiss buttons
             'button[aria-label="Dismiss"]',
             'button[data-test-modal-close-btn]',
             'button[aria-label="Close"]',
             '.artdeco-modal__dismiss',
             '.sign-in-modal__dismiss-btn',
             '.cookie-consent__accept-button',
+
+            # Sign-in modals
+            'button[aria-label="Dismiss"]',
+            'button[data-test-modal-close-btn]',
+            'button[data-control-name="overlay.close_conversion_button"]',
+            'button[aria-label="Close"]',
+            '.modal__dismiss',
+            '.artdeco-modal__dismiss',
+            '.artdeco-modal__dismiss-btn',
+            
+            # Contextual sign-in
             '.contextual-sign-in-modal__modal-dismiss',
             '.join-now-modal__dismiss-btn',
             '.sign-in-modal__dismiss-btn',
+            
+            # Cookie consent
+            '.cookie-consent__accept-button',
+            'button[data-control-name="cookie.consent.accept"]',
+            
+            # App download prompts
             '.app-aware-link__dismiss',
             '.download-app-upsell__dismiss',
+            
+            # Other overlays
             '.overlay__dismiss',
             '.modal-overlay__dismiss',
             '[data-test-id="modal-close-btn"]'
@@ -371,14 +343,21 @@ class LinkedInScraperAPI:
         logger.info("🎯 Attempting to navigate to posts section...")
         
         posts_strategies = [
+            # Direct posts tab
             'a[href*="/posts/"]',
             'button[data-control-name="page_posts"]',
             '.org-page-navigation__item[href*="posts"]',
+            
+            # Alternative selectors
             '[data-test-id="posts-tab"]',
             '.org-page-navigation-item--posts',
             'a[href$="/posts/"]',
+            
+            # Text-based selection
             'a:has-text("Posts")',
             'button:has-text("Posts")',
+            
+            # Broader navigation
             '.org-page-navigation a',
             '.artdeco-tabs__tab'
         ]
@@ -729,6 +708,8 @@ class LinkedInScraperAPI:
         logger.info("❌ No timestamps found in content areas")
         return None
 
+    
+
     def _is_valid_timestamp_text(self, text: str) -> bool:
         """
         Enhanced timestamp validation to be more robust for LinkedIn formats.
@@ -840,49 +821,194 @@ class LinkedInScraperAPI:
         
         return timestamp
 
-# Initialize the scraper
-scraper = LinkedInScraperAPI(headless=True, slow_mo=100)
+    async def _save_comprehensive_debug(self, page: Page, company_name: str, attempt: int):
+        """Save comprehensive debug information"""
+        try:
+            timestamp = int(time.time())
+            
+            # Save screenshot
+            screenshot_file = f"debug_{company_name}_attempt_{attempt}_{timestamp}.png"
+            await page.screenshot(path=screenshot_file, full_page=True)
+            logger.info(f"📸 Screenshot saved: {screenshot_file}")
+            
+            # Save page HTML
+            html_file = f"debug_{company_name}_attempt_{attempt}_{timestamp}.html"
+            html_content = await page.content()
+            with open(html_file, 'w', encoding='utf-8') as f:
+                f.write(html_content)
+            logger.info(f"📄 HTML saved: {html_file}")
+            
+            # Save page info
+            info_file = f"debug_{company_name}_attempt_{attempt}_{timestamp}.txt"
+            with open(info_file, 'w', encoding='utf-8') as f:
+                f.write(f"Debug Information for {company_name}\n")
+                f.write(f"Attempt: {attempt + 1}\n")
+                f.write(f"Timestamp: {timestamp}\n")
+                f.write(f"URL: {page.url}\n")
+                f.write(f"Title: {await page.title()}\n")
+                f.write(f"User Agent: {await page.evaluate('navigator.userAgent')}\n")
+                f.write(f"\n--- Page Text (first 2000 chars) ---\n")
+                page_text = await page.inner_text('body')
+                f.write(page_text[:2000])
+                f.write(f"\n\n--- HTML Structure ---\n")
+                structure = await page.evaluate('''() => {
+                    const elements = document.querySelectorAll('*');
+                    const structure = {};
+                    for (let el of elements) {
+                        const tag = el.tagName.toLowerCase();
+                        structure[tag] = (structure[tag] || 0) + 1;
+                    }
+                    return structure;
+                }''')
+                for tag, count in sorted(structure.items()):
+                    f.write(f"{tag}: {count}\n")
+            
+            logger.info(f"📋 Debug info saved: {info_file}")
+            
+        except Exception as e:
+            logger.error(f"Debug save error: {e}")
 
-@app.get("/")
-async def read_root():
-    return {
-        "message": "LinkedIn Company Post Timestamp API",
-        "status": "running",
-        "version": "1.0.0"
-    }
-
-@app.get("/scrape")
-async def scrape_company(
-    url: str = Query(..., description="LinkedIn company profile URL (e.g., https://www.linkedin.com/company/icreatenextgen/)")
-):
-    try:
-        timestamp = await scraper.scrape_company(url)
-        return {
-            "company_url": url,
-            "last_post_timestamp": timestamp,
-            "status": "success" if timestamp else "no_post_found"
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.post("/batch-scrape")
-async def batch_scrape_companies(
-    urls: List[str] = Query(..., description="List of LinkedIn company profile URLs")
-):
-    try:
+    async def scrape_companies(self, companies: List[str]) -> Dict[str, Optional[str]]:
+        """Scrape multiple companies with detailed progress tracking"""
         results = {}
-        for url in urls:
-            timestamp = await scraper.scrape_company(url)
-            results[url] = timestamp
-            # Add delay between requests to avoid rate limiting
-            await asyncio.sleep(random.uniform(5, 10))
+        total_companies = len(companies)
         
-        return {
-            "results": results,
-            "status": "completed"
-        }
+        logger.info(f"🚀 Starting scrape of {total_companies} companies")
+        
+        for i, company in enumerate(companies, 1):
+            logger.info(f"\n{'='*80}")
+            logger.info(f"🏢 PROCESSING COMPANY {i}/{total_companies}: {company}")
+            logger.info(f"{'='*80}")
+            
+            start_time = time.time()
+            timestamp = await self.get_company_last_post_timestamp(company)
+            end_time = time.time()
+            
+            results[company] = timestamp
+            duration = end_time - start_time
+            
+            logger.info(f"⏱️ Company {company} processed in {duration:.1f} seconds")
+            
+            # Add delay between companies
+            if i < total_companies:
+                delay = random.uniform(8, 15)
+                logger.info(f"⏳ Waiting {delay:.1f}s before next company...")
+                await asyncio.sleep(delay)
+        
+        return results
+
+    def generate_report(self, results: Dict[str, Optional[str]]) -> str:
+        """Generate a detailed report of results"""
+        report = []
+        report.append("="*80)
+        report.append("📊 LINKEDIN SCRAPING RESULTS REPORT")
+        report.append("="*80)
+        report.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        report.append(f"Total Companies: {len(results)}")
+        report.append("")
+        
+        successful = 0
+        failed = 0
+        
+        for company, timestamp in results.items():
+            if timestamp:
+                report.append(f"✅ {company:<30} : {timestamp}")
+                successful += 1
+            else:
+                report.append(f"❌ {company:<30} : No recent posts found")
+                failed += 1
+        
+        report.append("")
+        report.append("="*80)
+        report.append("📈 SUMMARY")
+        report.append("="*80)
+        report.append(f"Successful: {successful}")
+        report.append(f"Failed: {failed}")
+        report.append(f"Success Rate: {(successful/len(results)*100):.1f}%")
+        report.append("="*80)
+        
+        return "\n".join(report)
+
+# Enhanced main function
+async def main():
+    """Enhanced main function with better error handling and reporting"""
+    
+    # Companies to scrape
+    companies = [
+        "icreatenextgen",
+        "iitmandicatalyst",
+        "madeit-iiitdm",
+        "nsrceliimb",
+        "derbifoundation",
+        "fittiitdelhi",
+        "social-alpha",
+        "venture-center-pune",
+        "venturestudio1",
+        "cultiv8coimbatore",     
+        "society-for-innovation-and-entrepreneurship---iit-bombay",
+        "deshpandestartups"
+        # Add more companies here as needed
+    ]
+    
+    # Initialize scraper with visible browser for debugging
+    scraper = AdvancedLinkedInScraper(
+        headless=False,  # Set to True for production
+        slow_mo=100      # Slow down for better observation
+    )
+    
+    print("\n" + "="*80)
+    print("🔍 ADVANCED LINKEDIN COMPANY POST TIMESTAMP SCRAPER")
+    print("="*80)
+    print(f"📋 Companies to process: {len(companies)}")
+    print(f"🔧 Headless mode: {scraper.headless}")
+    print(f"⚡ Slow motion: {scraper.slow_mo}ms")
+    print("="*80)
+    
+    try:
+        # Start scraping
+        start_time = time.time()
+        results = await scraper.scrape_companies(companies)
+        end_time = time.time()
+        
+        # Generate and display report
+        report = scraper.generate_report(results)
+        print(f"\n{report}")
+        
+        # Save results
+        timestamp = int(time.time())
+        
+        # Save JSON results
+        json_file = f"linkedin_results_{timestamp}.json"
+        with open(json_file, 'w') as f:
+            json.dump({
+                'timestamp': timestamp,
+                'total_time': end_time - start_time,
+                'results': results,
+                'companies_processed': len(companies),
+                'successful': sum(1 for v in results.values() if v),
+                'failed': sum(1 for v in results.values() if not v)
+            }, f, indent=2)
+        
+        # Save text report
+        report_file = f"linkedin_report_{timestamp}.txt"
+        with open(report_file, 'w') as f:
+            f.write(report)
+        
+        print(f"\n📄 Results saved to: {json_file}")
+        print(f"📄 Report saved to: {report_file}")
+        print(f"⏱️ Total execution time: {end_time - start_time:.1f} seconds")
+        
+        return results
+        
+    except KeyboardInterrupt:
+        print("\n❌ Scraping interrupted by user")
+        return {}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"\n❌ Scraping failed with error: {e}")
+        logger.error(f"Main execution error: {e}")
+        return {}
 
 if __name__ == "__main__":
-    uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=False)
+    # Run the scraper
+    asyncio.run(main())
+
