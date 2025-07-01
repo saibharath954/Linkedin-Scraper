@@ -3,6 +3,7 @@ import random
 import logging
 import time
 import re
+import os  
 from typing import Optional, Dict, List, Tuple
 from playwright.async_api import async_playwright, Page, Browser, BrowserContext
 import json
@@ -692,7 +693,7 @@ async def main():
         "madeit-iiitdm",
     ]
     
-    HF_TOKEN = "REMOVED"
+    HF_TOKEN = os.getenv("HF_API_KEY")
     
     scraper = EnhancedLinkedInScraper(
         headless=False,
