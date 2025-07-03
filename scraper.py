@@ -9,6 +9,11 @@ from playwright.async_api import async_playwright, Page, Browser, BrowserContext
 from datetime import datetime, timedelta
 from urllib.parse import quote
 from pathlib import Path
+import numpy as np
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+from transformers import pipeline
+
 
 # Configure logging with more detailed output
 logging.basicConfig(
@@ -31,6 +36,9 @@ class AdvancedLinkedInScraper:
         self.data_dir = Path("data")
         self.data_dir.mkdir(exist_ok=True)
         self.debug_mode = False
+        self.enable_grant_analysis = True  # Add this flag to control grant analysis
+        self.grant_keywords = self._load_grant_keywords()  # Initialize grant keywords
+        self.grant_patterns = self._load_grant_patterns()  # Initialize grant patterns
         
         # More diverse user agents
         self.user_agents = [
@@ -92,6 +100,30 @@ class AdvancedLinkedInScraper:
             'div[data-id="entire-feed-card-link"] > a'
         ]
 
+    def _load_grant_keywords(self) -> List[str]:
+        """Load grant-related keywords for analysis"""
+        return [
+            "grant", "funding", "fellowship", "scholarship", "award", "prize", 
+            "subsidy", "financial support", "seed money", "capital", 
+            "application", "deadline", "apply by", "eligibility",
+            "startup", "entrepreneur", "small business", "SME", "innovation"
+        ]
+    
+    def _load_grant_patterns(self) -> List[Dict[str, Any]]:
+        """Load regex patterns for grant identification"""
+        return [
+            {
+                "name": "grant_announcement",
+                "pattern": r"\b(announcing|introducing|launching|opening)\b.*\b(grant|funding|program)\b",
+                "flags": re.IGNORECASE
+            },
+            {
+                "name": "application_deadline",
+                "pattern": r"\b(apply|submit|application)\b.*\b(by|before|until|deadline)\b.*\b(\d{1,2}(st|nd|rd|th)?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}|\d{1,2}[/-]\d{1,2}[/-]\d{2,4})",
+                "flags": re.IGNORECASE
+            }
+        ]
+
     async def scrape_company_posts(self, company_url: str) -> List[Dict[str, Any]]:
         """Scrape latest posts from a company page"""
         logger.info(f"🔄 Starting scrape for: {company_url}")
@@ -104,9 +136,6 @@ class AdvancedLinkedInScraper:
             try:
                 await self._navigate_with_retry(page, company_url)
                 await self._handle_all_popups_comprehensive(page)
-                
-                # Navigate to posts section first
-                # await self._navigate_to_posts_section(page)
                 
                 # Load content strategically
                 await self._load_content_strategically(page)
@@ -121,6 +150,12 @@ class AdvancedLinkedInScraper:
                 
                 # Get top 3 most recent posts
                 recent_posts = sorted(posts, key=lambda x: self._timestamp_to_seconds(x.get('timestamp', '')), reverse=False)[:self.max_posts]
+
+                # Add grant opportunity analysis if enabled
+                if self.enable_grant_analysis:
+                    for post in recent_posts:
+                        post['grant_analysis'] = self._analyze_grant_opportunity(post.get('text', ''))
+                
                 logger.info(f"✅ Successfully extracted {len(recent_posts)} posts")
                 return recent_posts
                 
@@ -130,6 +165,49 @@ class AdvancedLinkedInScraper:
                 return []
             finally:
                 await browser.close()
+
+    def _analyze_grant_opportunity(self, text: str) -> Dict[str, Any]:
+        """Analyze post text for grant opportunities"""
+        if not text:
+            return {"is_grant": False, "analysis": {}}
+        
+        analysis = {
+            "keywords": self._find_grant_keywords(text),
+            "patterns": self._find_grant_patterns(text),
+            "is_grant": False
+        }
+        
+        # Simple logic to determine if this is likely a grant opportunity
+        if (len(analysis["keywords"]) >= 3 or 
+            any(p["pattern_name"] == "application_deadline" for p in analysis["patterns"])):
+            analysis["is_grant"] = True
+        
+        return analysis
+    
+    def _find_grant_keywords(self, text: str) -> List[str]:
+        """Find grant-related keywords in text"""
+        text_lower = text.lower()
+        return [kw for kw in self.grant_keywords if kw.lower() in text_lower]
+    
+    def _find_grant_patterns(self, text: str) -> List[Dict[str, Any]]:
+        """Apply regex patterns to identify grant characteristics"""
+        matches = []
+        
+        for pattern_info in self.grant_patterns:
+            try:
+                pattern = re.compile(pattern_info['pattern'], flags=pattern_info.get('flags', 0))
+                found = pattern.search(text)
+                if found:
+                    matches.append({
+                        'pattern_name': pattern_info['name'],
+                        'match': found.group(),
+                        'span': (found.start(), found.end())
+                    })
+            except Exception as e:
+                logger.debug(f"Pattern matching error for {pattern_info['name']}: {e}")
+                continue
+        
+        return matches
 
     async def _extract_posts_with_retry(self, page: Page) -> List[Dict[str, Any]]:
         """Extract posts with multiple retry strategies"""
@@ -898,6 +976,12 @@ class AdvancedLinkedInScraper:
         try:
             # Clean results for JSON serialization
             clean_results = {}
+            grant_stats = {
+                "total_posts": 0,
+                "grant_posts": 0,
+                "companies_with_grants": 0
+            }
+
             for url, posts in results.items():
                 clean_posts = []
                 for post in posts:
@@ -907,6 +991,13 @@ class AdvancedLinkedInScraper:
                         'text': post.get('text', ''),
                         'scraped_at': datetime.now().isoformat()
                     }
+                    # Include grant analysis if available
+                    if 'grant_analysis' in post:
+                        clean_post['grant_analysis'] = post['grant_analysis']
+                        if post['grant_analysis'].get('is_grant', False):
+                            grant_stats["grant_posts"] += 1
+                            company_has_grants = True
+
                     # Only include raw_html if debug mode is enabled
                     if self.debug_mode and post.get('raw_html'):
                         clean_post['raw_html'] = post['raw_html']
@@ -914,6 +1005,8 @@ class AdvancedLinkedInScraper:
                     clean_posts.append(clean_post)
                 
                 clean_results[url] = clean_posts
+                if company_has_grants:
+                    grant_stats["companies_with_grants"] += 1
             
             # Add metadata
             output_data = {
@@ -921,7 +1014,9 @@ class AdvancedLinkedInScraper:
                     'scraped_at': datetime.now().isoformat(),
                     'total_companies': len(clean_results),
                     'total_posts': sum(len(posts) for posts in clean_results.values()),
-                    'scraper_version': '2.0',
+                    'scraper_version': '2.1',
+                    'grant_analysis_enabled': self.enable_grant_analysis,
+                    'grant_stats': grant_stats,
                     'debug_mode': self.debug_mode
                 },
                 'results': clean_results
@@ -931,6 +1026,7 @@ class AdvancedLinkedInScraper:
                 json.dump(output_data, f, indent=2, ensure_ascii=False)
             
             logger.info(f"💾 Results saved to: {filepath}")
+            logger.info(f"📊 Grant Stats: {grant_stats['grant_posts']} grant posts found across {grant_stats['companies_with_grants']} companies")
             return str(filepath)
             
         except Exception as e:
@@ -1043,12 +1139,6 @@ Company Details:
                 else:
                     logger.warning(f"⚠️ No posts found for {url}")
                     results[url] = []
-                
-                # Save intermediate results every 5 companies
-                if save_intermediate and i % 5 == 0:
-                    intermediate_filename = f"intermediate_results_{i}of{total_urls}.json"
-                    self.save_results(results, intermediate_filename)
-                    logger.info(f"💾 Intermediate results saved")
                 
                 # Rate limiting between requests
                 if i < total_urls:  # Don't wait after the last URL
