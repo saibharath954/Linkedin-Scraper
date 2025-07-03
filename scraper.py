@@ -225,21 +225,10 @@ class AdvancedLinkedInScraper:
             # Extract post URL
             url = await self._extract_post_url_enhanced(post_element)
             
-            # Extract media
-            media = await self._extract_media_enhanced(post_element)
-            
-            # Extract engagement metrics
-            likes = await self._extract_likes_enhanced(post_element)
-            comments = await self._extract_comments_enhanced(post_element)
-            
             post_data = {
                 'url': url,
                 'timestamp': timestamp,
                 'text': text,
-                'media': media,
-                'likes': likes,
-                'comments': comments,
-                'raw_html': await post_element.inner_html() if self.debug_mode else None
             }
             
             logger.debug(f"Post {post_num} data: timestamp={timestamp}, text_length={len(text)}, url={url}")
@@ -393,90 +382,6 @@ class AdvancedLinkedInScraper:
             logger.debug(f"URL extraction error: {e}")
             return None
 
-    async def _extract_media_enhanced(self, post_element) -> List[str]:
-        """Enhanced media extraction"""
-        media = []
-        try:
-            # Look for images
-            images = await post_element.query_selector_all('img[src]')
-            for img in images:
-                src = await img.get_attribute('src')
-                if src and ('http' in src or src.startswith('//')):
-                    if src.startswith('//'):
-                        src = 'https:' + src
-                    # Filter out small icons and profile pictures
-                    if not any(skip in src for skip in ['icon', 'logo_100_100', 'ghost']):
-                        media.append(src)
-            
-            # Look for videos
-            videos = await post_element.query_selector_all('video source[src], video[src]')
-            for video in videos:
-                src = await video.get_attribute('src')
-                if src and 'http' in src:
-                    media.append(src)
-                    
-        except Exception as e:
-            logger.debug(f"Media extraction error: {e}")
-        
-        return list(set(media))  # Remove duplicates
-
-    async def _extract_likes_enhanced(self, post_element) -> int:
-        """Enhanced likes extraction"""
-        try:
-            selectors = [
-                '.social-details-social-counts__reactions-count',
-                '[data-test-id="social-details-social-counts__reactions"]',
-                '.feed-shared-social-action-bar__reaction-count',
-                'button[aria-label*="reaction"] span'
-            ]
-            
-            for selector in selectors:
-                try:
-                    element = await post_element.query_selector(selector)
-                    if element:
-                        text = await element.inner_text()
-                        if text:
-                            # Extract numbers from text
-                            numbers = re.findall(r'\d+', text.replace(',', ''))
-                            if numbers:
-                                return int(numbers[0])
-                except:
-                    continue
-            
-            return 0
-            
-        except Exception as e:
-            logger.debug(f"Likes extraction error: {e}")
-            return 0
-
-    async def _extract_comments_enhanced(self, post_element) -> int:
-        """Enhanced comments extraction"""
-        try:
-            selectors = [
-                '.social-details-social-counts__comments',
-                '[data-test-id="social-details-social-counts__comments"]',
-                '.feed-shared-social-action-bar__comment-count',
-                'button[aria-label*="comment"] span'
-            ]
-            
-            for selector in selectors:
-                try:
-                    element = await post_element.query_selector(selector)
-                    if element:
-                        text = await element.inner_text()
-                        if text:
-                            numbers = re.findall(r'\d+', text.replace(',', ''))
-                            if numbers:
-                                return int(numbers[0])
-                except:
-                    continue
-            
-            return 0
-            
-        except Exception as e:
-            logger.debug(f"Comments extraction error: {e}")
-            return 0
-
     def _timestamp_to_seconds(self, timestamp: str) -> int:
         """Convert timestamp to seconds for sorting (recent = lower number)"""
         if not timestamp:
@@ -613,43 +518,6 @@ class AdvancedLinkedInScraper:
             except:
                 continue
 
-    # async def _navigate_to_posts_section(self, page: Page):
-    #     """Navigate to posts section"""
-    #     logger.info("🎯 Navigating to posts section...")
-        
-    #     # Check if we're already on posts page
-    #     current_url = page.url
-    #     if '/posts/' in current_url:
-    #         logger.info("Already on posts page")
-    #         return True
-        
-    #     # Try to find and click posts tab
-    #     posts_selectors = [
-    #         'a[href*="/posts/"]',
-    #         'button[data-control-name="page_posts"]',
-    #         '.org-page-navigation__item[href*="posts"]'
-    #     ]
-        
-    #     for selector in posts_selectors:
-    #         try:
-    #             element = await page.query_selector(selector)
-    #             if element and await element.is_visible():
-    #                 logger.info(f"Clicking posts navigation: {selector}")
-    #                 await element.click()
-    #                 await page.wait_for_timeout(3000)
-    #                 return True
-    #         except:
-    #             continue
-        
-    #     # If no posts tab found, try appending /posts/ to URL
-    #     if not current_url.endswith('/posts/'):
-    #         posts_url = current_url.rstrip('/') + '/posts/'
-    #         logger.info(f"Trying direct posts URL: {posts_url}")
-    #         await page.goto(posts_url, wait_until="domcontentloaded")
-    #         await page.wait_for_timeout(3000)
-        
-    #     return False
-
     async def _load_content_strategically(self, page: Page):
         """Strategic content loading"""
         logger.info("📦 Loading content strategically...")
@@ -679,7 +547,7 @@ class AdvancedLinkedInScraper:
         text = text.lower().strip()
 
         patterns = [
-            r'\d+\s*(?:second|minute|hour|day|week|month|year|sec|min|hr|h|d|w|mo|y)s?\b',
+            r'\d+\s*(?:second|minute|hour|day|week|month|year|s|m|hr|h|d|w|mo|y)s?\b',
             r'just now', r'now', r'yesterday', r'today'
         ]
 
@@ -809,9 +677,6 @@ class AdvancedLinkedInScraper:
                         'url': post.get('url', ''),
                         'timestamp': post.get('timestamp', ''),
                         'text': post.get('text', ''),
-                        'media': post.get('media', []),
-                        'likes': post.get('likes', 0),
-                        'comments': post.get('comments', 0),
                         'scraped_at': datetime.now().isoformat()
                     }
                     # Only include raw_html if debug mode is enabled
@@ -977,8 +842,8 @@ async def main():
     logger.info("🔥 LinkedIn Scraper v2.0 Starting...")
     
     # Configuration
-    HEADLESS = True  # Set to False for debugging
-    SLOW_MO = 100    # Milliseconds delay between actions
+    HEADLESS = True 
+    SLOW_MO = 100   
     
     # Initialize scraper
     scraper = AdvancedLinkedInScraper(headless=HEADLESS, slow_mo=SLOW_MO)
@@ -998,39 +863,12 @@ async def main():
         return
     
     try:
-        # Optional: Validate URLs first
-        # logger.info("🔍 Validating URLs...")
-        # validation_results = await scraper.validate_urls(company_urls)
-        
-        # valid_urls = [url for url, valid, _ in validation_results if valid]
-        # invalid_urls = [(url, reason) for url, valid, reason in validation_results if not valid]
-        
-        # if invalid_urls:
-        #     logger.warning(f"⚠️ Found {len(invalid_urls)} invalid URLs:")
-        #     for url, reason in invalid_urls:
-        #         logger.warning(f"  - {url}: {reason}")
-        
-        # if not valid_urls:
-        #     logger.error("❌ No valid URLs to scrape!")
-        #     return
         
         # Start scraping
         logger.info(f"🚀 Starting to scrape {len(company_urls)} valid URLs...")
         results = await scraper.scrape_with_progress(company_urls, save_intermediate=True)
 
-        # Save final results
         output_file = scraper.save_results(results)
-        
-        # Generate summary report
-        # summary = scraper.generate_summary_report(results)
-        # logger.info(f"\n{summary}")
-        
-        # Save summary report
-        # if output_file:
-        #     summary_file = output_file.replace('.json', '_summary.txt')
-        #     with open(summary_file, 'w', encoding='utf-8') as f:
-        #         f.write(summary)
-        #     logger.info(f"📋 Summary report saved to: {summary_file}")
         
         # Final statistics
         total_posts = sum(len(posts) for posts in results.values())

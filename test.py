@@ -291,7 +291,7 @@ class AdvancedGrantOpportunityAnalyzer:
                 "confidence": 0.0,
                 "reason": f"Analysis error: {str(e)}"
             }
-
+ 
 class EnhancedLinkedInScraper:
     def __init__(self, headless: bool = False, slow_mo: int = 100, hf_token: str = None):
         self.headless = headless
