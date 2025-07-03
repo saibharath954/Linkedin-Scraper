@@ -26,6 +26,527 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+class AdvancedGrantDetector:
+    """Advanced grant opportunity detection system for Indian startups"""
+    
+    def __init__(self):
+        self.confidence_threshold = 0.7
+        self.min_grant_amount = 50000  # Minimum amount in INR to consider
+        
+        # Initialize NLP models (will be loaded on first use)
+        self.sentence_transformer = None
+        self.sentiment_analyzer = None
+        
+        # Indian government schemes and funding bodies
+        self.indian_funding_bodies = {
+            'government': [
+                'BIRAC', 'DSIR', 'DST', 'DIPP', 'MSME', 'SIDBI', 'MUDRA',
+                'Startup India', 'Ministry of MSME', 'NSTEDB', 'TIFAC',
+                'C-CAMP', 'KIIT-TBI', 'CIIE', 'FITT', 'SINE', 'NSRCEL',
+                'Department of Science and Technology', 'Department of Biotechnology',
+                'Ministry of Electronics and Information Technology',
+                'Atal Innovation Mission', 'NITI Aayog', 'Government of India'
+            ],
+            'corporate': [
+                'Tata Trust', 'Reliance Foundation', 'Infosys Foundation',
+                'Wipro Foundation', 'Mahindra Rise', 'Godrej', 'L&T',
+                'ITC', 'Bajaj', 'Aditya Birla', 'JSW Foundation'
+            ],
+            'incubators': [
+                'T-Hub', 'NASSCOM', 'Indian Angel Network', 'Blume Ventures',
+                'Accel Partners', 'Sequoia Capital', 'Kalaari Capital',
+                'Matrix Partners', 'Lightspeed Ventures', 'Nexus Venture Partners'
+            ]
+        }
+        
+        # Indian startup-specific keywords and contexts
+        self.startup_contexts = {
+            'sectors': [
+                'fintech', 'healthtech', 'edtech', 'agritech', 'deeptech',
+                'cleantech', 'biotech', 'foodtech', 'logistics', 'e-commerce',
+                'SaaS', 'enterprise software', 'mobile apps', 'AI/ML',
+                'IoT', 'blockchain', 'renewable energy', 'sustainable tech'
+            ],
+            'stages': [
+                'pre-seed', 'seed', 'pre-series A', 'series A', 'early stage',
+                'prototype', 'MVP', 'proof of concept', 'pilot', 'scale-up',
+                'bootstrapped', 'revenue generating', 'growth stage'
+            ],
+            'amounts': [
+                'lakh', 'crore', 'INR', '₹', 'rupees', 'lakhs', 'crores',
+                'up to', 'upto', 'maximum', 'funding of', 'grant of',
+                'support of', 'assistance of', 'investment of'
+            ]
+        }
+        
+        # Grant opportunity indicators with weights
+        self.grant_indicators = {
+            'strong_indicators': {
+                'weight': 0.4,
+                'patterns': [
+                    r'\b(applications?\s+(?:are\s+)?(?:now\s+)?(?:open|invited|welcome))\b',
+                    r'\b(apply\s+(?:now|today|by|before))\b',
+                    r'\b(deadline\s+(?:is|for|extended|approaching))\b',
+                    r'\b(funding\s+(?:available|opportunity|program|scheme))\b',
+                    r'\b(grant\s+(?:available|opportunity|program|scheme|competition))\b',
+                    r'\b(call\s+for\s+(?:applications|proposals))\b',
+                    r'\b(invite\s+(?:applications|proposals))\b',
+                    r'\b(accepting\s+(?:applications|proposals))\b'
+                ]
+            },
+            'medium_indicators': {
+                'weight': 0.3,
+                'patterns': [
+                    r'\b(startup\s+(?:funding|grants|support|program))\b',
+                    r'\b(entrepreneur\s+(?:funding|grants|support|program))\b',
+                    r'\b(innovation\s+(?:funding|grants|support|program))\b',
+                    r'\b(seed\s+(?:funding|grant|support))\b',
+                    r'\b(incubation\s+(?:program|support))\b',
+                    r'\b(accelerator\s+(?:program|support))\b',
+                    r'\b(mentorship\s+(?:program|support))\b'
+                ]
+            },
+            'weak_indicators': {
+                'weight': 0.2,
+                'patterns': [
+                    r'\b(support\s+(?:startups|entrepreneurs|innovation))\b',
+                    r'\b(help\s+(?:startups|entrepreneurs|innovators))\b',
+                    r'\b(opportunity\s+for\s+(?:startups|entrepreneurs))\b',
+                    r'\b(initiative\s+for\s+(?:startups|entrepreneurs))\b'
+                ]
+            },
+            'negative_indicators': {
+                'weight': -0.3,
+                'patterns': [
+                    r'\b(congratulations?\s+(?:to|on))\b',
+                    r'\b(winners?\s+(?:of|announced))\b',
+                    r'\b(selected\s+(?:for|as))\b',
+                    r'\b(awarded\s+(?:to|the))\b',
+                    r'\b(closed\s+(?:applications|program))\b',
+                    r'\b(past\s+(?:event|program|opportunity))\b'
+                ]
+            }
+        }
+        
+        # Date extraction patterns
+        self.date_patterns = [
+            r'\b(\d{1,2}(?:st|nd|rd|th)?\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4})\b',
+            r'\b(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})\b',
+            r'\b((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:st|nd|rd|th)?\s*,?\s*\d{4})\b',
+            r'\b((?:by|before|until|deadline)\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:st|nd|rd|th)?)\b'
+        ]
+        
+        # Amount extraction patterns for Indian currency
+        self.amount_patterns = [
+            r'₹\s*(\d{1,3}(?:,\d{3})*(?:\.\d{2})?)\s*(?:lakh|crore|thousand)?',
+            r'(?:INR|Rs\.?|Rupees)\s*(\d{1,3}(?:,\d{3})*(?:\.\d{2})?)\s*(?:lakh|crore|thousand)?',
+            r'(\d{1,3}(?:,\d{3})*(?:\.\d{2})?)\s*(?:lakh|crore)\s*(?:INR|Rs\.?|Rupees|₹)?',
+            r'(?:up\s+to|upto|maximum|funding\s+of|grant\s+of)\s*(?:₹|INR|Rs\.?|Rupees)?\s*(\d{1,3}(?:,\d{3})*(?:\.\d{2})?)\s*(?:lakh|crore|thousand)?'
+        ]
+
+    def _load_nlp_models(self):
+        """Load NLP models lazily to avoid initialization overhead"""
+        if self.sentence_transformer is None:
+            try:
+                self.sentence_transformer = SentenceTransformer('all-MiniLM-L6-v2')
+                logger.info("✅ Sentence transformer model loaded")
+            except Exception as e:
+                logger.warning(f"Failed to load sentence transformer: {e}")
+                self.sentence_transformer = None
+        
+        if self.sentiment_analyzer is None:
+            try:
+                self.sentiment_analyzer = pipeline("sentiment-analysis", 
+                                                 model="cardiffnlp/twitter-roberta-base-sentiment-latest")
+                logger.info("✅ Sentiment analyzer loaded")
+            except Exception as e:
+                logger.warning(f"Failed to load sentiment analyzer: {e}")
+                self.sentiment_analyzer = None
+
+    def analyze_grant_opportunity(self, post_text: str, post_url: str = "", 
+                                post_timestamp: str = "") -> Dict[str, Any]:
+        """
+        Comprehensive analysis of post content for grant opportunities
+        
+        Args:
+            post_text: The text content of the post
+            post_url: URL of the post (optional)
+            post_timestamp: Timestamp of the post (optional)
+            
+        Returns:
+            Dict containing detailed analysis results
+        """
+        if not post_text or len(post_text.strip()) < 50:
+            return self._create_analysis_result(False, 0.0, "Insufficient content")
+        
+        # Clean and normalize text
+        cleaned_text = self._clean_text(post_text)
+        
+        # Multi-layered analysis
+        analysis = {
+            'text_length': len(cleaned_text),
+            'pattern_analysis': self._analyze_patterns(cleaned_text),
+            'entity_analysis': self._analyze_entities(cleaned_text),
+            'semantic_analysis': self._analyze_semantics(cleaned_text),
+            'temporal_analysis': self._analyze_temporal_context(cleaned_text),
+            'financial_analysis': self._analyze_financial_context(cleaned_text),
+            'context_analysis': self._analyze_startup_context(cleaned_text),
+            'sentiment_analysis': self._analyze_sentiment(cleaned_text)
+        }
+        
+        # Calculate confidence score
+        confidence_score = self._calculate_confidence_score(analysis)
+        
+        # Determine if it's a grant opportunity
+        is_grant = confidence_score >= self.confidence_threshold
+        
+        # Extract key information if it's a grant
+        grant_info = {}
+        if is_grant:
+            grant_info = self._extract_grant_details(cleaned_text, analysis)
+        
+        return self._create_analysis_result(is_grant, confidence_score, 
+                                          "Analysis complete", analysis, grant_info)
+
+    def _clean_text(self, text: str) -> str:
+        """Clean and normalize text for analysis"""
+        # Remove excessive whitespace and normalize
+        text = re.sub(r'\s+', ' ', text.strip())
+        
+        # Remove LinkedIn-specific noise
+        text = re.sub(r'#\w+', '', text)  # Remove hashtags for cleaner analysis
+        text = re.sub(r'@\w+', '', text)  # Remove mentions
+        text = re.sub(r'https?://\S+', '', text)  # Remove URLs
+        
+        return text.strip()
+
+    def _analyze_patterns(self, text: str) -> Dict[str, Any]:
+        """Analyze text patterns for grant indicators"""
+        pattern_scores = {}
+        total_score = 0.0
+        matched_patterns = []
+        
+        for category, config in self.grant_indicators.items():
+            weight = config['weight']
+            patterns = config['patterns']
+            category_matches = 0
+            
+            for pattern in patterns:
+                matches = re.findall(pattern, text, re.IGNORECASE)
+                if matches:
+                    category_matches += len(matches)
+                    matched_patterns.extend(matches)
+            
+            category_score = min(category_matches * weight, abs(weight))
+            pattern_scores[category] = category_score
+            total_score += category_score
+        
+        return {
+            'total_score': max(0, total_score),  # Ensure non-negative
+            'category_scores': pattern_scores,
+            'matched_patterns': matched_patterns,
+            'pattern_count': len(matched_patterns)
+        }
+
+    def _analyze_entities(self, text: str) -> Dict[str, Any]:
+        """Analyze entities relevant to Indian startup funding"""
+        entities = {
+            'funding_bodies': [],
+            'government_schemes': [],
+            'corporate_funders': [],
+            'incubators': []
+        }
+        
+        text_lower = text.lower()
+        
+        # Check for funding bodies
+        for category, bodies in self.indian_funding_bodies.items():
+            for body in bodies:
+                if body.lower() in text_lower:
+                    entities['funding_bodies'].append(body)
+                    if category == 'government':
+                        entities['government_schemes'].append(body)
+                    elif category == 'corporate':
+                        entities['corporate_funders'].append(body)
+                    elif category == 'incubators':
+                        entities['incubators'].append(body)
+        
+        # Calculate entity relevance score
+        entity_score = (
+            len(entities['funding_bodies']) * 0.3 +
+            len(entities['government_schemes']) * 0.4 +
+            len(entities['corporate_funders']) * 0.2 +
+            len(entities['incubators']) * 0.1
+        )
+        
+        return {
+            'entities': entities,
+            'entity_score': min(entity_score, 1.0),
+            'has_credible_source': len(entities['funding_bodies']) > 0
+        }
+
+    def _analyze_semantics(self, text: str) -> Dict[str, Any]:
+        """Semantic analysis using sentence transformers"""
+        # Reference grant opportunity descriptions
+        grant_references = [
+            "startup funding opportunity application deadline",
+            "government grant for entrepreneurs innovation",
+            "seed funding program for startups",
+            "incubator program accepting applications",
+            "financial support for small business"
+        ]
+        
+        semantic_score = 0.0
+        similarities = []
+        
+        try:
+            if self.sentence_transformer is None:
+                self._load_nlp_models()
+            
+            if self.sentence_transformer is not None:
+                # Calculate semantic similarity
+                text_embedding = self.sentence_transformer.encode([text])
+                ref_embeddings = self.sentence_transformer.encode(grant_references)
+                
+                similarities = cosine_similarity(text_embedding, ref_embeddings)[0]
+                semantic_score = np.mean(similarities)
+            
+        except Exception as e:
+            logger.debug(f"Semantic analysis failed: {e}")
+        
+        return {
+            'semantic_score': float(semantic_score),
+            'similarities': [float(s) for s in similarities],
+            'is_semantically_relevant': str(semantic_score > 0.5)
+        }
+
+    def _analyze_temporal_context(self, text: str) -> Dict[str, Any]:
+        """Analyze temporal context for deadlines and time-sensitive information"""
+        dates_found = []
+        deadline_indicators = []
+        
+        # Extract dates
+        for pattern in self.date_patterns:
+            matches = re.findall(pattern, text, re.IGNORECASE)
+            dates_found.extend(matches)
+        
+        # Find deadline indicators
+        deadline_patterns = [
+            r'\b(deadline|due|expires?|closes?|ends?|last\s+date)\b',
+            r'\b(apply\s+(?:by|before|until))\b',
+            r'\b(submissions?\s+(?:by|before|until))\b'
+        ]
+        
+        for pattern in deadline_patterns:
+            matches = re.findall(pattern, text, re.IGNORECASE)
+            deadline_indicators.extend(matches)
+        
+        # Calculate temporal relevance
+        temporal_score = 0.0
+        if dates_found:
+            temporal_score += 0.3
+        if deadline_indicators:
+            temporal_score += 0.4
+        if len(dates_found) > 1:  # Multiple dates might indicate application period
+            temporal_score += 0.2
+        
+        return {
+            'dates_found': dates_found,
+            'deadline_indicators': deadline_indicators,
+            'temporal_score': min(temporal_score, 1.0),
+            'has_deadlines': len(deadline_indicators) > 0
+        }
+
+    def _analyze_financial_context(self, text: str) -> Dict[str, Any]:
+        """Analyze financial context and funding amounts"""
+        amounts_found = []
+        financial_terms = []
+        
+        # Extract amounts
+        for pattern in self.amount_patterns:
+            matches = re.findall(pattern, text, re.IGNORECASE)
+            amounts_found.extend(matches)
+        
+        # Find financial terms
+        financial_patterns = [
+            r'\b(funding|grant|investment|capital|finance|money)\b',
+            r'\b(seed|series|round|equity|debt)\b',
+            r'\b(₹|INR|Rs\.?|Rupees|lakh|crore)\b'
+        ]
+        
+        for pattern in financial_patterns:
+            matches = re.findall(pattern, text, re.IGNORECASE)
+            financial_terms.extend(matches)
+        
+        # Calculate financial relevance
+        financial_score = 0.0
+        if amounts_found:
+            financial_score += 0.5
+        if financial_terms:
+            financial_score += 0.3
+        if len(set(financial_terms)) > 3:  # Diverse financial vocabulary
+            financial_score += 0.2
+        
+        return {
+            'amounts_found': amounts_found,
+            'financial_terms': list(set(financial_terms)),
+            'financial_score': min(financial_score, 1.0),
+            'has_funding_amounts': len(amounts_found) > 0
+        }
+
+    def _analyze_startup_context(self, text: str) -> Dict[str, Any]:
+        """Analyze startup and entrepreneurship context"""
+        context_matches = {
+            'sectors': [],
+            'stages': [],
+            'amounts': []
+        }
+        
+        text_lower = text.lower()
+        
+        for category, terms in self.startup_contexts.items():
+            for term in terms:
+                if term.lower() in text_lower:
+                    context_matches[category].append(term)
+        
+        # Calculate context relevance
+        context_score = (
+            len(context_matches['sectors']) * 0.3 +
+            len(context_matches['stages']) * 0.4 +
+            len(context_matches['amounts']) * 0.3
+        ) / 3
+        
+        return {
+            'context_matches': context_matches,
+            'context_score': min(context_score, 1.0),
+            'is_startup_relevant': any(context_matches.values())
+        }
+
+    def _analyze_sentiment(self, text: str) -> Dict[str, Any]:
+        """Analyze sentiment to distinguish opportunities from announcements"""
+        sentiment_score = 0.0
+        sentiment_label = "NEUTRAL"
+        
+        try:
+            if self.sentiment_analyzer is None:
+                self._load_nlp_models()
+            
+            if self.sentiment_analyzer is not None:
+                result = self.sentiment_analyzer(text[:512])  # Limit text length
+                sentiment_label = result[0]['label']
+                sentiment_score = result[0]['score']
+        
+        except Exception as e:
+            logger.debug(f"Sentiment analysis failed: {e}")
+        
+        # Adjust score based on sentiment (positive sentiment more likely for opportunities)
+        adjusted_score = sentiment_score if sentiment_label == "POSITIVE" else sentiment_score * 0.5
+        
+        return {
+            'sentiment_label': sentiment_label,
+            'sentiment_score': float(sentiment_score),
+            'adjusted_score': float(adjusted_score),
+            'is_positive': sentiment_label == "POSITIVE"
+        }
+
+    def _calculate_confidence_score(self, analysis: Dict[str, Any]) -> float:
+        """Calculate overall confidence score for grant opportunity"""
+        weights = {
+            'pattern_analysis': 0.25,
+            'entity_analysis': 0.20,
+            'semantic_analysis': 0.15,
+            'temporal_analysis': 0.15,
+            'financial_analysis': 0.10,
+            'context_analysis': 0.10,
+            'sentiment_analysis': 0.05
+        }
+        
+        total_score = 0.0
+        
+        for component, weight in weights.items():
+            if component in analysis:
+                component_score = 0.0
+                
+                if component == 'pattern_analysis':
+                    component_score = analysis[component]['total_score']
+                elif component == 'entity_analysis':
+                    component_score = analysis[component]['entity_score']
+                elif component == 'semantic_analysis':
+                    component_score = analysis[component]['semantic_score']
+                elif component == 'temporal_analysis':
+                    component_score = analysis[component]['temporal_score']
+                elif component == 'financial_analysis':
+                    component_score = analysis[component]['financial_score']
+                elif component == 'context_analysis':
+                    component_score = analysis[component]['context_score']
+                elif component == 'sentiment_analysis':
+                    component_score = analysis[component]['adjusted_score']
+                
+                total_score += component_score * weight
+        
+        return min(max(total_score, 0.0), 1.0)  # Ensure score is between 0 and 1
+
+    def _extract_grant_details(self, text: str, analysis: Dict[str, Any]) -> Dict[str, Any]:
+        """Extract specific grant details from high-confidence posts"""
+        details = {
+            'funding_body': None,
+            'program_name': None,
+            'deadlines': [],
+            'funding_amounts': [],
+            'eligibility_criteria': [],
+            'application_process': [],
+            'contact_information': []
+        }
+        
+        # Extract funding body
+        entities = analysis.get('entity_analysis', {}).get('entities', {})
+        if entities.get('funding_bodies'):
+            details['funding_body'] = entities['funding_bodies'][0]
+        
+        # Extract deadlines
+        temporal = analysis.get('temporal_analysis', {})
+        if temporal.get('dates_found'):
+            details['deadlines'] = temporal['dates_found']
+        
+        # Extract funding amounts
+        financial = analysis.get('financial_analysis', {})
+        if financial.get('amounts_found'):
+            details['funding_amounts'] = financial['amounts_found']
+        
+        # Extract program name (simple heuristic)
+        program_patterns = [
+            r'\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\s+(?:Program|Scheme|Initiative|Grant|Fund)\b',
+            r'\b(?:Program|Scheme|Initiative|Grant|Fund)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\b'
+        ]
+        
+        for pattern in program_patterns:
+            matches = re.findall(pattern, text, re.IGNORECASE)
+            if matches:
+                details['program_name'] = matches[0]
+                break
+        
+        return details
+
+    def _create_analysis_result(self, is_grant: bool, confidence: float, 
+                              message: str, analysis: Dict = None, 
+                              grant_info: Dict = None) -> Dict[str, Any]:
+        """Create standardized analysis result"""
+        result = {
+            'is_grant_opportunity': is_grant,
+            'confidence_score': confidence,
+            'analysis_message': message,
+            'analyzed_at': datetime.now().isoformat(),
+            'version': '2.0'
+        }
+        
+        if analysis:
+            result['detailed_analysis'] = analysis
+        
+        if grant_info:
+            result['grant_details'] = grant_info
+        
+        return result
+
 class AdvancedLinkedInScraper:
     def __init__(self, headless: bool = False, slow_mo: int = 100):
         self.headless = headless
@@ -37,8 +558,9 @@ class AdvancedLinkedInScraper:
         self.data_dir.mkdir(exist_ok=True)
         self.debug_mode = False
         self.enable_grant_analysis = True  # Add this flag to control grant analysis
-        self.grant_keywords = self._load_grant_keywords()  # Initialize grant keywords
-        self.grant_patterns = self._load_grant_patterns()  # Initialize grant patterns
+        
+        # Initialize the advanced grant detector
+        self.grant_detector = AdvancedGrantDetector()
         
         # More diverse user agents
         self.user_agents = [
@@ -100,30 +622,6 @@ class AdvancedLinkedInScraper:
             'div[data-id="entire-feed-card-link"] > a'
         ]
 
-    def _load_grant_keywords(self) -> List[str]:
-        """Load grant-related keywords for analysis"""
-        return [
-            "grant", "funding", "fellowship", "scholarship", "award", "prize", 
-            "subsidy", "financial support", "seed money", "capital", 
-            "application", "deadline", "apply by", "eligibility",
-            "startup", "entrepreneur", "small business", "SME", "innovation"
-        ]
-    
-    def _load_grant_patterns(self) -> List[Dict[str, Any]]:
-        """Load regex patterns for grant identification"""
-        return [
-            {
-                "name": "grant_announcement",
-                "pattern": r"\b(announcing|introducing|launching|opening)\b.*\b(grant|funding|program)\b",
-                "flags": re.IGNORECASE
-            },
-            {
-                "name": "application_deadline",
-                "pattern": r"\b(apply|submit|application)\b.*\b(by|before|until|deadline)\b.*\b(\d{1,2}(st|nd|rd|th)?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}|\d{1,2}[/-]\d{1,2}[/-]\d{2,4})",
-                "flags": re.IGNORECASE
-            }
-        ]
-
     async def scrape_company_posts(self, company_url: str) -> List[Dict[str, Any]]:
         """Scrape latest posts from a company page"""
         logger.info(f"🔄 Starting scrape for: {company_url}")
@@ -151,10 +649,31 @@ class AdvancedLinkedInScraper:
                 # Get top 3 most recent posts
                 recent_posts = sorted(posts, key=lambda x: self._timestamp_to_seconds(x.get('timestamp', '')), reverse=False)[:self.max_posts]
 
-                # Add grant opportunity analysis if enabled
+                # Add advanced grant opportunity analysis
                 if self.enable_grant_analysis:
                     for post in recent_posts:
-                        post['grant_analysis'] = self._analyze_grant_opportunity(post.get('text', ''))
+                        post_text = post.get('text', '')
+                        post_url = post.get('url', '')
+                        post_timestamp = post.get('timestamp', '')
+                        
+                        # Perform comprehensive analysis
+                        grant_analysis = self.grant_detector.analyze_grant_opportunity(
+                            post_text, post_url, post_timestamp
+                        )
+                        
+                        post['grant_analysis'] = grant_analysis
+                        
+                        # Log significant findings
+                        if grant_analysis.get('is_grant_opportunity'):
+                            confidence = grant_analysis.get('confidence_score', 0)
+                            logger.info(f"🎯 Grant opportunity detected! Confidence: {confidence:.2f}")
+                            
+                            # Log grant details if available
+                            grant_details = grant_analysis.get('grant_details', {})
+                            if grant_details.get('funding_body'):
+                                logger.info(f"📊 Funding Body: {grant_details['funding_body']}")
+                            if grant_details.get('deadlines'):
+                                logger.info(f"⏰ Deadlines: {grant_details['deadlines']}")
                 
                 logger.info(f"✅ Successfully extracted {len(recent_posts)} posts")
                 return recent_posts
@@ -948,178 +1467,6 @@ class AdvancedLinkedInScraper:
         except:
             pass
 
-    async def scrape_companies(self, company_urls: List[str]) -> Dict[str, List[Dict[str, Any]]]:
-        """Scrape multiple company pages"""
-        results = {}
-        
-        for url in company_urls:
-            try:
-                posts = await self.scrape_company_posts(url)
-                if posts:
-                    results[url] = posts
-                
-                await asyncio.sleep(random.uniform(5, 10))
-            except Exception as e:
-                logger.error(f"Failed to scrape {url}: {str(e)}")
-                continue
-                
-        return results
-    
-    def save_results(self, results: Dict[str, List[Dict[str, Any]]], filename: str = None):
-        """Save scraping results to JSON file"""
-        if not filename:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"linkedin_scraper_results_{timestamp}.json"
-        
-        filepath = self.data_dir / filename
-        
-        try:
-            # Clean results for JSON serialization
-            clean_results = {}
-            grant_stats = {
-                "total_posts": 0,
-                "grant_posts": 0,
-                "companies_with_grants": 0
-            }
-
-            for url, posts in results.items():
-                clean_posts = []
-                for post in posts:
-                    clean_post = {
-                        'url': post.get('url', ''),
-                        'timestamp': post.get('timestamp', ''),
-                        'text': post.get('text', ''),
-                        'scraped_at': datetime.now().isoformat()
-                    }
-                    # Include grant analysis if available
-                    if 'grant_analysis' in post:
-                        clean_post['grant_analysis'] = post['grant_analysis']
-                        if post['grant_analysis'].get('is_grant', False):
-                            grant_stats["grant_posts"] += 1
-                            company_has_grants = True
-
-                    # Only include raw_html if debug mode is enabled
-                    if self.debug_mode and post.get('raw_html'):
-                        clean_post['raw_html'] = post['raw_html']
-                    
-                    clean_posts.append(clean_post)
-                
-                clean_results[url] = clean_posts
-                if company_has_grants:
-                    grant_stats["companies_with_grants"] += 1
-            
-            # Add metadata
-            output_data = {
-                'metadata': {
-                    'scraped_at': datetime.now().isoformat(),
-                    'total_companies': len(clean_results),
-                    'total_posts': sum(len(posts) for posts in clean_results.values()),
-                    'scraper_version': '2.1',
-                    'grant_analysis_enabled': self.enable_grant_analysis,
-                    'grant_stats': grant_stats,
-                    'debug_mode': self.debug_mode
-                },
-                'results': clean_results
-            }
-            
-            with open(filepath, 'w', encoding='utf-8') as f:
-                json.dump(output_data, f, indent=2, ensure_ascii=False)
-            
-            logger.info(f"💾 Results saved to: {filepath}")
-            logger.info(f"📊 Grant Stats: {grant_stats['grant_posts']} grant posts found across {grant_stats['companies_with_grants']} companies")
-            return str(filepath)
-            
-        except Exception as e:
-            logger.error(f"Error saving results: {e}")
-            return None
-
-    def load_company_urls(self, file_path: str) -> List[str]:
-        """Load company URLs from a text file"""
-        try:
-            urls = []
-            with open(file_path, 'r', encoding='utf-8') as f:
-                for line in f:
-                    line = line.strip()
-                    if line and not line.startswith('#'):
-                        # Ensure URL is properly formatted
-                        if not line.startswith('http'):
-                            line = f"https://www.linkedin.com/company/{line}"
-                        urls.append(line)
-            
-            logger.info(f"📋 Loaded {len(urls)} company URLs from {file_path}")
-            return urls
-            
-        except Exception as e:
-            logger.error(f"Error loading URLs from {file_path}: {e}")
-            return []
-
-    def generate_summary_report(self, results: Dict[str, List[Dict[str, Any]]]) -> str:
-        """Generate a summary report of the scraping results"""
-        total_companies = len(results)
-        total_posts = sum(len(posts) for posts in results.values())
-        
-        report = f"""
-LinkedIn Scraper Summary Report
-{'='*50}
-Scraped at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-Total companies processed: {total_companies}
-Total posts extracted: {total_posts}
-
-Company Details:
-{'-'*30}
-"""
-        
-        for url, posts in results.items():
-            company_name = url.split('/')[-1] if url.split('/')[-1] else url.split('/')[-2]
-            report += f"• {company_name}: {len(posts)} posts\n"
-            
-            for i, post in enumerate(posts, 1):
-                timestamp = post.get('timestamp', 'Unknown')
-                text_preview = post.get('text', '')[:100] + '...' if len(post.get('text', '')) > 100 else post.get('text', '')
-                likes = post.get('likes', 0)
-                comments = post.get('comments', 0)
-                
-                report += f"  {i}. {timestamp} | Likes: {likes} | Comments: {comments}\n"
-                report += f"     Text: {text_preview}\n\n"
-        
-        return report
-
-    async def validate_urls(self, urls: List[str]) -> List[Tuple[str, bool, str]]:
-        """Validate company URLs before scraping"""
-        logger.info(f"🔍 Validating {len(urls)} URLs...")
-        
-        results = []
-        async with async_playwright() as p:
-            browser = await self._launch_browser(p)
-            context = await self._create_context(browser)
-            page = await context.new_page()
-            
-            for url in urls:
-                try:
-                    response = await page.goto(url, wait_until="domcontentloaded", timeout=30000)
-                    
-                    if response.status == 200:
-                        # Check if it's actually a LinkedIn company page
-                        title = await page.title()
-                        if 'linkedin' in title.lower() and ('company' in url or 'organization' in title.lower()):
-                            results.append((url, True, "Valid"))
-                        else:
-                            results.append((url, False, "Not a valid company page"))
-                    else:
-                        results.append((url, False, f"HTTP {response.status}"))
-                        
-                except Exception as e:
-                    results.append((url, False, str(e)))
-                
-                await asyncio.sleep(2)  # Rate limiting
-            
-            await browser.close()
-        
-        valid_count = sum(1 for _, valid, _ in results if valid)
-        logger.info(f"✅ {valid_count}/{len(urls)} URLs are valid")
-        
-        return results
-
     async def scrape_with_progress(self, company_urls: List[str], save_intermediate: bool = True) -> Dict[str, List[Dict[str, Any]]]:
         """Scrape companies with progress tracking and intermediate saves"""
         results = {}
@@ -1154,6 +1501,255 @@ Company Details:
         logger.info(f"🎉 Scraping completed! Processed {total_urls} companies")
         return results
 
+    async def scrape_companies(self, company_urls: List[str]) -> Dict[str, List[Dict[str, Any]]]:
+        """Scrape multiple company pages"""
+        results = {}
+        
+        for url in company_urls:
+            try:
+                posts = await self.scrape_company_posts(url)
+                if posts:
+                    results[url] = posts
+                
+                await asyncio.sleep(random.uniform(5, 10))
+            except Exception as e:
+                logger.error(f"Failed to scrape {url}: {str(e)}")
+                continue
+                
+        return results
+    
+    def save_results(self, results: Dict[str, List[Dict[str, Any]]], filename: str = None):
+        """Save scraping results to JSON file"""
+        if not filename:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"linkedin_scraper_results_{timestamp}.json"
+        
+        filepath = self.data_dir / filename
+        
+        try:
+            # Clean results for JSON serialization
+            clean_results = {}
+            grant_stats = {
+                "total_posts": 0,
+                "grant_opportunities": 0,
+                "high_confidence_grants": 0,
+                "companies_with_grants": 0,
+                "funding_bodies_identified": set(),
+                "average_confidence": 0.0,
+                "grant_details": []
+            }
+
+            total_confidence = 0.0
+            confidence_count = 0
+
+            for url, posts in results.items():
+                clean_posts = []
+                company_has_grants = False
+                
+                for post in posts:
+                    grant_stats["total_posts"] += 1
+                    
+                    clean_post = {
+                        'url': post.get('url', ''),
+                        'timestamp': post.get('timestamp', ''),
+                        'text': post.get('text', ''),
+                        'scraped_at': datetime.now().isoformat()
+                    }
+                    
+                    # Include comprehensive grant analysis
+                    if 'grant_analysis' in post:
+                        grant_analysis = post['grant_analysis']
+                        clean_post['grant_analysis'] = grant_analysis
+                        
+                        # Update statistics
+                        if grant_analysis.get('is_grant_opportunity', False):
+                            grant_stats["grant_opportunities"] += 1
+                            company_has_grants = True
+                            
+                            confidence = grant_analysis.get('confidence_score', 0.0)
+                            total_confidence += confidence
+                            confidence_count += 1
+                            
+                            if confidence >= 0.8:
+                                grant_stats["high_confidence_grants"] += 1
+                            
+                            # Extract funding body info
+                            grant_details = grant_analysis.get('grant_details', {})
+                            if grant_details.get('funding_body'):
+                                grant_stats["funding_bodies_identified"].add(grant_details['funding_body'])
+                            
+                            # Store detailed grant information
+                            grant_info = {
+                                'company_url': url,
+                                'post_url': clean_post['url'],
+                                'confidence_score': confidence,
+                                'funding_body': grant_details.get('funding_body'),
+                                'program_name': grant_details.get('program_name'),
+                                'deadlines': grant_details.get('deadlines', []),
+                                'funding_amounts': grant_details.get('funding_amounts', []),
+                                'post_excerpt': clean_post['text'][:200] + "..." if len(clean_post['text']) > 200 else clean_post['text']
+                            }
+                            grant_stats["grant_details"].append(grant_info)
+
+                    # Only include raw_html if debug mode is enabled
+                    if self.debug_mode and post.get('raw_html'):
+                        clean_post['raw_html'] = post['raw_html']
+                    
+                    clean_posts.append(clean_post)
+                
+                clean_results[url] = clean_posts
+                if company_has_grants:
+                    grant_stats["companies_with_grants"] += 1
+            
+            # Calculate average confidence
+            if confidence_count > 0:
+                grant_stats["average_confidence"] = total_confidence / confidence_count
+            
+            # Convert set to list for JSON serialization
+            grant_stats["funding_bodies_identified"] = list(grant_stats["funding_bodies_identified"])
+            
+            # Add comprehensive metadata
+            output_data = {
+                'metadata': {
+                    'scraped_at': datetime.now().isoformat(),
+                    'total_companies': len(clean_results),
+                    'total_posts': grant_stats["total_posts"],
+                    'scraper_version': '3.0',
+                    'grant_analysis_enabled': self.enable_grant_analysis,
+                    'grant_detector_version': '2.0',
+                    'confidence_threshold': self.grant_detector.confidence_threshold,
+                    'debug_mode': self.debug_mode
+                },
+                'grant_statistics': grant_stats,
+                'results': clean_results
+            }
+            
+            with open(filepath, 'w', encoding='utf-8') as f:
+                json.dump(output_data, f, indent=2, ensure_ascii=False)
+            
+            # Log comprehensive results
+            logger.info(f"💾 Results saved to: {filepath}")
+            logger.info(f"📊 Grant Analysis Summary:")
+            logger.info(f"   • Total Posts Analyzed: {grant_stats['total_posts']}")
+            logger.info(f"   • Grant Opportunities Found: {grant_stats['grant_opportunities']}")
+            logger.info(f"   • High Confidence Grants: {grant_stats['high_confidence_grants']}")
+            logger.info(f"   • Companies with Grants: {grant_stats['companies_with_grants']}")
+            logger.info(f"   • Average Confidence: {grant_stats['average_confidence']:.2f}")
+            logger.info(f"   • Funding Bodies Identified: {len(grant_stats['funding_bodies_identified'])}")
+            
+            if grant_stats["funding_bodies_identified"]:
+                logger.info(f"   • Key Funding Bodies: {', '.join(grant_stats['funding_bodies_identified'][:5])}")
+            
+            return str(filepath)
+            
+        except Exception as e:
+            logger.error(f"Error saving results: {e}")
+            return None
+
+    def load_company_urls(self, file_path: str) -> List[str]:
+        """Load company URLs from a text file"""
+        try:
+            urls = []
+            with open(file_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#'):
+                        # Ensure URL is properly formatted
+                        if not line.startswith('http'):
+                            line = f"https://www.linkedin.com/company/{line}"
+                        urls.append(line)
+            
+            logger.info(f"📋 Loaded {len(urls)} company URLs from {file_path}")
+            return urls
+            
+        except Exception as e:
+            logger.error(f"Error loading URLs from {file_path}: {e}")
+            return []
+
+    def get_grant_summary(self, results: Dict[str, List[Dict[str, Any]]]) -> Dict[str, Any]:
+        """Generate a summary of grant opportunities found"""
+        summary = {
+            'total_grants': 0,
+            'high_confidence_grants': 0,
+            'funding_bodies': set(),
+            'grant_types': {},
+            'upcoming_deadlines': [],
+            'funding_amounts': [],
+            'companies_with_opportunities': []
+        }
+        
+        for company_url, posts in results.items():
+            company_grants = []
+            
+            for post in posts:
+                grant_analysis = post.get('grant_analysis', {})
+                
+                if grant_analysis.get('is_grant_opportunity', False):
+                    summary['total_grants'] += 1
+                    
+                    confidence = grant_analysis.get('confidence_score', 0.0)
+                    if confidence >= 0.8:
+                        summary['high_confidence_grants'] += 1
+                    
+                    # Extract grant details
+                    grant_details = grant_analysis.get('grant_details', {})
+                    
+                    if grant_details.get('funding_body'):
+                        summary['funding_bodies'].add(grant_details['funding_body'])
+                    
+                    if grant_details.get('deadlines'):
+                        summary['upcoming_deadlines'].extend(grant_details['deadlines'])
+                    
+                    if grant_details.get('funding_amounts'):
+                        summary['funding_amounts'].extend(grant_details['funding_amounts'])
+                    
+                    company_grants.append({
+                        'confidence': confidence,
+                        'funding_body': grant_details.get('funding_body'),
+                        'program_name': grant_details.get('program_name')
+                    })
+            
+            if company_grants:
+                summary['companies_with_opportunities'].append({
+                    'company_url': company_url,
+                    'grants': company_grants
+                })
+        
+        # Convert sets to lists for JSON serialization
+        summary['funding_bodies'] = list(summary['funding_bodies'])
+        
+        return summary
+
+    def generate_summary_report(self, results: Dict[str, List[Dict[str, Any]]]) -> str:
+        """Generate a summary report of the scraping results"""
+        total_companies = len(results)
+        total_posts = sum(len(posts) for posts in results.values())
+        
+        report = f"""
+LinkedIn Scraper Summary Report
+{'='*50}
+Scraped at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Total companies processed: {total_companies}
+Total posts extracted: {total_posts}
+
+Company Details:
+{'-'*30}
+"""
+        
+        for url, posts in results.items():
+            company_name = url.split('/')[-1] if url.split('/')[-1] else url.split('/')[-2]
+            report += f"• {company_name}: {len(posts)} posts\n"
+            
+            for i, post in enumerate(posts, 1):
+                timestamp = post.get('timestamp', 'Unknown')
+                text_preview = post.get('text', '')[:100] + '...' if len(post.get('text', '')) > 100 else post.get('text', '')
+                likes = post.get('likes', 0)
+                comments = post.get('comments', 0)
+                
+                report += f"  {i}. {timestamp} | Likes: {likes} | Comments: {comments}\n"
+                report += f"     Text: {text_preview}\n\n"
+        
+        return report
 
 async def main():
     """Main execution function"""
