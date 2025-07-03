@@ -8,11 +8,16 @@ on:
 
 jobs:
   scrape:
-    runs-on: ubuntu-22.04  # Explicitly use Ubuntu 22.04 instead of latest
+    runs-on: ubuntu-22.04
     
+    permissions:
+      contents: write  # This is crucial for allowing the workflow to push changes
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # This ensures all history is fetched
       
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -50,11 +55,10 @@ jobs:
         
     - name: Commit and push results
       env:
-        PAT: ${{ secrets.PAT }}  # Use your PAT secret name
+        PAT: ${{ secrets.PAT }}  # Use the PAT you created in repo secrets
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-        git remote set-url origin https://x-access-token:$PAT@github.com/${{ github.repository }}.git
+        git remote set-url origin https://saibharath954:$PAT@github.com/saibharath954/Linkedin-Scraper.git
         git add data/
-        git commit -m "Update scraped data [skip ci]" || echo "No changes to commit"
-        git push origin main
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Update scraped data [skip ci]" && git push origin main)
