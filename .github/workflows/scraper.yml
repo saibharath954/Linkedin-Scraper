@@ -2,7 +2,7 @@ name: LinkedIn Scraper
 
 on:
   schedule:
-    - cron: '0 16 15 * *'  # 9 AM UTC daily
+    - cron: '0 16 20 * *'  # 9 AM UTC daily
     - cron: '0 21 * * *' # 9 PM UTC daily
   workflow_dispatch: # Allow manual triggers
 
