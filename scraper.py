@@ -3,11 +3,12 @@ import random
 import logging
 import time
 import re
-from typing import Optional, Dict, List, Tuple
-from playwright.async_api import async_playwright, Page, Browser, BrowserContext
 import json
+from typing import Optional, Dict, List, Tuple, Any
+from playwright.async_api import async_playwright, Page, Browser, BrowserContext
 from datetime import datetime, timedelta
 from urllib.parse import quote
+from pathlib import Path
 
 # Configure logging with more detailed output
 logging.basicConfig(
@@ -24,123 +25,520 @@ class AdvancedLinkedInScraper:
     def __init__(self, headless: bool = False, slow_mo: int = 100):
         self.headless = headless
         self.slow_mo = slow_mo
-        self.timeout = 45000  # Increased timeout
+        self.timeout = 45000
         self.max_retries = 3
-        self.debug_mode = True
+        self.max_posts = 3
+        self.data_dir = Path("data")
+        self.data_dir.mkdir(exist_ok=True)
+        self.debug_mode = False
         
         # More diverse user agents
         self.user_agents = [
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0"
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
         ]
         
-        # Updated and more robust selectors
+        # Enhanced post container selectors
+        self.post_selectors = [
+            'article.main-feed-activity-card',
+            'div[data-id^="urn:li:activity"]',  # Primary LinkedIn post identifier
+            '.feed-shared-update-v2',
+            '.occludable-update',
+            '.base-main-card',
+            '.feed-shared-update-v2__description-wrapper',
+            'div.update-components-text',
+            '.share-update-card'
+        ]
+        
+        # Text content selectors (multiple fallbacks)
+        self.text_selectors = [
+            '.update-components-text .feed-shared-text',
+            '.update-components-text .break-words',
+            '.feed-shared-text .break-words',
+            '.feed-shared-text',
+            '.update-components-text__text',
+            'div[data-test-id="main-feed-activity-card__commentary"]',
+            '.feed-shared-update-v2__commentary .break-words',
+            '.feed-shared-update-v2__commentary',
+            '.base-main-card__commentary .break-words',
+            '.base-main-card__commentary',
+            'span.break-words',
+            '.update-components-text > div',
+            '.feed-shared-text > span',
+            '.attributed-text-segment-list__content'
+        ]
+        
+        # Enhanced timestamp selectors
         self.timestamp_selectors = [
-            '[data-test-id="main-feed-activity-card_entity-lockup"] time',
-            '.base-main-feed-card__entity-lockup time',
-            'span.px-0\\.25 time',
-            'span.leading-\\[1\\.33333\\] time',
-            '.base-main-feed-card__entity-lockup .flex-col time',
-            '.base-main-feed-card__entity-lockup .text-color-text-low-emphasis time',
+            'a.app-aware-link time',
             '.feed-shared-actor__sub-description time',
             '.update-components-actor__meta time',
             '.feed-shared-update-v2__description time',
             '.feed-shared-actor__meta time',
-            '.org-recent-activity-card time',
-            '.org-recent-activity time',
-            '.activity-card time',
-            '[data-test-id="main-feed-activity-card"] time',
-            '.share-update-card time',
-            '.feed-shared-update-v2 time',
-            '.org-page-recent-updates time',
-            '.update-components-text time',
             'time[datetime]',
-            '.time-ago',
-            '.posted-time',
-            '.update-time',
-            '[data-time]',
-            '.feed-shared-text time',
-            '.feed-shared-header time',
-            '.activity-card__meta time'
-        ]
-
-        # Enhanced patterns for text-based timestamps
-        self.time_patterns = [
-            r'(\d+)\s*(?:second|seconds|sec|s)\b',
-            r'(\d+)\s*(?:month|months|mo)\b',
-            r'(\d+)\s*(?:minute|minutes|min|m)\b', 
-            r'(\d+)\s*(?:hour|hours|hr|h)\b',
-            r'(\d+)\s*(?:day|days|d)\b',
-            r'(\d+)\s*(?:week|weeks|w)\b',
-            r'(\d+)\s*(?:year|years|y)\b',
-            r'(?:just now|now)',
-            r'(?:yesterday)',
-            r'(?:today)',
-            r'(?:last week)',
-            r'(?:last month)'
-        ]
-
-    async def get_company_last_post_timestamp(self, company_name: str) -> Optional[str]:
-        """Get timestamp with enhanced debugging and multiple strategies"""
-        
-        # Try multiple URL formats
-        urls_to_try = [
-            f"https://www.linkedin.com/company/{company_name}/",
-            f"https://www.linkedin.com/company/{company_name}/posts/",
-            f"https://www.linkedin.com/company/{company_name}/feed/",
+            '.feed-shared-actor__sub-description a',
+            '.update-components-actor__meta .visually-hidden',
+            'span.visually-hidden',
+            '.feed-shared-actor__sub-description span',
+            '.update-components-actor__sub-description'
         ]
         
-        for attempt in range(self.max_retries):
-            logger.info(f"🔄 Attempt {attempt + 1}/{self.max_retries} for company: {company_name}")
+        # Link/URL selectors
+        self.link_selectors = [
+            'a[data-id="main-feed-card__full-link"]',
+            'a.main-feed-card_overlay-link',
+            'a[href*="/posts/"][aria-label^="Update "]',
+            'div[data-id="entire-feed-card-link"] > a'
+        ]
+
+    async def scrape_company_posts(self, company_url: str) -> List[Dict[str, Any]]:
+        """Scrape latest posts from a company page"""
+        logger.info(f"🔄 Starting scrape for: {company_url}")
+        
+        async with async_playwright() as p:
+            browser = await self._launch_browser(p)
+            context = await self._create_context(browser)
+            page = await context.new_page()
             
-            async with async_playwright() as p:
-                browser = await self._launch_browser(p)
-                context = await self._create_context(browser)
-                page = await context.new_page()
+            try:
+                await self._navigate_with_retry(page, company_url)
+                await self._handle_all_popups_comprehensive(page)
                 
-                try:
-                    # Try different URL formats
-                    for url_index, url in enumerate(urls_to_try):
-                        logger.info(f"🌐 Trying URL {url_index + 1}/{len(urls_to_try)}: {url}")
-                        
-                        try:
-                            # Navigate with better error handling
-                            await self._navigate_with_retry(page, url)
-                            
-                            # Enhanced popup handling
-                            await self._handle_all_popups_comprehensive(page)
-                            
-                            # Better content loading
-                            await self._load_content_strategically(page)
-                            
-                            # Comprehensive timestamp search
-                            timestamp = await self._find_timestamp_advanced(page, company_name, attempt)
-                            
-                            if timestamp:
-                                logger.info(f"✅ SUCCESS: Found timestamp for {company_name}: {timestamp}")
-                                return self._standardize_timestamp(timestamp)
-                            else:
-                                logger.warning(f"⚠️ No timestamp found with URL: {url}")
-                                
-                        except Exception as e:
-                            logger.error(f"❌ Error with URL {url}: {str(e)}")
-                            continue
+                # Navigate to posts section first
+                # await self._navigate_to_posts_section(page)
+                
+                # Load content strategically
+                await self._load_content_strategically(page)
+                
+                # Extract posts with retry mechanism
+                posts = await self._extract_posts_with_retry(page)
+                
+                if not posts:
+                    logger.warning(f"No posts found for {company_url}")
+                    await self._save_comprehensive_debug(page, "failed_scrape", 0)
+                    return []
+                
+                # Get top 3 most recent posts
+                recent_posts = sorted(posts, key=lambda x: self._timestamp_to_seconds(x.get('timestamp', '')), reverse=False)[:self.max_posts]
+                logger.info(f"✅ Successfully extracted {len(recent_posts)} posts")
+                return recent_posts
+                
+            except Exception as e:
+                logger.error(f"Error scraping {company_url}: {str(e)}")
+                await self._save_comprehensive_debug(page, "error_scrape", 0)
+                return []
+            finally:
+                await browser.close()
+
+    async def _extract_posts_with_retry(self, page: Page) -> List[Dict[str, Any]]:
+        """Extract posts with multiple retry strategies"""
+        for attempt in range(3):
+            try:
+                logger.info(f"📝 Post extraction attempt {attempt + 1}")
+                posts = await self._extract_posts(page)
+                if posts:
+                    return posts
+                
+                # If no posts found, try scrolling and waiting
+                if attempt < 2:
+                    logger.info("🔄 No posts found, trying scroll and reload strategy...")
+                    await self._aggressive_content_loading(page)
+                    await asyncio.sleep(5)
                     
-                    # Save comprehensive debug info
-                    await self._save_comprehensive_debug(page, company_name, attempt)
-                    
-                finally:
-                    await browser.close()
-            
-            if attempt < self.max_retries - 1:
-                delay = random.uniform(3, 8)
-                logger.info(f"⏳ Waiting {delay:.1f}s before retry...")
-                await asyncio.sleep(delay)
+            except Exception as e:
+                logger.error(f"Post extraction attempt {attempt + 1} failed: {e}")
+                if attempt < 2:
+                    await asyncio.sleep(5)
+                continue
         
-        logger.error(f"❌ FAILED: Could not get timestamp for {company_name} after all attempts")
-        return None
+        return []
+
+    async def _extract_posts(self, page: Page) -> List[Dict[str, Any]]:
+        """Enhanced post extraction with better selectors"""
+        posts = []
+        
+        # Wait for page to load completely
+        await page.wait_for_load_state('networkidle', timeout=15000)
+        
+        # Try different post container selectors
+        all_post_elements = []
+        for selector in self.post_selectors:
+            try:
+                elements = await page.query_selector_all(selector)
+                if elements:
+                    logger.info(f"Found {len(elements)} elements with selector: {selector}")
+                    all_post_elements.extend(elements)
+                    break  # Use the first successful selector
+            except Exception as e:
+                logger.debug(f"Selector {selector} failed: {e}")
+                continue
+        
+        if not all_post_elements:
+            logger.error("No post elements found with any selector")
+            return []
+        
+        logger.info(f"Processing {len(all_post_elements)} potential post elements")
+        
+        # Process each post element
+        for i, post_element in enumerate(all_post_elements[:self.max_posts * 2]):
+            try:
+                # Scroll element into view
+                await post_element.scroll_into_view_if_needed()
+                await asyncio.sleep(1)
+                
+                # Check if element is visible
+                if not await post_element.is_visible():
+                    logger.debug(f"Post element {i+1} not visible, skipping")
+                    continue
+                
+                # Extract post data
+                post_data = await self._extract_single_post(post_element, i+1)
+                
+                if post_data and post_data.get('timestamp'):
+                    posts.append(post_data)
+                    logger.info(f"✅ Extracted post {len(posts)}: {post_data['timestamp']} - {post_data['text'][:50]}...")
+                    
+                    if len(posts) >= self.max_posts:
+                        break
+                else:
+                    logger.debug(f"Skipping post {i+1} - invalid data")
+                    
+            except Exception as e:
+                logger.warning(f"Error processing post {i+1}: {e}")
+                continue
+        
+        return posts
+
+    async def _extract_single_post(self, post_element, post_num: int) -> Optional[Dict[str, Any]]:
+        """Extract data from a single post element"""
+        try:
+            # Extract timestamp
+            timestamp = await self._extract_timestamp_enhanced(post_element)
+            if not timestamp:
+                logger.debug(f"Post {post_num}: No valid timestamp found")
+                return None
+            
+            # Extract text content
+            text = await self._extract_text_enhanced(post_element)
+            
+            # Extract post URL
+            url = await self._extract_post_url_enhanced(post_element)
+            
+            # Extract media
+            media = await self._extract_media_enhanced(post_element)
+            
+            # Extract engagement metrics
+            likes = await self._extract_likes_enhanced(post_element)
+            comments = await self._extract_comments_enhanced(post_element)
+            
+            post_data = {
+                'url': url,
+                'timestamp': timestamp,
+                'text': text,
+                'media': media,
+                'likes': likes,
+                'comments': comments,
+                'raw_html': await post_element.inner_html() if self.debug_mode else None
+            }
+            
+            logger.debug(f"Post {post_num} data: timestamp={timestamp}, text_length={len(text)}, url={url}")
+            return post_data
+            
+        except Exception as e:
+            logger.error(f"Error extracting single post {post_num}: {e}")
+            return None
+
+    async def _extract_text_enhanced(self, post_element) -> str:
+        """Enhanced text extraction with multiple fallback strategies"""
+        try:
+            # Strategy 1: Try specific text selectors
+            for selector in self.text_selectors:
+                try:
+                    text_element = await post_element.query_selector(selector)
+                    if text_element:
+                        text = await text_element.inner_text()
+                        if text and len(text.strip()) > 10:  # Ensure meaningful text
+                            logger.debug(f"Text found with selector: {selector}")
+                            return text.strip()
+                except:
+                    continue
+            
+            # Strategy 2: Look for any text content in the post
+            try:
+                # Get all text from the post but filter out navigation/metadata
+                full_text = await post_element.inner_text()
+                if full_text:
+                    # Split by lines and filter out short lines (likely metadata)
+                    lines = [line.strip() for line in full_text.split('\n') if line.strip()]
+                    content_lines = [line for line in lines if len(line) > 20 and not self._is_metadata_line(line)]
+                    
+                    if content_lines:
+                        return '\n'.join(content_lines[:3])  # Take first 3 meaningful lines
+            except:
+                pass
+            
+            # Strategy 3: Look for specific text patterns
+            try:
+                # Look for spans or divs that contain substantial text
+                text_elements = await post_element.query_selector_all('span, div, p')
+                for element in text_elements:
+                    text = await element.inner_text()
+                    if text and len(text.strip()) > 20 and not self._is_metadata_line(text):
+                        return text.strip()
+            except:
+                pass
+            
+            logger.debug("No meaningful text content found")
+            return ""
+            
+        except Exception as e:
+            logger.debug(f"Text extraction error: {e}")
+            return ""
+
+    def _is_metadata_line(self, line: str) -> bool:
+        """Check if a line is likely metadata rather than post content"""
+        line = line.lower().strip()
+        metadata_indicators = [
+            'like', 'comment', 'share', 'follow', 'connect',
+            'ago', 'hour', 'day', 'week', 'month', 'year',
+            'view', 'profile', 'company', 'job', 'hiring',
+            'linkedin', 'see more', 'show more', 'less',
+            'repost', 'celebrate', 'love', 'insightful'
+        ]
+        
+        # Short lines are likely metadata
+        if len(line) < 15:
+            return True
+        
+        # Lines containing only metadata indicators
+        words = line.split()
+        if len(words) <= 3 and any(indicator in line for indicator in metadata_indicators):
+            return True
+        
+        return False
+
+    async def _extract_timestamp_enhanced(self, post_element) -> Optional[str]:
+        """Enhanced timestamp extraction"""
+        try:
+            # Strategy 1: Look for time elements with datetime attribute
+            time_elements = await post_element.query_selector_all('time[datetime]')
+            for time_el in time_elements:
+                datetime_attr = await time_el.get_attribute('datetime')
+                if datetime_attr:
+                    return self._standardize_timestamp(datetime_attr)
+            
+            # Strategy 2: Try specific timestamp selectors
+            for selector in self.timestamp_selectors:
+                try:
+                    element = await post_element.query_selector(selector)
+                    if element:
+                        # Check for datetime attribute first
+                        datetime_attr = await element.get_attribute('datetime')
+                        if datetime_attr:
+                            return self._standardize_timestamp(datetime_attr)
+                        
+                        # Check inner text
+                        text = await element.inner_text()
+                        if text and self._is_valid_timestamp_text(text):
+                            return self._standardize_timestamp(text)
+                except:
+                    continue
+            
+            # Strategy 3: Look for timestamp patterns in all text
+            all_text = await post_element.inner_text()
+            if all_text:
+                lines = all_text.split('\n')
+                for line in lines:
+                    line = line.strip()
+                    if self._is_valid_timestamp_text(line):
+                        return self._standardize_timestamp(line)
+            
+            return None
+            
+        except Exception as e:
+            logger.debug(f"Timestamp extraction error: {e}")
+            return None
+
+    async def _extract_post_url_enhanced(self, post_element) -> Optional[str]:
+        """Enhanced URL extraction"""
+        try:
+            # Try link selectors
+            for selector in self.link_selectors:
+                try:
+                    link = await post_element.query_selector(selector)
+                    if link:
+                        href = await link.get_attribute('href')
+                        if href and '/posts/' in href:
+                            if href.startswith('/'):
+                                return f"https://www.linkedin.com{href.split('?')[0]}"
+                            else:
+                                return href.split('?')[0]
+                except:
+                    continue
+            
+            # Look for any link containing posts
+            links = await post_element.query_selector_all('a[href*="/posts/"]')
+            for link in links:
+                href = await link.get_attribute('href')
+                if href:
+                    if href.startswith('/'):
+                        return f"https://www.linkedin.com{href.split('?')[0]}"
+                    else:
+                        return href.split('?')[0]
+            
+            return None
+            
+        except Exception as e:
+            logger.debug(f"URL extraction error: {e}")
+            return None
+
+    async def _extract_media_enhanced(self, post_element) -> List[str]:
+        """Enhanced media extraction"""
+        media = []
+        try:
+            # Look for images
+            images = await post_element.query_selector_all('img[src]')
+            for img in images:
+                src = await img.get_attribute('src')
+                if src and ('http' in src or src.startswith('//')):
+                    if src.startswith('//'):
+                        src = 'https:' + src
+                    # Filter out small icons and profile pictures
+                    if not any(skip in src for skip in ['icon', 'logo_100_100', 'ghost']):
+                        media.append(src)
+            
+            # Look for videos
+            videos = await post_element.query_selector_all('video source[src], video[src]')
+            for video in videos:
+                src = await video.get_attribute('src')
+                if src and 'http' in src:
+                    media.append(src)
+                    
+        except Exception as e:
+            logger.debug(f"Media extraction error: {e}")
+        
+        return list(set(media))  # Remove duplicates
+
+    async def _extract_likes_enhanced(self, post_element) -> int:
+        """Enhanced likes extraction"""
+        try:
+            selectors = [
+                '.social-details-social-counts__reactions-count',
+                '[data-test-id="social-details-social-counts__reactions"]',
+                '.feed-shared-social-action-bar__reaction-count',
+                'button[aria-label*="reaction"] span'
+            ]
+            
+            for selector in selectors:
+                try:
+                    element = await post_element.query_selector(selector)
+                    if element:
+                        text = await element.inner_text()
+                        if text:
+                            # Extract numbers from text
+                            numbers = re.findall(r'\d+', text.replace(',', ''))
+                            if numbers:
+                                return int(numbers[0])
+                except:
+                    continue
+            
+            return 0
+            
+        except Exception as e:
+            logger.debug(f"Likes extraction error: {e}")
+            return 0
+
+    async def _extract_comments_enhanced(self, post_element) -> int:
+        """Enhanced comments extraction"""
+        try:
+            selectors = [
+                '.social-details-social-counts__comments',
+                '[data-test-id="social-details-social-counts__comments"]',
+                '.feed-shared-social-action-bar__comment-count',
+                'button[aria-label*="comment"] span'
+            ]
+            
+            for selector in selectors:
+                try:
+                    element = await post_element.query_selector(selector)
+                    if element:
+                        text = await element.inner_text()
+                        if text:
+                            numbers = re.findall(r'\d+', text.replace(',', ''))
+                            if numbers:
+                                return int(numbers[0])
+                except:
+                    continue
+            
+            return 0
+            
+        except Exception as e:
+            logger.debug(f"Comments extraction error: {e}")
+            return 0
+
+    def _timestamp_to_seconds(self, timestamp: str) -> int:
+        """Convert timestamp to seconds for sorting (recent = lower number)"""
+        if not timestamp:
+            return 999999
+        
+        timestamp = timestamp.lower().strip()
+        
+        # Parse time units
+        if 'just now' in timestamp or timestamp == 'now':
+            return 0
+        elif 's' in timestamp or 'second' in timestamp:
+            return int(re.findall(r'\d+', timestamp)[0]) if re.findall(r'\d+', timestamp) else 60
+        elif 'm' in timestamp or 'minute' in timestamp:
+            return int(re.findall(r'\d+', timestamp)[0]) * 60 if re.findall(r'\d+', timestamp) else 3600
+        elif 'h' in timestamp or 'hour' in timestamp:
+            return int(re.findall(r'\d+', timestamp)[0]) * 3600 if re.findall(r'\d+', timestamp) else 86400
+        elif 'd' in timestamp or 'day' in timestamp:
+            return int(re.findall(r'\d+', timestamp)[0]) * 86400 if re.findall(r'\d+', timestamp) else 604800
+        elif 'w' in timestamp or 'week' in timestamp:
+            return int(re.findall(r'\d+', timestamp)[0]) * 604800 if re.findall(r'\d+', timestamp) else 2592000
+        elif 'mo' in timestamp or 'month' in timestamp:
+            return int(re.findall(r'\d+', timestamp)[0]) * 2592000 if re.findall(r'\d+', timestamp) else 31536000
+        elif 'y' in timestamp or 'year' in timestamp:
+            return int(re.findall(r'\d+', timestamp)[0]) * 31536000 if re.findall(r'\d+', timestamp) else 31536000
+        
+        return 999999
+
+    async def _aggressive_content_loading(self, page: Page):
+        """More aggressive content loading strategy"""
+        logger.info("🔄 Applying aggressive content loading...")
+        
+        try:
+            # Multiple scroll and wait cycles
+            for i in range(10):
+                # Scroll down
+                await page.evaluate(f"window.scrollTo(0, {(i + 1) * 500})")
+                await asyncio.sleep(1)
+                
+                # Check if we have posts
+                posts_found = await page.query_selector_all('div[data-id^="urn:li:activity"]')
+                if len(posts_found) >= 3:
+                    logger.info(f"Found {len(posts_found)} posts after scroll {i+1}")
+                    break
+            
+            # Scroll back to top
+            await page.evaluate("window.scrollTo(0, 0)")
+            await asyncio.sleep(2)
+            
+            # Try to trigger lazy loading
+            await page.evaluate("""
+                const images = document.querySelectorAll('img[data-delayed-url]');
+                images.forEach(img => {
+                    if (img.dataset.delayedUrl) {
+                        img.src = img.dataset.delayedUrl;
+                    }
+                });
+            """)
+            
+            await asyncio.sleep(3)
+            
+        except Exception as e:
+            logger.warning(f"Aggressive loading error: {e}")
 
     async def _launch_browser(self, playwright) -> Browser:
         """Launch browser with anti-detection measures"""
@@ -155,860 +553,531 @@ class AdvancedLinkedInScraper:
                 '--disable-dev-shm-usage',
                 '--disable-blink-features=AutomationControlled',
                 '--disable-web-security',
-                '--disable-features=VizDisplayCompositor',
                 '--window-size=1920,1080',
-                '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+                '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
                 '--disable-extensions',
-                '--disable-plugins',
-                '--disable-images',  # Speed up loading
-                '--disable-javascript-harmony-shipping',
-                '--disable-background-timer-throttling',
-                '--disable-renderer-backgrounding',
-                '--disable-backgrounding-occluded-windows',
-                '--disable-restore-session-state',
-                '--disable-ipc-flooding-protection'
+                '--disable-plugins'
             ]
         )
 
     async def _create_context(self, browser: Browser) -> BrowserContext:
         """Create context with realistic browser fingerprint"""
         user_agent = random.choice(self.user_agents)
-        logger.info(f"🔧 Setting up context with User-Agent: {user_agent[:50]}...")
+        logger.info(f"🔧 Setting up context...")
         
         context = await browser.new_context(
             user_agent=user_agent,
             viewport={'width': 1920, 'height': 1080},
             locale='en-US',
-            timezone_id='America/New_York',
-            extra_http_headers={
-                'Accept-Language': 'en-US,en;q=0.9',
-                'Accept-Encoding': 'gzip, deflate, br',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-                'Connection': 'keep-alive',
-                'Upgrade-Insecure-Requests': '1',
-                'Sec-Fetch-Dest': 'document',
-                'Sec-Fetch-Mode': 'navigate',
-                'Sec-Fetch-Site': 'none',
-                'Cache-Control': 'max-age=0'
-            }
+            timezone_id='America/New_York'
         )
         
-        # Block heavy resources but allow essential ones
+        # Block heavy resources
         await context.route("**/*.{png,jpg,jpeg,gif,webp,svg,ico,woff,woff2,mp4,mp3,pdf}", lambda route: route.abort())
-        await context.route("**/analytics**", lambda route: route.abort())
-        await context.route("**/tracking**", lambda route: route.abort())
-        await context.route("**/ads**", lambda route: route.abort())
         
         return context
 
     async def _navigate_with_retry(self, page: Page, url: str):
-        """Navigate with better error handling and retries"""
+        """Navigate with better error handling"""
         logger.info(f"🌐 Navigating to: {url}")
         
-        # Add realistic delay
         await asyncio.sleep(random.uniform(2, 4))
         
-        try:
-            # Set referrer to look more natural
-            await page.goto(
-                url,
-                wait_until="domcontentloaded",
-                timeout=self.timeout,
-                referer="https://www.google.com/"
-            )
-            
-            # Wait for page to stabilize
-            logger.info("⏳ Waiting for page to stabilize...")
-            await page.wait_for_timeout(4000)
-            
-            # Check if page loaded correctly
-            title = await page.title()
-            logger.info(f"📄 Page title: {title}")
-            
-            # Check for error indicators
-            if "error" in title.lower() or "not found" in title.lower():
-                raise Exception(f"Page error detected: {title}")
-                
-        except Exception as e:
-            logger.error(f"Navigation failed: {e}")
-            raise
-
-    async def _handle_all_popups_comprehensive(self, page: Page):
-        """Comprehensive popup handling with detailed logging"""
-        logger.info("🔍 Checking for popups and overlays...")
-        
-        # Wait for potential popups
+        await page.goto(url, wait_until="domcontentloaded", timeout=self.timeout)
         await page.wait_for_timeout(3000)
         
-        popup_attempts = 0
-        max_popup_attempts = 10
+        title = await page.title()
+        logger.info(f"📄 Page title: {title}")
+
+    async def _handle_all_popups_comprehensive(self, page: Page):
+        """Comprehensive popup handling"""
+        logger.info("🔍 Handling popups...")
+        
+        await page.wait_for_timeout(2000)
         
         popup_selectors = [
-            # Generic dismiss buttons
             'button[aria-label="Dismiss"]',
             'button[data-test-modal-close-btn]',
-            'button[aria-label="Close"]',
             '.artdeco-modal__dismiss',
             '.sign-in-modal__dismiss-btn',
-            '.cookie-consent__accept-button',
-
-            # Sign-in modals
-            'button[aria-label="Dismiss"]',
-            'button[data-test-modal-close-btn]',
-            'button[data-control-name="overlay.close_conversion_button"]',
-            'button[aria-label="Close"]',
-            '.modal__dismiss',
-            '.artdeco-modal__dismiss',
-            '.artdeco-modal__dismiss-btn',
-            
-            # Contextual sign-in
-            '.contextual-sign-in-modal__modal-dismiss',
-            '.join-now-modal__dismiss-btn',
-            '.sign-in-modal__dismiss-btn',
-            
-            # Cookie consent
-            '.cookie-consent__accept-button',
-            'button[data-control-name="cookie.consent.accept"]',
-            
-            # App download prompts
-            '.app-aware-link__dismiss',
-            '.download-app-upsell__dismiss',
-            
-            # Other overlays
-            '.overlay__dismiss',
-            '.modal-overlay__dismiss',
-            '[data-test-id="modal-close-btn"]'
+            'button[aria-label="Close"]'
         ]
         
-        while popup_attempts < max_popup_attempts:
-            popup_found = False
-            
-            for selector in popup_selectors:
-                try:
-                    elements = await page.query_selector_all(selector)
-                    for element in elements:
-                        if element and await element.is_visible():
-                            logger.info(f"🪟 Found and closing popup: {selector}")
-                            await element.click()
-                            await page.wait_for_timeout(2000)
-                            popup_found = True
-                            break
-                    
-                    if popup_found:
-                        break
-                        
-                except Exception as e:
-                    logger.debug(f"Popup handler error for {selector}: {e}")
-                    continue
-            
-            if not popup_found:
-                break
-                
-            popup_attempts += 1
-            await page.wait_for_timeout(1000)
+        for selector in popup_selectors:
+            try:
+                elements = await page.query_selector_all(selector)
+                for element in elements:
+                    if element and await element.is_visible():
+                        await element.click()
+                        await page.wait_for_timeout(1000)
+            except:
+                continue
+
+    # async def _navigate_to_posts_section(self, page: Page):
+    #     """Navigate to posts section"""
+    #     logger.info("🎯 Navigating to posts section...")
         
-        logger.info(f"✅ Popup handling completed. Attempts made: {popup_attempts}")
+    #     # Check if we're already on posts page
+    #     current_url = page.url
+    #     if '/posts/' in current_url:
+    #         logger.info("Already on posts page")
+    #         return True
+        
+    #     # Try to find and click posts tab
+    #     posts_selectors = [
+    #         'a[href*="/posts/"]',
+    #         'button[data-control-name="page_posts"]',
+    #         '.org-page-navigation__item[href*="posts"]'
+    #     ]
+        
+    #     for selector in posts_selectors:
+    #         try:
+    #             element = await page.query_selector(selector)
+    #             if element and await element.is_visible():
+    #                 logger.info(f"Clicking posts navigation: {selector}")
+    #                 await element.click()
+    #                 await page.wait_for_timeout(3000)
+    #                 return True
+    #         except:
+    #             continue
+        
+    #     # If no posts tab found, try appending /posts/ to URL
+    #     if not current_url.endswith('/posts/'):
+    #         posts_url = current_url.rstrip('/') + '/posts/'
+    #         logger.info(f"Trying direct posts URL: {posts_url}")
+    #         await page.goto(posts_url, wait_until="domcontentloaded")
+    #         await page.wait_for_timeout(3000)
+        
+    #     return False
 
     async def _load_content_strategically(self, page: Page):
-        """Strategic content loading with detailed progress"""
+        """Strategic content loading"""
         logger.info("📦 Loading content strategically...")
         
         try:
             # Wait for main content
-            logger.info("⏳ Waiting for main content area...")
             await page.wait_for_selector('main, .application-outlet, body', timeout=15000)
             
-            # Progressive scrolling to trigger lazy loading
-            logger.info("📜 Progressive scrolling to load content...")
-            scroll_steps = 5
-            for i in range(scroll_steps):
-                scroll_position = (i + 1) * 300
+            # Progressive scrolling
+            for i in range(5):
+                scroll_position = (i + 1) * 400
                 await page.evaluate(f"window.scrollTo(0, {scroll_position})")
-                logger.info(f"📍 Scrolled to position: {scroll_position}")
                 await page.wait_for_timeout(2000)
             
             # Scroll back to top
-            logger.info("🔝 Scrolling back to top...")
             await page.evaluate("window.scrollTo(0, 0)")
-            await page.wait_for_timeout(3000)
-            
-            # Try to navigate to posts section
-            await self._navigate_to_posts_section(page)
+            await page.wait_for_timeout(2000)
             
         except Exception as e:
             logger.warning(f"Content loading issues: {e}")
 
-    async def _navigate_to_posts_section(self, page: Page):
-        """Navigate to posts section with multiple strategies"""
-        logger.info("🎯 Attempting to navigate to posts section...")
-        
-        posts_strategies = [
-            # Direct posts tab
-            'a[href*="/posts/"]',
-            'button[data-control-name="page_posts"]',
-            '.org-page-navigation__item[href*="posts"]',
-            
-            # Alternative selectors
-            '[data-test-id="posts-tab"]',
-            '.org-page-navigation-item--posts',
-            'a[href$="/posts/"]',
-            
-            # Text-based selection
-            'a:has-text("Posts")',
-            'button:has-text("Posts")',
-            
-            # Broader navigation
-            '.org-page-navigation a',
-            '.artdeco-tabs__tab'
-        ]
-        
-        for strategy in posts_strategies:
-            try:
-                elements = await page.query_selector_all(strategy)
-                for element in elements:
-                    if element and await element.is_visible():
-                        text = await element.inner_text()
-                        href = await element.get_attribute('href')
-                        
-                        logger.info(f"🔍 Found navigation element: '{text}' | href: {href}")
-                        
-                        if 'post' in text.lower() or (href and 'post' in href):
-                            logger.info(f"🎯 Clicking on posts navigation: {strategy}")
-                            await element.click()
-                            await page.wait_for_timeout(4000)
-                            return True
-                            
-            except Exception as e:
-                logger.debug(f"Posts navigation error for {strategy}: {e}")
-                continue
-        
-        logger.info("📝 No posts navigation found, continuing with current page...")
-        return False
-
-    async def _find_timestamp_advanced(self, page: Page, company_name: str, attempt: int) -> Optional[str]:
-        """Advanced timestamp finding with comprehensive logging"""
-        logger.info("🔍 Starting comprehensive timestamp search...")
-        
-        # Strategy 1: CSS Selectors
-        logger.info("🎯 Strategy 1: CSS Selector search...")
-        timestamp = await self._find_by_enhanced_selectors(page)
-        if timestamp:
-            logger.info(f"✅ Found via CSS selectors: {timestamp}")
-            return timestamp
-        
-        # Strategy 2: Text Pattern Matching
-        logger.info("🎯 Strategy 2: Text pattern matching...")
-        timestamp = await self._find_by_enhanced_patterns(page)
-        if timestamp:
-            logger.info(f"✅ Found via text patterns: {timestamp}")
-            return timestamp
-        
-        # Strategy 3: JavaScript Deep Search
-        logger.info("🎯 Strategy 3: JavaScript deep search...")
-        timestamp = await self._find_by_javascript_advanced(page)
-        if timestamp:
-            logger.info(f"✅ Found via JavaScript: {timestamp}")
-            return timestamp
-        
-        # Strategy 4: DOM Tree Walking
-        logger.info("🎯 Strategy 4: DOM tree walking...")
-        timestamp = await self._find_by_dom_walking(page)
-        if timestamp:
-            logger.info(f"✅ Found via DOM walking: {timestamp}")
-            return timestamp
-        
-        # Strategy 5: Content Area Analysis
-        logger.info("🎯 Strategy 5: Content area analysis...")
-        timestamp = await self._find_in_content_areas_advanced(page)
-        if timestamp:
-            logger.info(f"✅ Found via content analysis: {timestamp}")
-            return timestamp
-        
-        logger.warning("❌ No timestamp found with any strategy")
-        return None
-
-    async def _find_by_enhanced_selectors(self, page: Page) -> Optional[str]:
-        """Enhanced CSS selector search with detailed logging"""
-        logger.info(f"🔍 Searching with {len(self.timestamp_selectors)} CSS selectors...")
-        
-        for i, selector in enumerate(self.timestamp_selectors):
-            try:
-                elements = await page.query_selector_all(selector)
-                logger.info(f"📍 Selector {i+1}/{len(self.timestamp_selectors)}: {selector} -> {len(elements)} elements")
-                
-                for j, element in enumerate(elements):
-                    if await element.is_visible():
-                        # Try datetime attribute
-                        datetime_attr = await element.get_attribute('datetime')
-                        if datetime_attr:
-                            logger.info(f"✅ Found datetime attribute: {datetime_attr}")
-                            return datetime_attr
-                        
-                        # Try text content
-                        text = await element.inner_text()
-                        if text and self._is_valid_timestamp_text(text):
-                            logger.info(f"✅ Found timestamp text: {text}")
-                            return text.strip()
-                        
-                        logger.debug(f"Element {j+1} text: '{text}'")
-                        
-            except Exception as e:
-                logger.debug(f"Selector error {selector}: {e}")
-                continue
-        
-        logger.info("❌ No timestamps found via CSS selectors")
-        return None
-
-    async def _find_by_enhanced_patterns(self, page: Page) -> Optional[str]:
-        """Enhanced text pattern matching"""
-        logger.info("🔍 Searching page text for timestamp patterns...")
-        
-        try:
-            # Get page text
-            page_text = await page.inner_text('body')
-            logger.info(f"📄 Page text length: {len(page_text)} characters")
-            
-            # Search for patterns
-            for i, pattern in enumerate(self.time_patterns):
-                # Use finditer to get match objects with start/end positions
-                # and the full matched string.
-                for match_obj in re.finditer(pattern, page_text, re.IGNORECASE):
-                    # The full matched string is match_obj.group(0)
-                    full_match = match_obj.group(0).lower()
-                    
-                    # Check for specific patterns and return formatted output
-                    if 'second' in full_match or 'sec' in full_match or 's' in full_match:
-                        return f"{match_obj.group(1)}s"
-                    elif 'month' in full_match or 'mo' in full_match:
-                        return f"{match_obj.group(1)}mo"
-                    elif 'minute' in full_match or 'min' in full_match or 'm' in full_match:
-                        return f"{match_obj.group(1)}m"
-                    elif 'hour' in full_match or 'hr' in full_match or 'h' in full_match:
-                        return f"{match_obj.group(1)}h"
-                    elif 'day' in full_match or 'd' in full_match:
-                        return f"{match_obj.group(1)}d"
-                    elif 'week' in full_match or 'w' in full_match:
-                        return f"{match_obj.group(1)}w"
-                    elif 'year' in full_match or 'y' in full_match:
-                        return f"{match_obj.group(1)}y"
-                    
-                    # For non-numeric patterns, return the text directly
-                    if 'just now' in full_match or 'now' in full_match:
-                        return 'just now'
-                    if 'yesterday' in full_match:
-                        return 'yesterday'
-                    # ... add other non-numeric patterns here if needed
-                    
-                    # Fallback for patterns that don't need formatting
-                    return full_match # This will return the raw matched string
-                    
-                # If no matches were found for the current pattern, continue to the next one
-                # and log a success message for the match type.
-                if re.search(pattern, page_text, re.IGNORECASE):
-                    logger.info(f"✅ Pattern {i+1} matched: {pattern} -> (Found but not a specific numeric type)")
-                    # This log is not ideal, you need to return something here if you want to stop.
-                    # The 'return full_match' above will handle the first match.
-                    break # Break out of the for loop after the first successful pattern match
-
-        except Exception as e:
-            logger.error(f"Text pattern search error: {e}")
-        
-        logger.info("❌ No timestamps found via text patterns")
-        return None
-
-    async def _find_by_javascript_advanced(self, page: Page) -> Optional[str]:
-        """Advanced JavaScript timestamp search"""
-        logger.info("🔍 Running advanced JavaScript timestamp search...")
-        
-        try:
-            result = await page.evaluate('''() => {
-                const results = [];
-                
-                // Strategy 1: Time elements with datetime
-                const timeElements = document.querySelectorAll('time[datetime]');
-                results.push(`Time elements found: ${timeElements.length}`);
-                
-                for (let el of timeElements) {
-                    if (el.offsetParent !== null) {
-                        const datetime = el.getAttribute('datetime');
-                        const text = el.textContent.trim();
-                        results.push(`Visible time element: datetime="${datetime}", text="${text}"`);
-                        if (datetime) return { type: 'datetime', value: datetime };
-                        if (text) return { type: 'text', value: text };
-                    }
-                }
-                
-                // Strategy 2: Elements with time-related classes
-                const timeClasses = [
-                    '.time-ago', '.posted-time', '.update-time', 
-                    '.feed-shared-actor__sub-description',
-                    '.org-recent-activity-card__meta',
-                    '.activity-card__meta'
-                ];
-                
-                for (let className of timeClasses) {
-                    const els = document.querySelectorAll(className);
-                    results.push(`${className}: ${els.length} elements`);
-                    
-                    for (let el of els) {
-                        if (el.offsetParent !== null) {
-                            const text = el.textContent.trim();
-                            if (text && /\\b\\d+\\s*(second|minute|hour|day|week|month|year)s?\\s*ago\\b/i.test(text)) {
-                                results.push(`Found via class ${className}: "${text}"`);
-                                return { type: 'class', value: text };
-                            }
-                        }
-                    }
-                }
-                
-                // Strategy 3: Text node walking
-                const walker = document.createTreeWalker(
-                    document.body,
-                    NodeFilter.SHOW_TEXT,
-                    null,
-                    false
-                );
-                
-                const timeRegex = /\\b\\d+\\s*(second|minute|hour|day|week|month|year)s?\\s*ago\\b/i;
-                let textNodesChecked = 0;
-                let node;
-                
-                while (node = walker.nextNode() && textNodesChecked < 1000) {
-                    textNodesChecked++;
-                    if (timeRegex.test(node.textContent)) {
-                        const match = node.textContent.match(timeRegex);
-                        if (match) {
-                            results.push(`Found via text walking: "${match[0]}"`);
-                            return { type: 'textwalk', value: match[0] };
-                        }
-                    }
-                }
-                
-                results.push(`Text nodes checked: ${textNodesChecked}`);
-                
-                return { type: 'debug', results: results };
-            }''')
-            
-            if result:
-                if result.get('type') in ['datetime', 'text', 'class', 'textwalk']:
-                    logger.info(f"✅ JavaScript found timestamp: {result['value']}")
-                    return result['value']
-                elif result.get('type') == 'debug':
-                    logger.info("📊 JavaScript debug info:")
-                    for debug_line in result.get('results', []):
-                        logger.info(f"  - {debug_line}")
-            
-        except Exception as e:
-            logger.error(f"JavaScript search error: {e}")
-        
-        logger.info("❌ No timestamps found via JavaScript")
-        return None
-
-    async def _find_by_dom_walking(self, page: Page) -> Optional[str]:
-        """DOM tree walking for timestamp discovery"""
-        logger.info("🔍 Walking DOM tree for timestamps...")
-        
-        try:
-            # Get all elements and check for timestamp-like content
-            elements_info = await page.evaluate('''() => {
-                const allElements = document.querySelectorAll('*');
-                const timeElements = [];
-                
-                for (let el of allElements) {
-                    if (el.offsetParent !== null) {  // Visible element
-                        const text = el.textContent.trim();
-                        const classes = el.className;
-                        const id = el.id;
-                        
-                        // Check for time-related attributes or content
-                        if (text && text.length < 50 && 
-                            (/\\b\\d+\\s*(second|minute|hour|day|week|month|year)s?\\s*ago\\b/i.test(text) ||
-                             /\\b(yesterday|today|just now)\\b/i.test(text))) {
-                            
-                            timeElements.push({
-                                tag: el.tagName,
-                                text: text,
-                                classes: classes,
-                                id: id
-                            });
-                        }
-                    }
-                }
-                
-                return {
-                    total: allElements.length,
-                    timeElements: timeElements.slice(0, 10)  // First 10 matches
-                };
-            }''')
-            
-            logger.info(f"📊 DOM Analysis: {elements_info['total']} total elements")
-            logger.info(f"📊 Time elements found: {len(elements_info['timeElements'])}")
-            
-            for elem in elements_info['timeElements']:
-                logger.info(f"  - {elem['tag']}: '{elem['text']}' (class: {elem['classes']})")
-                if self._is_valid_timestamp_text(elem['text']):
-                    logger.info(f"✅ Valid timestamp found: {elem['text']}")
-                    return elem['text']
-                    
-        except Exception as e:
-            logger.error(f"DOM walking error: {e}")
-        
-        logger.info("❌ No timestamps found via DOM walking")
-        return None
-
-    async def _find_in_content_areas_advanced(self, page: Page) -> Optional[str]:
-        """Advanced content area analysis"""
-        logger.info("🔍 Analyzing specific content areas...")
-        
-        content_areas = [
-            ('main', 'Main content area'),
-            ('.application-outlet', 'Application outlet'),
-            ('.feed-container', 'Feed container'),
-            ('.org-page-content', 'Organization page content'),
-            ('[data-module-result-urn]', 'Module result'),
-            ('.org-recent-activity', 'Recent activity'),
-            ('.activity-card', 'Activity card'),
-            ('.feed-shared-update-v2', 'Feed update')
-        ]
-        
-        for selector, description in content_areas:
-            try:
-                logger.info(f"🔍 Checking {description}: {selector}")
-                area = await page.query_selector(selector)
-                
-                if area:
-                    # Count elements in this area
-                    element_count = await area.evaluate('el => el.querySelectorAll("*").length')
-                    logger.info(f"  📊 Area has {element_count} child elements")
-                    
-                    # Look for time elements
-                    time_elements = await area.query_selector_all('time, .time-ago, [class*="time"], [class*="ago"]')
-                    logger.info(f"  📊 Found {len(time_elements)} potential time elements")
-                    
-                    for i, el in enumerate(time_elements):
-                        if await el.is_visible():
-                            datetime_attr = await el.get_attribute('datetime')
-                            text = await el.inner_text()
-                            
-                            logger.info(f"    Element {i+1}: datetime='{datetime_attr}', text='{text}'")
-                            
-                            if datetime_attr:
-                                logger.info(f"✅ Found in {description}: {datetime_attr}")
-                                return datetime_attr
-                            elif text and self._is_valid_timestamp_text(text):
-                                logger.info(f"✅ Found in {description}: {text}")
-                                return text.strip()
-                else:
-                    logger.info(f"  ❌ Area not found: {selector}")
-                    
-            except Exception as e:
-                logger.debug(f"Content area error {selector}: {e}")
-                continue
-        
-        logger.info("❌ No timestamps found in content areas")
-        return None
-
-    
-
     def _is_valid_timestamp_text(self, text: str) -> bool:
-        """
-        Enhanced timestamp validation to be more robust for LinkedIn formats.
-        It checks if the text contains a valid timestamp pattern, ignoring surrounding text like 'Edited'.
-        """
-        if not text:
+        """Enhanced timestamp validation"""
+        if not text or len(text) > 50:
             return False
-            
+
         text = text.lower().strip()
-        
-        # Simple length check to filter out irrelevant long strings
-        if len(text) > 100 or len(text) < 2:
-            return False
-        
-        # Comprehensive timestamp patterns including abbreviations and full words
-        # The 'edited' pattern is made optional to allow "2h" and "2h Edited" to pass
+
         patterns = [
-            # Numeric patterns with optional 'ago' or 'edited' suffixes
-            r'(\d+)\s*(?:second|minute|hour|day|week|month|year|sec|min|hr|h|d|w|mo|y)s?\b',
-            # Non-numeric patterns
-            r'just now',
-            r'now',
-            r'yesterday',
-            r'today',
-            r'last week',
-            r'last month',
-            # Handles timestamps with a surrounding word like 'edited'
-            r'\b(?:edited)\b', 
+            r'\d+\s*(?:second|minute|hour|day|week|month|year|sec|min|hr|h|d|w|mo|y)s?\b',
+            r'just now', r'now', r'yesterday', r'today'
         ]
-        
-        # Join patterns with OR operator
-        combined_pattern = '|'.join(patterns)
-        
-        # The `re.search` function checks for a match anywhere in the string.
-        # This is perfect for a string like '2h Edited'.
-        if re.search(combined_pattern, text, re.IGNORECASE):
-            # We found a valid pattern. Now, let's make sure it's not just a random word.
-            # This is a bit of a sanity check to ensure the length is reasonable.
-            return True
-        
-        return False
+
+        return any(re.search(pattern, text) for pattern in patterns)
 
     def _standardize_timestamp(self, timestamp: str) -> str:
         """Enhanced timestamp standardization"""
         if not timestamp:
             return ""
+
+        original_timestamp = timestamp.strip() # Keep original to check for 'edited'
+        timestamp = original_timestamp.lower()
         
-        timestamp = timestamp.strip()
+        is_edited = 'edited' in timestamp # Check for 'edited' early
         
-        # Handle ISO datetime format
+        # Handle ISO datetime
         try:
             if 'T' in timestamp and ('Z' in timestamp or '+' in timestamp or '-' in timestamp):
                 dt = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
                 now = datetime.now()
-                
-                # Handle timezone-aware datetime
+
                 if dt.tzinfo:
                     dt = dt.replace(tzinfo=None)
-                
+
                 diff = now - dt
-                
+
                 if diff.days > 0:
-                    return f"{diff.days}d ago"
+                    base_time = f"{diff.days}d"
                 elif diff.seconds >= 3600:
                     hours = diff.seconds // 3600
-                    return f"{hours}h ago"
+                    base_time = f"{hours}h"
                 elif diff.seconds >= 60:
                     minutes = diff.seconds // 60
-                    return f"{minutes}m ago"
+                    base_time = f"{minutes}m"
                 else:
-                    return "just now"
-        except Exception as e:
-            logger.debug(f"Datetime parsing error: {e}")
+                    base_time = "just now"
+                
+                return f"{base_time} Edited" if is_edited else base_time
+
+        except:
+            pass # Continue to other parsing methods if ISO fails
         
-        # Standardize relative timestamps
-        timestamp = timestamp.lower()
+        # Handle special cases (after ISO parsing)
+        base_time = ""
+        if 'just now' in timestamp or timestamp == 'now':
+            base_time = 'just now'
+        elif 'today' in timestamp:
+            base_time = 'today'
+        elif 'yesterday' in timestamp:
+            base_time = '1d'
         
-        # Handle special cases
-        special_cases = {
-            'just now': 'just now',
-            'now': 'just now',
-            'today': 'today',
-            'yesterday': '1d ago',
-            'last week': '1w ago',
-            'last month': '1mo ago'
-        }
-        
-        for key, value in special_cases.items():
-            if key in timestamp:
-                return value
-        
-        # Standardize time units
+        if base_time: # If a special case was matched
+            return f"{base_time} Edited" if is_edited else base_time
+
+
+        # Standardize units
         replacements = {
             'seconds': 's', 'second': 's', 'sec': 's',
             'minutes': 'm', 'minute': 'm', 'min': 'm',
             'hours': 'h', 'hour': 'h', 'hr': 'h',
             'days': 'd', 'day': 'd',
             'weeks': 'w', 'week': 'w',
-            'months': 'mo', 'month': 'mo',
-            'years': 'y', 'year': 'y'
+            'months': 'mo', 'month': 'mo'
         }
-        
+
         for old, new in replacements.items():
             timestamp = re.sub(f'\\b{old}\\b', new, timestamp)
-        
+
         # Clean up
         timestamp = re.sub(r'\s*ago\s*', '', timestamp).strip()
-        timestamp = re.sub(r'\s+', ' ', timestamp)
+        timestamp = re.sub(r'\s+', '', timestamp)
         
-        return timestamp
+        # Append "Edited" if it was found
+        if is_edited and timestamp:
+            # We need to remove 'edited' from the timestamp string if it was replaced or added directly
+            # This handles cases like "1d edited" becoming "1dEdited", but then we add " Edited"
+            # It's better to ensure 'edited' is only appended once and clearly.
+            timestamp = timestamp.replace('edited', '').strip()
+            return f"{timestamp} Edited".strip()
+        elif is_edited and not timestamp: # Handles cases like just "Edited" being the input
+             return "Edited"
+        else:
+            return timestamp
 
-    async def _save_comprehensive_debug(self, page: Page, company_name: str, attempt: int):
-        """Save comprehensive debug information"""
+    async def _save_comprehensive_debug(self, page: Page, prefix: str, attempt: int):
+        """Save debug information"""
         try:
             timestamp = int(time.time())
-            
-            # Save screenshot
-            screenshot_file = f"debug_{company_name}_attempt_{attempt}_{timestamp}.png"
+            screenshot_file = f"debug_{prefix}_{attempt}_{timestamp}.png"
             await page.screenshot(path=screenshot_file, full_page=True)
-            logger.info(f"📸 Screenshot saved: {screenshot_file}")
-            
-            # Save page HTML
-            html_file = f"debug_{company_name}_attempt_{attempt}_{timestamp}.html"
-            html_content = await page.content()
-            with open(html_file, 'w', encoding='utf-8') as f:
-                f.write(html_content)
-            logger.info(f"📄 HTML saved: {html_file}")
-            
-            # Save page info
-            info_file = f"debug_{company_name}_attempt_{attempt}_{timestamp}.txt"
-            with open(info_file, 'w', encoding='utf-8') as f:
-                f.write(f"Debug Information for {company_name}\n")
-                f.write(f"Attempt: {attempt + 1}\n")
-                f.write(f"Timestamp: {timestamp}\n")
-                f.write(f"URL: {page.url}\n")
-                f.write(f"Title: {await page.title()}\n")
-                f.write(f"User Agent: {await page.evaluate('navigator.userAgent')}\n")
-                f.write(f"\n--- Page Text (first 2000 chars) ---\n")
-                page_text = await page.inner_text('body')
-                f.write(page_text[:2000])
-                f.write(f"\n\n--- HTML Structure ---\n")
-                structure = await page.evaluate('''() => {
-                    const elements = document.querySelectorAll('*');
-                    const structure = {};
-                    for (let el of elements) {
-                        const tag = el.tagName.toLowerCase();
-                        structure[tag] = (structure[tag] || 0) + 1;
+            logger.info(f"📸 Debug screenshot: {screenshot_file}")
+        except:
+            pass
+
+    async def scrape_companies(self, company_urls: List[str]) -> Dict[str, List[Dict[str, Any]]]:
+        """Scrape multiple company pages"""
+        results = {}
+        
+        for url in company_urls:
+            try:
+                posts = await self.scrape_company_posts(url)
+                if posts:
+                    results[url] = posts
+                
+                await asyncio.sleep(random.uniform(5, 10))
+            except Exception as e:
+                logger.error(f"Failed to scrape {url}: {str(e)}")
+                continue
+                
+        return results
+    
+    def save_results(self, results: Dict[str, List[Dict[str, Any]]], filename: str = None):
+        """Save scraping results to JSON file"""
+        if not filename:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"linkedin_scraper_results_{timestamp}.json"
+        
+        filepath = self.data_dir / filename
+        
+        try:
+            # Clean results for JSON serialization
+            clean_results = {}
+            for url, posts in results.items():
+                clean_posts = []
+                for post in posts:
+                    clean_post = {
+                        'url': post.get('url', ''),
+                        'timestamp': post.get('timestamp', ''),
+                        'text': post.get('text', ''),
+                        'media': post.get('media', []),
+                        'likes': post.get('likes', 0),
+                        'comments': post.get('comments', 0),
+                        'scraped_at': datetime.now().isoformat()
                     }
-                    return structure;
-                }''')
-                for tag, count in sorted(structure.items()):
-                    f.write(f"{tag}: {count}\n")
+                    # Only include raw_html if debug mode is enabled
+                    if self.debug_mode and post.get('raw_html'):
+                        clean_post['raw_html'] = post['raw_html']
+                    
+                    clean_posts.append(clean_post)
+                
+                clean_results[url] = clean_posts
             
-            logger.info(f"📋 Debug info saved: {info_file}")
+            # Add metadata
+            output_data = {
+                'metadata': {
+                    'scraped_at': datetime.now().isoformat(),
+                    'total_companies': len(clean_results),
+                    'total_posts': sum(len(posts) for posts in clean_results.values()),
+                    'scraper_version': '2.0',
+                    'debug_mode': self.debug_mode
+                },
+                'results': clean_results
+            }
+            
+            with open(filepath, 'w', encoding='utf-8') as f:
+                json.dump(output_data, f, indent=2, ensure_ascii=False)
+            
+            logger.info(f"💾 Results saved to: {filepath}")
+            return str(filepath)
             
         except Exception as e:
-            logger.error(f"Debug save error: {e}")
+            logger.error(f"Error saving results: {e}")
+            return None
 
-    async def scrape_companies(self, companies: List[str]) -> Dict[str, Optional[str]]:
-        """Scrape multiple companies with detailed progress tracking"""
-        results = {}
-        total_companies = len(companies)
+    def load_company_urls(self, file_path: str) -> List[str]:
+        """Load company URLs from a text file"""
+        try:
+            urls = []
+            with open(file_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#'):
+                        # Ensure URL is properly formatted
+                        if not line.startswith('http'):
+                            line = f"https://www.linkedin.com/company/{line}"
+                        urls.append(line)
+            
+            logger.info(f"📋 Loaded {len(urls)} company URLs from {file_path}")
+            return urls
+            
+        except Exception as e:
+            logger.error(f"Error loading URLs from {file_path}: {e}")
+            return []
+
+    def generate_summary_report(self, results: Dict[str, List[Dict[str, Any]]]) -> str:
+        """Generate a summary report of the scraping results"""
+        total_companies = len(results)
+        total_posts = sum(len(posts) for posts in results.values())
         
-        logger.info(f"🚀 Starting scrape of {total_companies} companies")
+        report = f"""
+LinkedIn Scraper Summary Report
+{'='*50}
+Scraped at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Total companies processed: {total_companies}
+Total posts extracted: {total_posts}
+
+Company Details:
+{'-'*30}
+"""
         
-        for i, company in enumerate(companies, 1):
-            logger.info(f"\n{'='*80}")
-            logger.info(f"🏢 PROCESSING COMPANY {i}/{total_companies}: {company}")
-            logger.info(f"{'='*80}")
+        for url, posts in results.items():
+            company_name = url.split('/')[-1] if url.split('/')[-1] else url.split('/')[-2]
+            report += f"• {company_name}: {len(posts)} posts\n"
             
-            start_time = time.time()
-            timestamp = await self.get_company_last_post_timestamp(company)
-            end_time = time.time()
+            for i, post in enumerate(posts, 1):
+                timestamp = post.get('timestamp', 'Unknown')
+                text_preview = post.get('text', '')[:100] + '...' if len(post.get('text', '')) > 100 else post.get('text', '')
+                likes = post.get('likes', 0)
+                comments = post.get('comments', 0)
+                
+                report += f"  {i}. {timestamp} | Likes: {likes} | Comments: {comments}\n"
+                report += f"     Text: {text_preview}\n\n"
+        
+        return report
+
+    async def validate_urls(self, urls: List[str]) -> List[Tuple[str, bool, str]]:
+        """Validate company URLs before scraping"""
+        logger.info(f"🔍 Validating {len(urls)} URLs...")
+        
+        results = []
+        async with async_playwright() as p:
+            browser = await self._launch_browser(p)
+            context = await self._create_context(browser)
+            page = await context.new_page()
             
-            results[company] = timestamp
-            duration = end_time - start_time
+            for url in urls:
+                try:
+                    response = await page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                    
+                    if response.status == 200:
+                        # Check if it's actually a LinkedIn company page
+                        title = await page.title()
+                        if 'linkedin' in title.lower() and ('company' in url or 'organization' in title.lower()):
+                            results.append((url, True, "Valid"))
+                        else:
+                            results.append((url, False, "Not a valid company page"))
+                    else:
+                        results.append((url, False, f"HTTP {response.status}"))
+                        
+                except Exception as e:
+                    results.append((url, False, str(e)))
+                
+                await asyncio.sleep(2)  # Rate limiting
             
-            logger.info(f"⏱️ Company {company} processed in {duration:.1f} seconds")
-            
-            # Add delay between companies
-            if i < total_companies:
-                delay = random.uniform(8, 15)
-                logger.info(f"⏳ Waiting {delay:.1f}s before next company...")
-                await asyncio.sleep(delay)
+            await browser.close()
+        
+        valid_count = sum(1 for _, valid, _ in results if valid)
+        logger.info(f"✅ {valid_count}/{len(urls)} URLs are valid")
         
         return results
 
-    def generate_report(self, results: Dict[str, Optional[str]]) -> str:
-        """Generate a detailed report of results"""
-        report = []
-        report.append("="*80)
-        report.append("📊 LINKEDIN SCRAPING RESULTS REPORT")
-        report.append("="*80)
-        report.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        report.append(f"Total Companies: {len(results)}")
-        report.append("")
+    async def scrape_with_progress(self, company_urls: List[str], save_intermediate: bool = True) -> Dict[str, List[Dict[str, Any]]]:
+        """Scrape companies with progress tracking and intermediate saves"""
+        results = {}
+        total_urls = len(company_urls)
         
-        successful = 0
-        failed = 0
+        logger.info(f"🚀 Starting scrape of {total_urls} companies...")
         
-        for company, timestamp in results.items():
-            if timestamp:
-                report.append(f"✅ {company:<30} : {timestamp}")
-                successful += 1
-            else:
-                report.append(f"❌ {company:<30} : No recent posts found")
-                failed += 1
+        for i, url in enumerate(company_urls, 1):
+            try:
+                logger.info(f"📊 Progress: {i}/{total_urls} - Processing: {url}")
+                
+                posts = await self.scrape_company_posts(url)
+                
+                if posts:
+                    results[url] = posts
+                    logger.info(f"✅ Successfully scraped {len(posts)} posts from {url}")
+                else:
+                    logger.warning(f"⚠️ No posts found for {url}")
+                    results[url] = []
+                
+                # Save intermediate results every 5 companies
+                if save_intermediate and i % 5 == 0:
+                    intermediate_filename = f"intermediate_results_{i}of{total_urls}.json"
+                    self.save_results(results, intermediate_filename)
+                    logger.info(f"💾 Intermediate results saved")
+                
+                # Rate limiting between requests
+                if i < total_urls:  # Don't wait after the last URL
+                    wait_time = random.uniform(8, 15)
+                    logger.info(f"⏳ Waiting {wait_time:.1f}s before next company...")
+                    await asyncio.sleep(wait_time)
+                    
+            except Exception as e:
+                logger.error(f"❌ Failed to scrape {url}: {str(e)}")
+                results[url] = []
+                continue
         
-        report.append("")
-        report.append("="*80)
-        report.append("📈 SUMMARY")
-        report.append("="*80)
-        report.append(f"Successful: {successful}")
-        report.append(f"Failed: {failed}")
-        report.append(f"Success Rate: {(successful/len(results)*100):.1f}%")
-        report.append("="*80)
-        
-        return "\n".join(report)
+        logger.info(f"🎉 Scraping completed! Processed {total_urls} companies")
+        return results
 
-# Enhanced main function
+
 async def main():
-    """Enhanced main function with better error handling and reporting"""
+    """Main execution function"""
+    logger.info("🔥 LinkedIn Scraper v2.0 Starting...")
     
-    # Companies to scrape
-    companies = [
-        "icreatenextgen",
-        "iitmandicatalyst",
-        "madeit-iiitdm",
-        "nsrceliimb",
-        "derbifoundation",
-        "fittiitdelhi",
-        "social-alpha",
-        "venture-center-pune",
-        "venturestudio1",
-        "cultiv8coimbatore",     
-        "society-for-innovation-and-entrepreneurship---iit-bombay",
-        "deshpandestartups"
-        # Add more companies here as needed
-    ]
+    # Configuration
+    HEADLESS = True  # Set to False for debugging
+    SLOW_MO = 100    # Milliseconds delay between actions
     
-    # Initialize scraper with visible browser for debugging
-    scraper = AdvancedLinkedInScraper(
-        headless=False,  # Set to True for production
-        slow_mo=100      # Slow down for better observation
-    )
+    # Initialize scraper
+    scraper = AdvancedLinkedInScraper(headless=HEADLESS, slow_mo=SLOW_MO)
     
-    print("\n" + "="*80)
-    print("🔍 ADVANCED LINKEDIN COMPANY POST TIMESTAMP SCRAPER")
-    print("="*80)
-    print(f"📋 Companies to process: {len(companies)}")
-    print(f"🔧 Headless mode: {scraper.headless}")
-    print(f"⚡ Slow motion: {scraper.slow_mo}ms")
-    print("="*80)
+    # Company URLs to scrape - you can modify this list
+    # company_urls = [
+    #     "https://www.linkedin.com/company/icreatenextgen/",
+    #     "https://www.linkedin.com/company/iitmandicatalyst/",
+    #     # Add more URLs here or load from file
+    # ]
+    
+    # Alternative: Load URLs from file
+    company_urls = scraper.load_company_urls("company_urls.txt")
+    
+    if not company_urls:
+        logger.error("❌ No company URLs provided!")
+        return
     
     try:
+        # Optional: Validate URLs first
+        # logger.info("🔍 Validating URLs...")
+        # validation_results = await scraper.validate_urls(company_urls)
+        
+        # valid_urls = [url for url, valid, _ in validation_results if valid]
+        # invalid_urls = [(url, reason) for url, valid, reason in validation_results if not valid]
+        
+        # if invalid_urls:
+        #     logger.warning(f"⚠️ Found {len(invalid_urls)} invalid URLs:")
+        #     for url, reason in invalid_urls:
+        #         logger.warning(f"  - {url}: {reason}")
+        
+        # if not valid_urls:
+        #     logger.error("❌ No valid URLs to scrape!")
+        #     return
+        
         # Start scraping
-        start_time = time.time()
-        results = await scraper.scrape_companies(companies)
-        end_time = time.time()
+        logger.info(f"🚀 Starting to scrape {len(company_urls)} valid URLs...")
+        results = await scraper.scrape_with_progress(company_urls, save_intermediate=True)
+
+        # Save final results
+        output_file = scraper.save_results(results)
         
-        # Generate and display report
-        report = scraper.generate_report(results)
-        print(f"\n{report}")
+        # Generate summary report
+        # summary = scraper.generate_summary_report(results)
+        # logger.info(f"\n{summary}")
         
-        # Save results
-        timestamp = int(time.time())
+        # Save summary report
+        # if output_file:
+        #     summary_file = output_file.replace('.json', '_summary.txt')
+        #     with open(summary_file, 'w', encoding='utf-8') as f:
+        #         f.write(summary)
+        #     logger.info(f"📋 Summary report saved to: {summary_file}")
         
-        # Save JSON results
-        json_file = f"linkedin_results_{timestamp}.json"
-        with open(json_file, 'w') as f:
-            json.dump({
-                'timestamp': timestamp,
-                'total_time': end_time - start_time,
-                'results': results,
-                'companies_processed': len(companies),
-                'successful': sum(1 for v in results.values() if v),
-                'failed': sum(1 for v in results.values() if not v)
-            }, f, indent=2)
+        # Final statistics
+        total_posts = sum(len(posts) for posts in results.values())
+        successful_companies = sum(1 for posts in results.values() if posts)
         
-        # Save text report
-        report_file = f"linkedin_report_{timestamp}.txt"
-        with open(report_file, 'w') as f:
-            f.write(report)
-        
-        print(f"\n📄 Results saved to: {json_file}")
-        print(f"📄 Report saved to: {report_file}")
-        print(f"⏱️ Total execution time: {end_time - start_time:.1f} seconds")
-        
-        return results
+        logger.info(f"""
+🎊 SCRAPING COMPLETED SUCCESSFULLY!
+{'='*50}
+✅ Companies processed: {len(results)}
+✅ Companies with posts: {successful_companies}
+✅ Total posts extracted: {total_posts}
+✅ Results saved to: {output_file}
+✅ Average posts per company: {total_posts/len(results):.1f}
+""")
         
     except KeyboardInterrupt:
-        print("\n❌ Scraping interrupted by user")
-        return {}
+        logger.info("🛑 Scraping interrupted by user")
     except Exception as e:
-        print(f"\n❌ Scraping failed with error: {e}")
-        logger.error(f"Main execution error: {e}")
-        return {}
+        logger.error(f"💥 Fatal error: {str(e)}")
+    finally:
+        logger.info("🏁 LinkedIn Scraper finished")
+
+
+def create_sample_urls_file():
+    """Create a sample company URLs file"""
+    sample_urls = [
+        "# LinkedIn Company URLs - one per line",
+        "# You can use full URLs or just company slugs",
+        "https://www.linkedin.com/company/microsoft/",
+        "https://www.linkedin.com/company/google/",
+        "https://www.linkedin.com/company/apple/",
+        "https://www.linkedin.com/company/amazon/",
+        "https://www.linkedin.com/company/tesla-motors/",
+        "netflix",  # This will be converted to full URL
+        "spotify",
+        "airbnb"
+    ]
+    
+    with open("company_urls.txt", "w", encoding="utf-8") as f:
+        f.write("\n".join(sample_urls))
+    
+    print("📝 Sample company_urls.txt file created!")
+
 
 if __name__ == "__main__":
+    # Uncomment the line below to create a sample URLs file
+    # create_sample_urls_file()
+    
     # Run the scraper
     asyncio.run(main())
-

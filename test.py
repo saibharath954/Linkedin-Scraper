@@ -688,9 +688,7 @@ class EnhancedLinkedInScraper:
 
 async def main():
     companies = [
-        "icreatenextgen",
         "iitmandicatalyst", 
-        "madeit-iiitdm",
     ]
     
     HF_TOKEN = os.getenv("HF_API_KEY")
