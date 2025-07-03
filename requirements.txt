@@ -1,8 +1,30 @@
+# Core asynchronous and web scraping libraries
 playwright>=1.40.0
 beautifulsoup4>=4.12.0
 requests>=2.31.0
 lxml>=4.9.0
 aiohttp>=3.9.0
+
+# Web framework (if you're building an API with FastAPI)
 fastapi>=0.95.0
 uvicorn>=0.21.1
 python-dotenv>=1.0.0
+
+# NLP and Machine Learning Libraries
+# SpaCy and its English model
+spacy>=3.8.0
+
+# Fundamental numerical computing
+numpy>=1.26.0 # Or appropriate version based on your Python/Spacy/ML library compatibility
+
+# Machine learning utilities
+scikit-learn>=1.3.0 # Or appropriate version
+
+# Sentence Embeddings
+sentence-transformers>=2.2.2 # Or a more recent version if preferred
+
+# Transformer models for zero-shot classification
+# Note: Transformers depends on a deep learning framework.
+# We're including 'torch' as it's the most common default for CPU with Hugging Face.
+transformers>=4.38.0 # Or a more recent version if preferred
+torch>=2.1.0 # Specify a compatible PyTorch version for CPU, or 'torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu' for CPU-only
