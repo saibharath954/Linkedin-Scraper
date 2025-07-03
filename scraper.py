@@ -87,7 +87,7 @@ class AdvancedLinkedInScraper:
         # Link/URL selectors
         self.link_selectors = [
             'a[data-id="main-feed-card__full-link"]',
-            'a.main-feed-card_overlay-link',
+            'a.main-feed-card__overlay-link',
             'a[href*="/posts/"][aria-label^="Update "]',
             'div[data-id="entire-feed-card-link"] > a'
         ]
@@ -159,84 +159,192 @@ class AdvancedLinkedInScraper:
         posts = []
         
         # Wait for page to load completely
-        await page.wait_for_load_state('networkidle', timeout=15000)
+        try:
+            await page.wait_for_load_state('networkidle', timeout=10000)
+        except:
+            logger.warning("Page didn't reach networkidle state, continuing anyway")
         
-        # Try different post container selectors
-        all_post_elements = []
-        for selector in self.post_selectors:
+        # CHANGE 1: Look for the parent containers that contain both the URL and the post content
+        parent_containers = []
+        try:
+            # First, try to find the parent containers that have both the link and the article
+            containers = await page.query_selector_all('div[data-id="entire-feed-card-link"]')
+            if containers:
+                logger.info(f"Found {len(containers)} parent containers with links")
+                parent_containers = containers
+        except Exception as e:
+            logger.debug(f"Parent container selector failed: {e}")
+        
+        # Fallback to finding articles directly if parent containers not found
+        if not parent_containers:
             try:
-                elements = await page.query_selector_all(selector)
-                if elements:
-                    logger.info(f"Found {len(elements)} elements with selector: {selector}")
-                    all_post_elements.extend(elements)
-                    break  # Use the first successful selector
+                articles = await page.query_selector_all('article.main-feed-activity-card')
+                if articles:
+                    logger.info(f"Found {len(articles)} article elements")
+                    parent_containers = articles
             except Exception as e:
-                logger.debug(f"Selector {selector} failed: {e}")
-                continue
+                logger.debug(f"Article selector failed: {e}")
         
-        if not all_post_elements:
-            logger.error("No post elements found with any selector")
+        if not parent_containers:
+            logger.error("No post containers found at all")
             return []
         
-        logger.info(f"Processing {len(all_post_elements)} potential post elements")
+        logger.info(f"Processing {len(parent_containers)} potential post containers")
         
-        # Process each post element
-        for i, post_element in enumerate(all_post_elements[:self.max_posts * 2]):
+        # Process each container
+        for i, container in enumerate(parent_containers[:self.max_posts * 3]):
             try:
-                # Scroll element into view
-                await post_element.scroll_into_view_if_needed()
-                await asyncio.sleep(1)
+                # Scroll container into view
+                try:
+                    await container.scroll_into_view_if_needed()
+                    await asyncio.sleep(0.5)
+                except:
+                    logger.debug(f"Could not scroll container {i+1} into view")
                 
-                # Check if element is visible
-                if not await post_element.is_visible():
-                    logger.debug(f"Post element {i+1} not visible, skipping")
-                    continue
+                # Check if container is visible
+                try:
+                    is_visible = await container.is_visible()
+                    if not is_visible:
+                        logger.debug(f"Container {i+1} not visible, skipping")
+                        continue
+                except:
+                    logger.debug(f"Could not check visibility of container {i+1}")
                 
-                # Extract post data
-                post_data = await self._extract_single_post(post_element, i+1)
+                # CHANGE 2: Extract URL from the container first
+                post_url = await self._extract_post_url_from_container(container)
                 
-                if post_data and post_data.get('timestamp'):
+                # CHANGE 3: Find the article element within the container for content extraction
+                article_element = container
+                try:
+                    # If this is a parent container, find the article inside it
+                    inner_article = await container.query_selector('article.main-feed-activity-card')
+                    if inner_article:
+                        article_element = inner_article
+                except:
+                    pass
+                
+                # Extract post data from the article element
+                post_data = await self._extract_single_post_with_url(article_element, post_url, i+1)
+                
+                if post_data and post_data.get('text') and len(post_data.get('text', '').strip()) > 10:
                     posts.append(post_data)
-                    logger.info(f"✅ Extracted post {len(posts)}: {post_data['timestamp']} - {post_data['text'][:50]}...")
+                    logger.info(f"✅ Extracted post {len(posts)}: {post_data.get('url', 'No URL')} - {post_data['timestamp']} - {post_data['text'][:50]}...")
                     
                     if len(posts) >= self.max_posts:
                         break
                 else:
-                    logger.debug(f"Skipping post {i+1} - invalid data")
+                    logger.debug(f"Skipping container {i+1} - invalid or empty data")
                     
             except Exception as e:
-                logger.warning(f"Error processing post {i+1}: {e}")
+                logger.warning(f"Error processing container {i+1}: {e}")
                 continue
         
         return posts
 
-    async def _extract_single_post(self, post_element, post_num: int) -> Optional[Dict[str, Any]]:
-        """Extract data from a single post element"""
+    async def _extract_post_url_from_container(self, container) -> Optional[str]:
+        """Extract URL from the parent container - NEW METHOD"""
         try:
+            # Method 1: Look for the overlay link in the container
+            overlay_link = await container.query_selector('a.main-feed-card__overlay-link')
+            if overlay_link:
+                href = await overlay_link.get_attribute('href')
+                if href and '/posts/' in href:
+                    return href.split('?')[0]
+            
+            # Method 2: Look for the full link
+            full_link = await container.query_selector('a[data-id="main-feed-card__full-link"]')
+            if full_link:
+                href = await full_link.get_attribute('href')
+                if href and ('/posts/' in href or '/activity/' in href):
+                    return href.split('?')[0]
+            
+            # Method 3: Look for any link with posts or activity
+            links = await container.query_selector_all('a[href*="/posts/"], a[href*="/activity/"]')
+            for link in links:
+                href = await link.get_attribute('href')
+                if href:
+                    if href.startswith('/'):
+                        return f"https://www.linkedin.com{href.split('?')[0]}"
+                    else:
+                        return href.split('?')[0]
+            
+            # Method 4: Check if the container itself has a data-id with activity info
+            data_id = await container.get_attribute('data-id')
+            if data_id == "entire-feed-card-link":
+                # This confirms it's the right container, but we need to find the actual link
+                all_links = await container.query_selector_all('a')
+                for link in all_links:
+                    href = await link.get_attribute('href')
+                    if href and ('/posts/' in href or '/activity/' in href):
+                        if href.startswith('/'):
+                            return f"https://www.linkedin.com{href.split('?')[0]}"
+                        else:
+                            return href.split('?')[0]
+            
+            return None
+            
+        except Exception as e:
+            logger.debug(f"URL extraction from container error: {e}")
+            return None
+
+    async def _extract_single_post_with_url(self, post_element, post_url: str, post_num: int) -> Optional[Dict[str, Any]]:
+        """Extract data from a single post element with pre-extracted URL - MODIFIED METHOD"""
+        try:
+            # Extract text content first
+            text = await self._extract_text_enhanced(post_element)
+            if not text or len(text.strip()) < 10:
+                logger.debug(f"Post {post_num}: No meaningful text found")
+                return None
+                
             # Extract timestamp
             timestamp = await self._extract_timestamp_enhanced(post_element)
             if not timestamp:
-                logger.debug(f"Post {post_num}: No valid timestamp found")
-                return None
-            
-            # Extract text content
-            text = await self._extract_text_enhanced(post_element)
-            
-            # Extract post URL
-            url = await self._extract_post_url_enhanced(post_element)
-            
+                logger.debug(f"Post {post_num}: No valid timestamp found, using default")
+                timestamp = "unknown"
+                
             post_data = {
-                'url': url,
+                'url': post_url,  # Use the pre-extracted URL
                 'timestamp': timestamp,
                 'text': text,
             }
             
-            logger.debug(f"Post {post_num} data: timestamp={timestamp}, text_length={len(text)}, url={url}")
+            logger.debug(f"Post {post_num} extracted data: url={post_url}, timestamp={timestamp}, text_length={len(text)}")
             return post_data
             
         except Exception as e:
             logger.error(f"Error extracting single post {post_num}: {e}")
             return None
+
+    async def _extract_single_post(self, post_element, post_num: int) -> Optional[Dict[str, Any]]:
+            """Extract data from a single post element"""
+            try:
+                # Extract text content first
+                text = await self._extract_text_enhanced(post_element)
+                if not text or len(text.strip()) < 10:
+                    logger.debug(f"Post {post_num}: No meaningful text found")
+                    return None
+                    
+                # Extract timestamp
+                timestamp = await self._extract_timestamp_enhanced(post_element)
+                if not timestamp:
+                    logger.debug(f"Post {post_num}: No valid timestamp found, using default")
+                    timestamp = "unknown"
+                    
+                # Extract post URL
+                url = await self._extract_post_url_enhanced(post_element)
+                
+                post_data = {
+                    'url': url,
+                    'timestamp': timestamp,
+                    'text': text,
+                }
+                
+                logger.debug(f"Post {post_num} extracted data: url={url}, timestamp={timestamp}, text_length={len(text)}")
+                return post_data
+                
+            except Exception as e:
+                logger.error(f"Error extracting single post {post_num}: {e}")
+                return None
 
     async def _extract_text_enhanced(self, post_element) -> str:
         """Enhanced text extraction with multiple fallback strategies"""
@@ -250,12 +358,13 @@ class AdvancedLinkedInScraper:
                         if text and len(text.strip()) > 10:  # Ensure meaningful text
                             logger.debug(f"Text found with selector: {selector}")
                             return text.strip()
-                except:
+                except Exception as e:
+                    logger.debug(f"Selector {selector} failed: {e}")
                     continue
             
-            # Strategy 2: Look for any text content in the post
+            # Strategy 2: Look for any text content in the post but filter out navigation/metadata
             try:
-                # Get all text from the post but filter out navigation/metadata
+                # Get all text from the post
                 full_text = await post_element.inner_text()
                 if full_text:
                     # Split by lines and filter out short lines (likely metadata)
@@ -264,45 +373,84 @@ class AdvancedLinkedInScraper:
                     
                     if content_lines:
                         return '\n'.join(content_lines[:3])  # Take first 3 meaningful lines
-            except:
-                pass
+            except Exception as e:
+                logger.debug(f"Full text extraction failed: {e}")
             
-            # Strategy 3: Look for specific text patterns
+            # Strategy 3: Look for specific text patterns in spans/divs
             try:
                 # Look for spans or divs that contain substantial text
                 text_elements = await post_element.query_selector_all('span, div, p')
                 for element in text_elements:
-                    text = await element.inner_text()
-                    if text and len(text.strip()) > 20 and not self._is_metadata_line(text):
-                        return text.strip()
-            except:
-                pass
+                    try:
+                        text = await element.inner_text()
+                        if text and len(text.strip()) > 20 and not self._is_metadata_line(text):
+                            return text.strip()
+                    except:
+                        continue
+            except Exception as e:
+                logger.debug(f"Element text extraction failed: {e}")
+            
+            # Strategy 4: Try to get text from specific LinkedIn content areas
+            try:
+                # Look for common LinkedIn post content classes
+                content_selectors = [
+                    '.feed-shared-text',
+                    '.attributed-text-segment-list__content',
+                    '.update-components-text',
+                    '[data-test-id="main-feed-activity-card__commentary"]'
+                ]
+                
+                for selector in content_selectors:
+                    try:
+                        element = await post_element.query_selector(selector)
+                        if element:
+                            text = await element.inner_text()
+                            if text and len(text.strip()) > 5:
+                                return text.strip()
+                    except:
+                        continue
+            except Exception as e:
+                logger.debug(f"LinkedIn content extraction failed: {e}")
             
             logger.debug("No meaningful text content found")
             return ""
             
         except Exception as e:
-            logger.debug(f"Text extraction error: {e}")
+            logger.error(f"Text extraction error: {e}")
             return ""
 
     def _is_metadata_line(self, line: str) -> bool:
         """Check if a line is likely metadata rather than post content"""
         line = line.lower().strip()
-        metadata_indicators = [
-            'like', 'comment', 'share', 'follow', 'connect',
-            'ago', 'hour', 'day', 'week', 'month', 'year',
-            'view', 'profile', 'company', 'job', 'hiring',
-            'linkedin', 'see more', 'show more', 'less',
-            'repost', 'celebrate', 'love', 'insightful'
-        ]
         
-        # Short lines are likely metadata
-        if len(line) < 15:
+        # Skip very short lines
+        if len(line) < 10:
             return True
         
-        # Lines containing only metadata indicators
+        metadata_indicators = [
+            'like', 'comment', 'share', 'follow', 'connect', 'view profile',
+            'ago', 'hour', 'day', 'week', 'month', 'year', 'just now',
+            'view', 'profile', 'company', 'job', 'hiring', 'see translation',
+            'linkedin', 'see more', 'show more', 'show less', 'read more',
+            'repost', 'celebrate', 'love', 'insightful', 'curious',
+            'reactions', 'comments', 'reposts', 'send', 'save',
+            'report', 'copy link', 'embed', 'send via',
+            'followers', 'connections', 'mutual', 'premium'
+        ]
+        
+        # Lines that are mostly metadata indicators
         words = line.split()
-        if len(words) <= 3 and any(indicator in line for indicator in metadata_indicators):
+        if len(words) <= 4:
+            metadata_word_count = sum(1 for word in words if any(indicator in word for indicator in metadata_indicators))
+            if metadata_word_count >= len(words) * 0.7:  # 70% or more are metadata words
+                return True
+        
+        # Skip lines that are just numbers (like counts)
+        if line.replace(',', '').replace('.', '').isdigit():
+            return True
+        
+        # Skip lines that look like timestamps
+        if any(time_word in line for time_word in ['ago', 'hour', 'day', 'week', 'month', 'year']) and len(line) < 20:
             return True
         
         return False
@@ -352,7 +500,17 @@ class AdvancedLinkedInScraper:
     async def _extract_post_url_enhanced(self, post_element) -> Optional[str]:
         """Enhanced URL extraction"""
         try:
-            # Try link selectors
+            # Primary selector based on your HTML structure - most common pattern
+            try:
+                overlay_link = await post_element.query_selector('a.main-feed-card__overlay-link')
+                if overlay_link:
+                    href = await overlay_link.get_attribute('href')
+                    if href and '/posts/' in href:
+                        return href.split('?')[0]
+            except:
+                pass
+            
+            # Try other link selectors
             for selector in self.link_selectors:
                 try:
                     link = await post_element.query_selector(selector)
@@ -367,14 +525,45 @@ class AdvancedLinkedInScraper:
                     continue
             
             # Look for any link containing posts
-            links = await post_element.query_selector_all('a[href*="/posts/"]')
-            for link in links:
-                href = await link.get_attribute('href')
-                if href:
-                    if href.startswith('/'):
-                        return f"https://www.linkedin.com{href.split('?')[0]}"
-                    else:
-                        return href.split('?')[0]
+            try:
+                links = await post_element.query_selector_all('a[href*="/posts/"]')
+                for link in links:
+                    href = await link.get_attribute('href')
+                    if href:
+                        if href.startswith('/'):
+                            return f"https://www.linkedin.com{href.split('?')[0]}"
+                        else:
+                            return href.split('?')[0]
+            except:
+                pass
+            
+            # Fallback: look for any link with activity in the href
+            try:
+                links = await post_element.query_selector_all('a[href*="activity"]')
+                for link in links:
+                    href = await link.get_attribute('href')
+                    if href and 'activity' in href:
+                        if href.startswith('/'):
+                            return f"https://www.linkedin.com{href.split('?')[0]}"
+                        else:
+                            return href.split('?')[0]
+            except:
+                pass
+            
+            # Final fallback: look for data-id attribute that might contain the post link
+            try:
+                link_container = await post_element.query_selector('div[data-id="entire-feed-card-link"]')
+                if link_container:
+                    link = await link_container.query_selector('a')
+                    if link:
+                        href = await link.get_attribute('href')
+                        if href:
+                            if href.startswith('/'):
+                                return f"https://www.linkedin.com{href.split('?')[0]}"
+                            else:
+                                return href.split('?')[0]
+            except:
+                pass
             
             return None
             
@@ -526,15 +715,54 @@ class AdvancedLinkedInScraper:
             # Wait for main content
             await page.wait_for_selector('main, .application-outlet, body', timeout=15000)
             
-            # Progressive scrolling
-            for i in range(5):
-                scroll_position = (i + 1) * 400
+            # Wait a bit for dynamic content
+            await page.wait_for_timeout(3000)
+            
+            # Try to wait for feed content specifically
+            try:
+                await page.wait_for_selector('div.feed-container-theme, .scaffold-layout__content, article', timeout=10000)
+            except:
+                logger.warning("Feed content selector not found, continuing")
+            
+            # Progressive scrolling with more attempts
+            for i in range(8):  # Increased scroll attempts
+                scroll_position = (i + 1) * 300
                 await page.evaluate(f"window.scrollTo(0, {scroll_position})")
-                await page.wait_for_timeout(2000)
+                await page.wait_for_timeout(1500)
+                
+                # Check if posts are loading
+                try:
+                    posts = await page.query_selector_all('article, div[data-id]')
+                    if len(posts) > 0:
+                        logger.info(f"Found {len(posts)} potential posts after scroll {i+1}")
+                        if len(posts) >= 3:  # If we have enough posts, break early
+                            break
+                except:
+                    continue
             
             # Scroll back to top
             await page.evaluate("window.scrollTo(0, 0)")
             await page.wait_for_timeout(2000)
+            
+            # Try to trigger any lazy-loaded content
+            try:
+                await page.evaluate("""
+                    // Trigger intersection observer for lazy loading
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.dispatchEvent(new Event('load'));
+                            }
+                        });
+                    });
+                    
+                    document.querySelectorAll('article, div[data-id]').forEach(el => {
+                        observer.observe(el);
+                    });
+                """)
+                await page.wait_for_timeout(2000)
+            except:
+                logger.debug("Could not trigger lazy loading")
             
         except Exception as e:
             logger.warning(f"Content loading issues: {e}")
