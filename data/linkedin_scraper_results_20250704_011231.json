@@ -1,0 +1,274 @@
+{
+  "metadata": {
+    "scraped_at": "2025-07-04T01:12:31.555751",
+    "total_companies": 1,
+    "total_posts": 3,
+    "scraper_version": "3.0",
+    "grant_analysis_enabled": true,
+    "grant_detector_version": "2.0",
+    "confidence_threshold": 0.7,
+    "debug_mode": false
+  },
+  "grant_statistics": {
+    "total_posts": 3,
+    "grant_opportunities": 0,
+    "high_confidence_grants": 0,
+    "companies_with_grants": 0,
+    "funding_bodies_identified": [],
+    "average_confidence": 0.0,
+    "grant_details": []
+  },
+  "results": {
+    "https://www.linkedin.com/company/startup-india/": [
+      {
+        "url": "https://www.linkedin.com/posts/startup-india_100desideeptechs-activity-7346608539827621890-LKoB",
+        "timestamp": "1h",
+        "text": "🚀 Calling India’s Deeptech Trailblazers!\nWe’re excited to support the launch of #100DesiDeepTechs, a national initiative by the Startup Policy Forum, Startup India, DPIIT, and IIT Madras.\n\nLet’s identify and nurture 100 of India’s most promising deeptech startups — building tech for Bharat, from Bharat. 🌏⚙️\nFrom expert mentorship to deep policy dialogue and sector-focused acceleration, this is your launchpad to scale.\n\n🗓️ Applications close: 17th August 2025\n🔗 Apply now: https://lnkd.in/g2aVq_9u\n\n\nDepartment for Promotion of Industry and Internal Trade \n\nShri Sanjiv | Shri Sumeet Jarangal | Shri Alam Ansari | Chaahat Khattar | Mamatha Venkatesh \n\nSanjeev Bikhchandani | Prashanth Prakash | Shweta Rajpal Kohli",
+        "scraped_at": "2025-07-04T01:12:31.555736",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.4156365658342838,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T01:12:31.097591",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 668,
+            "pattern_analysis": {
+              "total_score": 0.4,
+              "category_scores": {
+                "strong_indicators": 0.4,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "Apply now"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "Startup India"
+                ],
+                "government_schemes": [
+                  "Startup India"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.24282221496105194,
+              "similarities": [
+                0.30633804202079773,
+                0.27028363943099976,
+                0.3068365454673767,
+                0.21867358684539795,
+                0.11197920143604279
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "17th August 2025"
+              ],
+              "deadline_indicators": [
+                "close"
+              ],
+              "temporal_score": 0.7,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "deeptech"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.09999999999999999,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9685293436050415,
+              "adjusted_score": 0.48426467180252075,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/startup-india_startupindia-digitalindia-techforbharat-activity-7346573591146057730-5gHO",
+        "timestamp": "3h",
+        "text": "🚀 A major milestone for rural innovation and deep tech in India!\nZoho Corporation's new AI & Robotics R&D Centre at Neduvaathoor, Kerala, is set to generate 250 jobs and boost local tech talent. A true testament to the power of decentralised innovation and inclusive development.\n\nDepartment for Promotion of Industry and Internal Trade | Shri Sanjiv Singh | Shri Sumeet Jarangal | Mamatha Venkatesh\n\n\nKerala Startup Mission | Zoho \n\n#StartupIndia #DigitalIndia #TechForBharat #AIforAll #ZohoKeralaRnD #AtmanirbharBharat",
+        "scraped_at": "2025-07-04T01:12:31.555745",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.04929767251014709,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T01:12:31.270150",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 428,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.16894182562828064,
+              "similarities": [
+                0.14765362441539764,
+                0.278983473777771,
+                0.17502927780151367,
+                0.15739521384239197,
+                0.08564752340316772
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9582559466362,
+              "adjusted_score": 0.4791279733181,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/startup-india_startupindia-nciipc-cybersecurity-activity-7346436203845439488-NP98",
+        "timestamp": "12h",
+        "text": "🚀 Calling All Innovators!\n\nThe NCIIPC Startup India AI Grand Challenge is now live – inviting startups and students to build AI-driven solutions for India's critical cybersecurity needs.\n\n🔍 Key Focus Areas:\n\nCyber Security & Forensics\n\nAI in Big Data Analytics\n\nMaritime and OSINT Domain\n\nGeospatial\n\nCryptology\n\n💡 What’s in it for you?\n🏆 ₹22.56 Cr in total prize/development funding\n📊 Access to specialised datasets\n🤝 Mentorship from domain experts\n🖥️ Access to computing & incubation facilities\n📄 Post-challenge contract opportunities\n\nReady to innovate for national impact?\n\n🔗 Apply now at https://lnkd.in/gypt8jpU\n\nDepartment for Promotion of Industry and Internal Trade\n\nShri Sanjiv | Shri Sumeet Jarangal\n\n#StartupIndia #NCIIPC #CyberSecurity #AI #BigData #Innovation #GrandChallenge #DPIIT",
+        "scraped_at": "2025-07-04T01:12:31.555748",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.3797291997075081,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T01:12:31.466443",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 674,
+            "pattern_analysis": {
+              "total_score": 0.4,
+              "category_scores": {
+                "strong_indicators": 0.4,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "Apply now"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "Startup India"
+                ],
+                "government_schemes": [
+                  "Startup India"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.1954842209815979,
+              "similarities": [
+                0.19973328709602356,
+                0.28457266092300415,
+                0.2149604856967926,
+                0.17703066766262054,
+                0.10112399607896805
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [
+                "22.56"
+              ],
+              "financial_terms": [
+                "funding"
+              ],
+              "financial_score": 0.8,
+              "has_funding_amounts": true
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": [
+                  "₹"
+                ]
+              },
+              "context_score": 0.09999999999999999,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8162626624107361,
+              "adjusted_score": 0.40813133120536804,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ]
+  }
+}
