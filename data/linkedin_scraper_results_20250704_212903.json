@@ -1,0 +1,4071 @@
+{
+  "metadata": {
+    "scraped_at": "2025-07-04T21:29:03.856361",
+    "total_companies": 16,
+    "total_posts": 48,
+    "scraper_version": "3.0",
+    "grant_analysis_enabled": true,
+    "grant_detector_version": "2.0",
+    "confidence_threshold": 0.7,
+    "debug_mode": false
+  },
+  "grant_statistics": {
+    "total_posts": 48,
+    "grant_opportunities": 0,
+    "high_confidence_grants": 0,
+    "companies_with_grants": 0,
+    "funding_bodies_identified": [],
+    "average_confidence": 0.0,
+    "grant_details": []
+  },
+  "results": {
+    "https://www.linkedin.com/company/startup-india/": [
+      {
+        "url": "https://www.linkedin.com/posts/startup-india_startupindia-dpiit-activity-7346983383119368192-yU5K",
+        "timestamp": "1h",
+        "text": "Shri Sumeet Jarangal has been named among India’s 50 Most Influential Incubator Leaders — a testament to his exceptional contribution to nurturing innovation and entrepreneurship across the country.\n\nAt the helm of key initiatives at DPIIT, Shri Jarangal’s visionary leadership has been pivotal in driving Startup India toward inclusive and scalable growth. His unique blend of policy foresight and grassroots execution has enabled impactful reforms across governance, industry, and startups.\n\nA true enabler of India’s innovation story, Shri Jarangal exemplifies purpose-driven public service and remains a powerful force behind the nation’s thriving startup ecosystem. \n\nRead More: https://lnkd.in/gq_pVg_y\n\nDepartment for Promotion of Industry and Internal Trade\n\nShri Sanjiv | Shri Sumeet Jarangal\n\n#StartupIndia #DPIIT",
+        "scraped_at": "2025-07-04T21:29:03.856213",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.20848553866147992,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:18:11.780964",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 771,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "Startup India"
+                ],
+                "government_schemes": [
+                  "Startup India"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.2968810200691223,
+              "similarities": [
+                0.2530940771102905,
+                0.4059768617153168,
+                0.36815351247787476,
+                0.25883811712265015,
+                0.19834229350090027
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9581354260444641,
+              "adjusted_score": 0.47906771302223206,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/startup-india_100desideeptechs-activity-7346608539827621890-LKoB",
+        "timestamp": "1d",
+        "text": "🚀 Calling India’s Deeptech Trailblazers!\nWe’re excited to support the launch of #100DesiDeepTechs, a national initiative by the Startup Policy Forum, Startup India, DPIIT, and IIT Madras.\n\nLet’s identify and nurture 100 of India’s most promising deeptech startups — building tech for Bharat, from Bharat. 🌏⚙️\nFrom expert mentorship to deep policy dialogue and sector-focused acceleration, this is your launchpad to scale.\n\n🗓️ Applications close: 17th August 2025\n🔗 Apply now: https://lnkd.in/g2aVq_9u\n\n\nDepartment for Promotion of Industry and Internal Trade \n\nShri Sanjiv | Shri Sumeet Jarangal | Shri Alam Ansari | Chaahat Khattar | Mamatha Venkatesh \n\nSanjeev Bikhchandani | Prashanth Prakash | Shweta Rajpal Kohli",
+        "scraped_at": "2025-07-04T21:29:03.856222",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.4156365591287613,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:18:12.010779",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 668,
+            "pattern_analysis": {
+              "total_score": 0.4,
+              "category_scores": {
+                "strong_indicators": 0.4,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "Apply now"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "Startup India"
+                ],
+                "government_schemes": [
+                  "Startup India"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.24282217025756836,
+              "similarities": [
+                0.30633795261383057,
+                0.27028363943099976,
+                0.3068365454673767,
+                0.21867351233959198,
+                0.11197920143604279
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "17th August 2025"
+              ],
+              "deadline_indicators": [
+                "close"
+              ],
+              "temporal_score": 0.7,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "deeptech"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.09999999999999999,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9685293436050415,
+              "adjusted_score": 0.48426467180252075,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/startup-india_startupindia-digitalindia-techforbharat-activity-7346573591146057730-5gHO",
+        "timestamp": "1d",
+        "text": "🚀 A major milestone for rural innovation and deep tech in India!\nZoho Corporation's new AI & Robotics R&D Centre at Neduvaathoor, Kerala, is set to generate 250 jobs and boost local tech talent. A true testament to the power of decentralised innovation and inclusive development.\n\nDepartment for Promotion of Industry and Internal Trade | Shri Sanjiv Singh | Shri Sumeet Jarangal | Mamatha Venkatesh\n\n\nKerala Startup Mission | Zoho \n\n#StartupIndia #DigitalIndia #TechForBharat #AIforAll #ZohoKeralaRnD #AtmanirbharBharat",
+        "scraped_at": "2025-07-04T21:29:03.856225",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.049297675490379333,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:18:12.188303",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 428,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.16894182562828064,
+              "similarities": [
+                0.14765363931655884,
+                0.27898353338241577,
+                0.17502929270267487,
+                0.1573951244354248,
+                0.08564754575490952
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9582560658454895,
+              "adjusted_score": 0.47912803292274475,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/ikpknowledgepark/": [
+      {
+        "url": "https://www.linkedin.com/posts/ikpknowledgepark_activity-7346825427044225024-htGE",
+        "timestamp": "ikpknowledgeparkrepostedthis",
+        "text": "Calling Women Entrepreneurs in MedTech & CleanTech!\nIKP EDEN is excited to announce an Ask Us Anything (AUA) session for BioXcelerate – a flagship program under the WEscalate Initiative powered by K-tech Biotechnology Facilitation Cell Karnataka Innovation and Technology Society IT BT Department, Karnataka.\n\nBioXcelerate offers a structured 6-month incubation phase followed by a 6-month acceleration phase, with a clear focus on translating high-potential science into scalable and sustainable ventures.\n\nDate: 11th July at 6 PM\nLocation - IKP EDEN (Maps: goo.gl/ur42sk)\nRegistration Link for AUA - https://lnkd.in/gvH_RGJs\nClick here to apply for the program - https://lnkd.in/gDeybQHM (Last date to apply : 26th July, 2025)\n\nThis is an excellent opportunity for women entrepreneurs working in MedTech, CleanTech, and allied sectors to learn more about the program and explore how it can support your growth journey.\n\nJoin us to ask your questions, gain clarity, and take the next big step in your entrepreneurial journey.\nStay tuned for more updates!\n\nIKP Knowledge Park Priyank M Kharge Dr. Ekroop Caur Nithin Chakki Parnika Pavanram Startup Karnataka Karnataka Digital Economy Mission (KDEM) Kiran Mazumdar Shaw Kris Gopalakrishnan Jaikrishna Ramesh ARTPARK K-Tech CoE Data Science & AI - NASSCOM MeitY- nasscom Center of Excellence Semiconductor Fabless Accelerator Lab (SFAL) Manipal-GoK Bioincubator International Institute of Information Technology Bangalore K-Tech Innovation Hub,(CIF) powered by IKP Department of Design and Manufacturing (DM), Indian Institute of Science ABLE - Association of Biotechnology Led Enterprises ABAI AVGC Indian Venture and Alternate Capital Association (IVCA) CySecK Centre of Excellence in Design, DM, IISc CPDMED TBI IISc \n\n#BioXcelerate #WEscalate #IKPEDEN #IKP #Deeptech #Medtech #Cleantech #WomenEntrepreneurs #Incubation #Acceleration #AUA",
+        "scraped_at": "2025-07-04T21:29:03.856229",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.2834761580824852,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:18:47.842936",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1714,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "NASSCOM"
+                ],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": [
+                  "NASSCOM"
+                ]
+              },
+              "entity_score": 0.4,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.3370823264122009,
+              "similarities": [
+                0.34848883748054504,
+                0.3658928871154785,
+                0.4289695620536804,
+                0.372901976108551,
+                0.16915830969810486
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [
+                "Last date"
+              ],
+              "temporal_score": 0.4,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "Capital"
+              ],
+              "financial_score": 0.3,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "edtech",
+                  "cleantech",
+                  "biotech",
+                  "IoT"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.39999999999999997,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9165523648262024,
+              "adjusted_score": 0.4582761824131012,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/ikpknowledgepark_activity-7346432841213231106-uYUv",
+        "timestamp": "ikpknowledgeparkrepostedthis",
+        "text": "IKP EDEN had the pleasure of hosting Kei Iiyama and Dr. Sharath R from Sakra Hospitals. It was an insightful introductory meeting where we showcased the work IKP Knowledge Park and IKP EDEN are doing to support innovation and nurture high-impact hardware & deeptech startups\n\nStartups like Cureous Cartosense and others had the opportunity to engage with the Sakra team and share their journeys and technologies. We also had the opportunity to walk them through our facility and the infrastructure we provide to early-stage ventures.\n\nIKP EDEN is excited about the potential synergies and are looking forward to co-creating opportunities that can accelerate MedTech innovation and deliver scalable healthcare solutions.\nCollaboration like this strengthens the ecosystem—and we're just getting started!\n\nIKP Knowledge Park Asish Mohandas Nikhil Chandwadkar Deepanwita Chattopadhyay Sanjay Sarin Sridhar Ramanathan Aaqib Jameel Rohika B Dr. Priyankana Mukherjee Deekshitha M Hemalatha S Shreyas Kudva\n\n#MedTech #HealthcareInnovation #Startups #IKPEDEN #InnovationEcosystem #Collaboration #DeepTech #IKPKnowledgePark",
+        "scraped_at": "2025-07-04T21:29:03.856232",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.13132638901472093,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:18:48.051905",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 995,
+            "pattern_analysis": {
+              "total_score": 0.2,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.2,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "support innovation"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.2618456482887268,
+              "similarities": [
+                0.24257627129554749,
+                0.3327264189720154,
+                0.35119205713272095,
+                0.2471846342086792,
+                0.1355489194393158
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "edtech",
+                  "deeptech"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.19999999999999998,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8819816708564758,
+              "adjusted_score": 0.4409908354282379,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/ikpknowledgepark_this-bengaluru-based-firm-is-quietly-saving-activity-7346476240163192833-JCgk",
+        "timestamp": "ikpknowledgepark",
+        "text": "𝐀 𝐩𝐨𝐰𝐞𝐫𝐟𝐮𝐥 𝐬𝐭𝐨𝐫𝐲 𝐨𝐟 𝐢𝐧𝐧𝐨𝐯𝐚𝐭𝐢𝐨𝐧 𝐰𝐢𝐭𝐡 𝐢𝐦𝐩𝐚𝐜𝐭! \n\nWe are constantly inspired by purpose-driven solutions that tackle critical public health challenges at the grassroots.\n \nBengaluru-based Janitri Innovations, an IKP-supported, startup quietly transforming maternal and newborn health through frugal innovation, is a powerful reminder that big change often begins with small, thoughtful steps.\n \nWe celebrate ventures that combine empathy and engineering to create scalable, life-saving interventions.\n \nJanitri is supported by programs like AGC JanCARE, a part of our portfolio, and is incubated at IKP EDEN. As ecosystem enablers, stories like these reinforce our belief in nurturing science and technology for inclusive growth.\n\n👉 Read more: https://lnkd.in/gU32aXiM \n\n#MaternalHealth #NewbornCare #GrassrootsInnovation #ImpactThroughInnovation #HealthcareForAll #IKPKnowledgePark #StartupIndia #InnovationForGood  \n\nArun Agarwal Biotechnology Industry Research Assistance Council (BIRAC) Department of Biotechnology Jitendra Kumar Taranjeet Kaur Shilpy Kochhar Rashmika Singh Deepanwita Chattopadhyay Sanjay Sarin Bindu Nishal Viswanadham Duppatla Dr. Priyankana Mukherjee Apoorva Bhatnagar Sridhar Ramanathan IKP PRIME Aaqib Jameel Vithal K Lakkineni, Ph.D. Dedeepya Chermala Vishaka Sawan Ranajit Sen Anuradha Barua Sudha Kalyani Bommareddy, Ph.D. Rohika B Rajeswari Sepana Shreyas Kudva",
+        "scraped_at": "2025-07-04T21:29:03.856235",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.2823344913125039,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:18:48.352858",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1213,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "BIRAC",
+                  "Department of Biotechnology"
+                ],
+                "government_schemes": [
+                  "BIRAC",
+                  "Department of Biotechnology"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 1.0,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.32838064432144165,
+              "similarities": [
+                0.27717125415802,
+                0.3911903500556946,
+                0.4194807708263397,
+                0.34633758664131165,
+                0.20772330462932587
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "biotech",
+                  "IoT"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.19999999999999998,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "neutral",
+              "sentiment_score": 0.5230957865715027,
+              "adjusted_score": 0.26154789328575134,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/biotechnology-industry-research-assistance-council-birac-/": [
+      {
+        "url": "https://www.linkedin.com/posts/biotechnology-industry-research-assistance-council-birac-_bionest-incubators-entrepreneurs-activity-7346847629026258945-EY5L",
+        "timestamp": "10h",
+        "text": "A valuable advisory interaction at BSC BioNEST Bioincubator, Regional Centre for Biotechnology (RCB), Faridabad — enriched by the exchange of experiential insights to enhance ecosystem vibrancy.\n\nIn the esteemed presence of Dr. Jitendra Kumar MD-BIRAC, and Dr. Arvind Sahu, Executive Director, RCB, along with Ms. Deepanwita Chattopadhyay (IKP, Hyderabad), Dr. Mrutyunjay Suar (KIIT, Bhubaneswar), Dr. Ramjee Pallela (CCMB, Hyderabad), and Dr. Chhaya Chauhan (BIRAC), the meeting facilitated valuable insights on sustainable growth models, effective startup support systems, and operational excellence for incubation centre— all of which were deeply appreciated.\n\nBIRAC’s role goes far beyond establishing incubators — it continues to actively nurture, handhold, and empower these ecosystems to thrive.\n\nKudos to Ms. Suman Gupta & the entire RCB BioNEST team for building such an enabling platform for next-generation biotech entrepreneurs.\n\n#BioNest #Incubators #Entrepreneurs #Biotech #Ecosystems",
+        "scraped_at": "2025-07-04T21:29:03.856238",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.30067552536725994,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:19:28.487313",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 937,
+            "pattern_analysis": {
+              "total_score": 0.3,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.3,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "startup support"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "BIRAC"
+                ],
+                "government_schemes": [
+                  "BIRAC"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.29426437616348267,
+              "similarities": [
+                0.23816408216953278,
+                0.29004088044166565,
+                0.39853376150131226,
+                0.4045856297016144,
+                0.13999760150909424
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "biotech",
+                  "IoT"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.19999999999999998,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8614347577095032,
+              "adjusted_score": 0.4307173788547516,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/biotechnology-industry-research-assistance-council-birac-_biotech-innovation-startupecosystem-activity-7346827487374397441-qnMJ",
+        "timestamp": "12h Edited",
+        "text": "Catalyzing Change: Expert Visit and Startup interaction at BBB \n\n We were delighted to host the Biotechnology Industry Research Assistance Council (BIRAC) officials and senior dignitaries for a site visit and strategic interaction at our incubator on 3rd July 2025 at BSC BioNEST Bioincubator,  Regional Centre for Biotechnology.  \n\n The day began with insightful remarks from Dr. Arvind Sahu, Executive Director, RCB, and Dr. Jitendra Kumar, MD, BIRAC, followed by an overview of our initiatives by Ms. Suman Gupta, COO, BBB.  \n\nA special highlight of the day was the sharing mentorship and guidance by leading and matured bioincubators – Dr.  Deepanwita Chattopadhyay,  IKP (Hyderabad), Dr. Mrutyunjay Suar, PhD , KIIT - Kalinga Institute of Industrial Technology (Bhubaneswar), and Dr. Ramjee Pallela, CCMB (Hyderabad). Their valuable insights on sustainable growth models, startup support systems, and operational excellence were deeply appreciated.\n\n The visit also featured:\n-A walkthrough of BBB’s advanced infrastructure and incubation facilities.\n-Lively interactions between resident startups, where innovative ideas, challenges, and future aspirations were shared.\n-Strategic discussions culminating in thoughtful recommendations and a roadmap for strengthening BBB’s offerings.\n\nWe are grateful to all, senior dignitaries, mentors, and stakeholders who participated and enriched the day with their insights and guidance.\nTogether, we continue to build a robust ecosystem for biotech innovation in India. \n\nArvind Sahu I SUDHANSHU VRATI I ANIL WALI I Shriram Raghavan I Ajay Muttreja I Suman Gupta I Malvika Garg I Kanchan Rawat I Regional Centre for Biotechnology I Dr. Dinesh Kundu (MBBS, MBA) I East Ocyon Bio I Shivani Srivastava I Translational Research and Innovations I  vanila sharma Tropical Animal Genetics I Garima Khati I Anita Chugh  @ Thrafford Lifesciences I Kamal Tyagi I PrecizionIQ Data Private Limited\n\n\n#Biotech #Innovation #StartupEcosystem #Bioincubator #BIRAC #AdvisoryCommittee #DeepTech #Startups #BBB #CollaborateToInnovate",
+        "scraped_at": "2025-07-04T21:29:03.856241",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.3490078660845756,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:19:28.706006",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1911,
+            "pattern_analysis": {
+              "total_score": 0.3,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.3,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "startup support"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "BIRAC"
+                ],
+                "government_schemes": [
+                  "BIRAC"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.30932337045669556,
+              "similarities": [
+                0.2816215753555298,
+                0.30748051404953003,
+                0.3968616724014282,
+                0.3910024166107178,
+                0.16965065896511078
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "3rd July 2025"
+              ],
+              "deadline_indicators": [],
+              "temporal_score": 0.3,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "biotech",
+                  "IoT"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.19999999999999998,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9043744206428528,
+              "adjusted_score": 0.4521872103214264,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/biotechnology-industry-research-assistance-council-birac-_activity-7346766989819854848-yASM",
+        "timestamp": "1d",
+        "text": "#11YearsOfAchievements\n\nTo strengthen and empower the emerging Biotech enterprise and address nationally relevant product development needs, Department of Biotechnology\n subsumed 13 autonomous institutions (AIs) under one Autonomous body- the Biotechnology Industry Research Assistance Council #BRIC \n\niBRIC+ provides core funding towards salaries, infrastructure, and intramural research to the BRIC institutions.\n\n#11YearsofScientificInnovations #Biotechnology #BRIC \n\nDr Jitendra Singh\nRajesh Gokhale\nBRIC DBT",
+        "scraped_at": "2025-07-04T21:29:03.856244",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.24079422891139982,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:19:28.865311",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 427,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "Department of Biotechnology"
+                ],
+                "government_schemes": [
+                  "Department of Biotechnology"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.23766732215881348,
+              "similarities": [
+                0.22567865252494812,
+                0.3037058711051941,
+                0.27859818935394287,
+                0.29981815814971924,
+                0.08053580671548843
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "funding"
+              ],
+              "financial_score": 0.3,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "biotech",
+                  "IoT"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.19999999999999998,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "neutral",
+              "sentiment_score": 0.6057652235031128,
+              "adjusted_score": 0.3028826117515564,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/c-camp-india/": [
+      {
+        "url": "https://www.linkedin.com/posts/c-camp-india_nationalscienceday2025-viksitbharat2047-activity-7301142541205164032-2caA",
+        "timestamp": "4mo",
+        "text": "On #NationalScienceDay2025, CCAMP is excited to share some of its work that demonstrates the power of science to solve societal problems \n\nWe are proud to be fostering several next gen deep-science based innovative solutions and research that are bridging critical gaps in healthcare, agriculture and environment\n\nSome of these include\n🧪Mitigating antimicrobial resistance, strengthening maternal and child health, treating degenerative illnesses and cancer, and developing diagnostics for infectious diseases,\n🧪Replacing chemical pesticides with biologicals, boosting crop productivity and farmer incomes, and increasing food security\n 🧪Capturing carbon and adopting climate resilient solutions\n\nAnd, much more!\n\nPresenting you a short film on the C-CAMP ecosystem where young ideas are born, deep science questions are pursued, nurtured and empowered to leapfrog to global leadership\n\n🔗https://lnkd.in/ebx8HGwV\n\n#ViksitBharat2047 #ScienceImpactsLife #HappyNationalScienceDay \n\nTaslimarif Saiyed, PhD, Priyank M Kharge, Dinesh Gundu Rao, N Cheluvarayaswamy India DST Department of Biotechnology, Atal Innovation Mission Official , Office of the Principal Scientific Adviser to the Government of India NITI Aayog IT BT Department, Karnataka, Abhay Karandikar, Dr. Ekroop Caur, (Vijay) K VijayRaghavan, Startup Karnataka, Department for Promotion of Industry and Internal Trade, Startup India, Dr Renu Swarup, Kiran Mazumdar Shaw, Soumya Swaminathan, MeitY Startup Hub, DBT BIRAC, Department of Health and Family Welfare Services - Govt. of Karnataka, K-tech Biotechnology Facilitation Cell Karnataka Innovation and Technology Society, Gates Foundation India, The Rockefeller Foundation, CARB-X, SBI Foundation,  Indian Council of Medical Research (ICMR), Kamini Walia, National Centre for Biological Sciences, Institute for Stem Cell Science and Regenerative Medicine (BRIC-inStem), Tata Institute for Genetics and Society, India, Novo Nordisk Foundation, Novozymes PATH, Infosys Foundation, Neeraj Jain, Public Health Foundation of India (PHFI), FIND, SELCO Foundation",
+        "scraped_at": "2025-07-04T21:29:03.856248",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.2728518617153168,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:20:31.786892",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1951,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "BIRAC",
+                  "DST",
+                  "Startup India",
+                  "C-CAMP",
+                  "Department of Biotechnology",
+                  "Atal Innovation Mission",
+                  "NITI Aayog",
+                  "Government of India",
+                  "Infosys Foundation"
+                ],
+                "government_schemes": [
+                  "BIRAC",
+                  "DST",
+                  "Startup India",
+                  "C-CAMP",
+                  "Department of Biotechnology",
+                  "Atal Innovation Mission",
+                  "NITI Aayog",
+                  "Government of India"
+                ],
+                "corporate_funders": [
+                  "Infosys Foundation"
+                ],
+                "incubators": []
+              },
+              "entity_score": 1.0,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.1908908188343048,
+              "similarities": [
+                0.12745636701583862,
+                0.224308580160141,
+                0.24572904407978058,
+                0.32450711727142334,
+                0.03245295584201813
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "biotech",
+                  "IoT"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.19999999999999998,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.968729555606842,
+              "adjusted_score": 0.484364777803421,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/c-camp-india_fundraise-ksapbio50-seedfund-activity-7346843976177545217-_byt",
+        "timestamp": "11h",
+        "text": "We have another #fundraise alert! Excited to share that our supported company Blackfrog Technologies, transforming medical grade refrigeration, has raised has raised a Pre-Series A investment of $1.7 million from Global Innovation Fund, Rainmatter by Zerodha, and the Manipal Education and Medical Group (MEMG)\n\nCheck this: https://lnkd.in/ee8FYyEZ\n\nBlackfrog supported by IT BT Department, Karnataka - #KSAPBIO50, Atal Innovation Mission Official  - #SeedFund & DBT BIRAC- COVID Fund programmes & #NBEC2019 winner, has developed Emvólio, a patented rapid cooling technology for safe last-mile transport of vaccines, insulin, breast milk, blood serums, medications and medical specimens with minimal thermal shock\n\nIn partnership with CCAMP, they have already deployed their device in remote locations of Karnataka, Assam, Manipur, Tamil Nadu\n.....\nMayur Shetty\n......\nPriyank M Kharge, Dr. Ekroop Caur, Taslimarif Saiyed, PhD, MeitY Startup Hub, Department of Biotechnology, Biotechnology Industry Research Assistance Council (BIRAC), India DST, Atal Innovation Mission Official , NITI Aayog, Startup India, Startup Karnataka, Indian Council of Medical Research (ICMR), World Health Organization, Gates Foundation",
+        "scraped_at": "2025-07-04T21:29:03.856251",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.340463132361571,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:20:32.001248",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1148,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "BIRAC",
+                  "DST",
+                  "Startup India",
+                  "Department of Biotechnology",
+                  "Atal Innovation Mission",
+                  "NITI Aayog"
+                ],
+                "government_schemes": [
+                  "BIRAC",
+                  "DST",
+                  "Startup India",
+                  "Department of Biotechnology",
+                  "Atal Innovation Mission",
+                  "NITI Aayog"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 1.0,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.19934889674186707,
+              "similarities": [
+                0.15076544880867004,
+                0.17783808708190918,
+                0.23817184567451477,
+                0.34613609313964844,
+                0.0838330090045929
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "Series",
+                "investment"
+              ],
+              "financial_score": 0.3,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "biotech",
+                  "IoT"
+                ],
+                "stages": [
+                  "pre-series A",
+                  "series A"
+                ],
+                "amounts": [
+                  "investment of"
+                ]
+              },
+              "context_score": 0.5666666666666667,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9557652473449707,
+              "adjusted_score": 0.47788262367248535,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/c-camp-india_insect-farming-start-up-loopworm-raises-325-activity-7346826161282347008-CZxP",
+        "timestamp": "12h",
+        "text": "#Fundraise alert! Kudos to Loopworm, incubated at CCAMP, for raising USD 3.25 Million in pre-Series A funding round! This latest funding was led by WaterBridge Ventures, an existing investor, and ENRISSION INDIA CAPITAL INC., a Japanese venture capital firm\n\nhttps://lnkd.in/gqFP37jt\n\nLoopworm has developed a new approach to producing recombinant proteins using silkworms which will target diagnostics, animal vaccines and other applications. Their current portfolio of products include insect-based value-added solutions like animal feed, recombinant proteins, biomolecules and crop biostimulants which are already in the Indian, EU and other global markets\n\nWe congratulate the entire team!\n......\nAnkit Alok Bagaria, Abhi Gawri\n..........\nTaslimarif Saiyed, PhD, DBT BIRAC, Department of Biotechnology, India DST, Atal Innovation Mission Official , Ministry of Agriculture & Farmers Welfare, Government of India, IT BT Department, Karnataka, Startup Karnataka, Startup India, Department for Promotion of Industry and Internal Trade, NITI Aayog, K-tech Biotechnology Facilitation Cell Karnataka Innovation and Technology Society",
+        "scraped_at": "2025-07-04T21:29:03.856253",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.3530192768077056,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:20:32.207782",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1093,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "BIRAC",
+                  "DST",
+                  "Startup India",
+                  "Department of Biotechnology",
+                  "Atal Innovation Mission",
+                  "NITI Aayog",
+                  "Government of India"
+                ],
+                "government_schemes": [
+                  "BIRAC",
+                  "DST",
+                  "Startup India",
+                  "Department of Biotechnology",
+                  "Atal Innovation Mission",
+                  "NITI Aayog",
+                  "Government of India"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 1.0,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.21605880558490753,
+              "similarities": [
+                0.18823471665382385,
+                0.2261773645877838,
+                0.27037757635116577,
+                0.33318325877189636,
+                0.06232104450464249
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "funding",
+                "capital",
+                "Series",
+                "CAPITAL",
+                "round"
+              ],
+              "financial_score": 0.5,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "biotech",
+                  "IoT"
+                ],
+                "stages": [
+                  "pre-series A",
+                  "series A"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.4666666666666666,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9577515721321106,
+              "adjusted_score": 0.4788757860660553,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/iitmandicatalyst/": [
+      {
+        "url": "https://www.linkedin.com/posts/iitmandicatalyst_iitmandicatalyst-iitmandi-catalyst-activity-7346867031037702144-G1Hd",
+        "timestamp": "9h",
+        "text": "👏 Startup Spotlight | SmartEye – Empowering the Visually Impaired\nWe’re proud to share that Smart Eye SmartEye, a portfolio startup of IIT Mandi Catalyst, is making remarkable strides with its innovation, PathPal – a smart blind stick designed to enhance mobility for the visually impaired.\n\nRecently, the PathPal prototype underwent extensive user testing across multiple blind schools, where users explored the device in real-world settings. The team received valuable feedback and built trust within the community—ensuring the product truly meets user needs.\n\n🔍 About SmartEye:\n SmartEye operates in the assistive technology space within the healthtech sector, developing intelligent solutions using ultrasonic sensors and AI/ML algorithms to solve navigation challenges for the visually impaired.\n\nWe’re excited to see how SmartEye continues to make a real-world impact! 🌍💡\n\nDipankar Deb | Satvasheel Powar | Anil Singh | Gaurav P. | Harish Kanaujia | Salik Sarwar | Manish Singh | Ravinder Kumar | vishal sharma | Minni Kaur | Kushal Deep Jagota | Lipsa Rani Panda\nKANIKA SHARMA | Abhimanyu Gulati\n\n#IITMandiCatalyst  #IITMandi #catalyst #Incubator #incubatees #startups #innovation #StartupInHills #SmartEye #PathPal #AssistiveTechnology #HealthTech #StartupInnovation #AIforGood #StartupIndia",
+        "scraped_at": "2025-07-04T21:29:03.856257",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.07956419189771016,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:21:32.759779",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1097,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.147271990776062,
+              "similarities": [
+                0.13553380966186523,
+                0.2577938437461853,
+                0.12316583096981049,
+                0.09997083246707916,
+                0.11989562213420868
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "healthtech",
+                  "AI/ML"
+                ],
+                "stages": [
+                  "prototype"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.3333333333333333,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9656023979187012,
+              "adjusted_score": 0.4828011989593506,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/iitmandicatalyst_hiring-hiringnow-iitmandi-activity-7346773928146571265--DLs",
+        "timestamp": "15h",
+        "text": "#HIRING\nWe are currently seeking enthusiastic and qualified individuals to join our team.\n\nAssociate | Executive | Catalyst Young Leaders Fellows\n\nIf you are passionate about fostering innovation, supporting startups, and working in a dynamic environment, we encourage you to apply now.\n\n📍 Location: IIT Mandi Catalyst, Kamand Campus, Himachal Pradesh – 175005\n 📅 Last Date to Apply: July 20, 2025\n 🔗 Apply Now: https://bit.ly/3VG967R\n\nDon't miss your chance to become a valued member of our dynamic team.\n\n#HiringNow #IITMandi  #IITMandiCatalyst #InnovationEcosystem #Entrepreneurship #StartupIndia #JoinOurTeam #HimachalJobs  #ApplyNow #JobOpening",
+        "scraped_at": "2025-07-04T21:29:03.856260",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.2569718542695046,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:21:32.937314",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 469,
+            "pattern_analysis": {
+              "total_score": 0.4,
+              "category_scores": {
+                "strong_indicators": 0.4,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "apply now",
+                "Apply Now"
+              ],
+              "pattern_count": 2
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.1971663534641266,
+              "similarities": [
+                0.23259788751602173,
+                0.2306894212961197,
+                0.2425065040588379,
+                0.17755812406539917,
+                0.10247989743947983
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "July 20, 2025"
+              ],
+              "deadline_indicators": [
+                "Last Date"
+              ],
+              "temporal_score": 0.7,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8958760499954224,
+              "adjusted_score": 0.4479380249977112,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/iitmandicatalyst_iitmandicatalyst-iitmandi-catalyst-activity-7346393218197987328-wzOo",
+        "timestamp": "1d",
+        "text": "🔍 Workshop Highlight | Understanding Patents & IP Management for Startup Success.\n\nIIT Mandi Catalyst recently organized an insightful workshop titled \"Understanding Patent & IP Management: Basic Processes for Startup Success\", led by Sneha Kanitkar, Founder of PatentSky.\n\nThe session focused on empowering early-stage entrepreneurs with essential knowledge to legally protect their technologies and innovations. Key topics included:\n\n 📌 Filing processes for various types of Intellectual Property (IP)\n 📌 Tangible vs. intangible assets\n 📌 Overview of Patents, Copyrights, Trademarks, and Trade Secrets\n 📌 Terms and scope of IP protection\n\nDipankar Deb | Satvasheel Powar | Anil Singh | Gaurav P. | Harish Kanaujia | Salik Sarwar | Manish Singh | Ravinder Kumar | vishal sharma | Minni Kaur | Kushal Deep Jagota | Lipsa Rani Panda\n\n#IITMandiCatalyst #IITMandi #catalyst #Incubator #incubatees #startups #innovation #StartupInHills #StartupIndia #entrepreneurs #PatentManagement #PatentSky #LegalForStartups",
+        "scraped_at": "2025-07-04T21:29:03.856263",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.058878077566623686,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:21:33.125271",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 823,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.2861146926879883,
+              "similarities": [
+                0.28123462200164795,
+                0.41897618770599365,
+                0.3209860920906067,
+                0.25661593675613403,
+                0.15276077389717102
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.6384349465370178,
+              "adjusted_score": 0.3192174732685089,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/madeit-iiitdm/": [
+      {
+        "url": "https://www.linkedin.com/posts/madeit-iiitdm_startupsandbox-june2025-activity-7346879261359665152-UpRw",
+        "timestamp": "8h",
+        "text": "It's a wrap #StartupSandbox #June2025 \n\nThanks for all participants who made this workshop a success!!!\n\nSpecial thanks to :INDIAN MARITIME UNIVERSITY\n.\n.\n.\n.\nIndian Maritime University, Chennai\nIndian Maritime University, Kolkata",
+        "scraped_at": "2025-07-04T21:29:03.856266",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.02935504335910082,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:22:35.075194",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 203,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.03164319321513176,
+              "similarities": [
+                0.051442116498947144,
+                0.02832046151161194,
+                0.04596489295363426,
+                0.06058104336261749,
+                -0.02809254266321659
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9843425750732422,
+              "adjusted_score": 0.4921712875366211,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/madeit-iiitdm_sandboxbootcamp-businessmodelcanvas-startupstrategy-activity-7346510236284813313-MzhP",
+        "timestamp": "1d",
+        "text": "𝗗𝗮𝘆 𝟭𝟬 | 𝗦𝗮𝗻𝗱𝗯𝗼𝘅 𝗜𝗻𝗻𝗼𝘃𝗮𝘁𝗶𝗼𝗻 𝗕𝗼𝗼𝘁𝗰𝗮𝗺𝗽\n\nBuilding the Blueprint – Business Model Canvas Day\n\nToday, our participants shifted gears from prototyping to planning — mapping out their Business Model Canvas to bring clarity to their ideas, customers, and value.\n\n𝗕𝗲𝗰𝗮𝘂𝘀𝗲 𝗲𝘃𝗲𝗿𝘆 𝗴𝗿𝗲𝗮𝘁 𝗶𝗻𝗻𝗼𝘃𝗮𝘁𝗶𝗼𝗻 𝗻𝗲𝗲𝗱𝘀 𝗮 𝘀𝗼𝗹𝗶𝗱 𝗳𝗼𝘂𝗻𝗱𝗮𝘁𝗶𝗼𝗻 𝘁𝗼 𝗴𝗿𝗼𝘄.\n\n#SandboxBootcamp #BusinessModelCanvas #StartupStrategy #FromIdeaToImpact #InnovationJourney #MadeIT #ThinkPlanBuild #EntrepreneurMindset",
+        "scraped_at": "2025-07-04T21:29:03.856269",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.18412287697196006,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:22:35.463222",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 316,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "SINE"
+                ],
+                "government_schemes": [
+                  "SINE"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.16008023917675018,
+              "similarities": [
+                0.18392515182495117,
+                0.16953420639038086,
+                0.15574723482131958,
+                0.1276167631149292,
+                0.1635778248310089
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "neutral",
+              "sentiment_score": 0.8044336438179016,
+              "adjusted_score": 0.4022168219089508,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/madeit-iiitdm_sandboxbootcamp-hardprototyping-innovationinaction-activity-7346504171686133761-_QrX",
+        "timestamp": "1d",
+        "text": "𝗗𝗮𝘆 𝟵 | 𝗦𝗮𝗻𝗱𝗯𝗼𝘅 𝗜𝗻𝗻𝗼𝘃𝗮𝘁𝗶𝗼𝗻 𝗕𝗼𝗼𝘁𝗰𝗮𝗺𝗽\n\n𝗛𝗮𝗻𝗱𝘀-𝗼𝗻 𝗛𝘂𝘀𝘁𝗹𝗲: 𝗛𝗮𝗿𝗱 𝗣𝗿𝗼𝘁𝗼𝘁𝘆𝗽𝗶𝗻𝗴 𝗶𝗻 𝗠𝗼𝘁𝗶𝗼𝗻\n\nOur participants took their ideas off the page and into the real world through hard prototyping — building, testing, and refining tangible solutions.\n\n𝗜𝗻𝗻𝗼𝘃𝗮𝘁𝗶𝗼𝗻 𝗶𝘀𝗻’𝘁 𝗷𝘂𝘀𝘁 𝗶𝗺𝗮𝗴𝗶𝗻𝗲𝗱 𝗵𝗲𝗿𝗲 — 𝗶𝘁’𝘀 𝗺𝗮𝗱𝗲.\n\n#SandboxBootcamp #HardPrototyping #InnovationInAction #BuildTestLearn #FromIdeaToImpact #MadeIT #DesignToReality #StartupSkills",
+        "scraped_at": "2025-07-04T21:29:03.856272",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.032799426838755606,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:22:35.899548",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 278,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.07432932406663895,
+              "similarities": [
+                0.07464897632598877,
+                0.10710782557725906,
+                0.06823750585317612,
+                0.07618169486522675,
+                0.045470621436834335
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "neutral",
+              "sentiment_score": 0.8660011291503906,
+              "adjusted_score": 0.4330005645751953,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/society-for-innovation-and-entrepreneurship---iit-bombay/": [
+      {
+        "url": "https://www.linkedin.com/posts/society-for-innovation-and-entrepreneurship---iit-bombay_callforapplicationopen-nidhisss-proofofconcept-activity-7346890127207452673-Eq4p",
+        "timestamp": "8h",
+        "text": "Application Closing Soon!! Only few days left.\nDon't miss out on this opportunity to boost your startup! 💥\n\n⏰ Application Deadline: 10th July 2025\n\nThis program offers financial assistance up to ₹50 Lakhs to startups for:\n- Proof of concept\n- Prototype development\n- Product trials\n- Market entry\n- Commercialization\nand more! 💡\n\nApply Now: https://lnkd.in/d2J9_EyP\n\n#CallForApplicationOpen #NIDHISSS #Proofofconcept #Prototypedevelopment #Producttrials #Marketentry #Commercialization\n\nIndia DST | Department of Science & Technology, Government of India\n\nNishant Sharma | Shaji Varghese | Prasad Shetty | Rashmi Mahajani | Yash Mehta | Kanan Dhebar | Pranita Phatak | Aparna Anand | Indian Institute of Technology, Bombay",
+        "scraped_at": "2025-07-04T21:29:03.856275",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.5986634893218676,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:23:07.400118",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 580,
+            "pattern_analysis": {
+              "total_score": 0.4,
+              "category_scores": {
+                "strong_indicators": 0.4,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "Apply Now"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "DST",
+                  "Government of India"
+                ],
+                "government_schemes": [
+                  "DST",
+                  "Government of India"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 1.0,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.368685245513916,
+              "similarities": [
+                0.5318135023117065,
+                0.3192060887813568,
+                0.3850054144859314,
+                0.3232874274253845,
+                0.28411367535591125
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "10th July 2025"
+              ],
+              "deadline_indicators": [
+                "Deadline"
+              ],
+              "temporal_score": 0.7,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [
+                "50",
+                "50",
+                "50"
+              ],
+              "financial_terms": [],
+              "financial_score": 0.5,
+              "has_funding_amounts": true
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [
+                  "prototype",
+                  "proof of concept"
+                ],
+                "amounts": [
+                  "lakh",
+                  "₹",
+                  "lakhs",
+                  "up to"
+                ]
+              },
+              "context_score": 0.6666666666666666,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8677614331245422,
+              "adjusted_score": 0.4338807165622711,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/society-for-innovation-and-entrepreneurship---iit-bombay_iitbombay-generativeai-aiforbusiness-activity-7346530283162120192-M4Eu",
+        "timestamp": "2d",
+        "text": "🌟 Introducing: Gen AI for Business – Women’s Special Edition\n📍 By Prof. Lina Sonne Vyas, Indian Institute of Technology, Bombay\n\nWe’re excited to announce an exclusive, women-only course designed for professionals from diverse business and professional backgrounds who want to explore the real-world power of Generative AI (Gen AI) — even if they’re just starting out!\n\nWhether you’re a team leader, entrepreneur, freelancer, or someone looking to boost your daily work productivity, this course is built to help you understand and apply Gen AI to transform your work.\n\n🎯 Who is this course for?\n✅ Women professionals with no or limited prior knowledge of Gen AI\n✅ Employees keen to improve daily efficiency using Gen AI tools\n✅ Managers and leaders wanting to integrate AI into team strategy and innovation\n✅ Entrepreneurs and freelancers looking to multitask smarter and scale their impact\n\n🧠 Why this course matters:\n-Learn how GenAI is changing business workflows\n-Understand practical applications, not just theory\n-Discover how AI-driven insights can enhance productivity and creativity\n\n📅 Limited seats available. \n\nRegister at: https://lnkd.in/duVQKssM\n\n#IITBombay #GenerativeAI #AIforBusiness #WomenInTech #DigitalTransformation #GenAI #LifelongLearning\n\nDSSE IITB | Desai Sethi School of Entrepreneurship, IIT Bombay | Sushmit Bagchi | Dr. Satadru Chakrabarty | Dnyaneshwari Joshi | Anush kumar Mehalavarunan | Sumit Saxena | Manpreet Maini | HEMANT GEDAM",
+        "scraped_at": "2025-07-04T21:29:03.856279",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.1904302404820919,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:23:07.618010",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1338,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "SINE"
+                ],
+                "government_schemes": [
+                  "SINE"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.17989136278629303,
+              "similarities": [
+                0.14271435141563416,
+                0.30908137559890747,
+                0.17122747004032135,
+                0.16162726283073425,
+                0.11480634659528732
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.937861442565918,
+              "adjusted_score": 0.468930721282959,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/society-for-innovation-and-entrepreneurship---iit-bombay_newincubatee-sineincubatee-healthcare-activity-7346165545668374530-Il9d",
+        "timestamp": "2d",
+        "text": "We welcome our New Incubatee, LifeSeed Reproductive Healthcare Pvt. Ltd., a healthcare startup, developing a hydrogel formulation that enhances sperm function, aiding pregnancy outcomes.\n\nWebsite - https://lnkd.in/di5Rt5JU\n\n#NewIncubatee #SINEincubatee #Healthcare\n\nPriyanka Bodakhe | Santosh Bodakhe | Rohit Srivastava\n\nNishant Sharma | Shaji Varghese | Prasad Shetty | Rashmi Mahajani | Kanan Dhebar | Pranita Phatak | Aparna Anand | Indian Institute of Technology, Bombay",
+        "scraped_at": "2025-07-04T21:29:03.856281",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.06678971727689106,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:23:07.802065",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 408,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.2169373333454132,
+              "similarities": [
+                0.1625574231147766,
+                0.2105068564414978,
+                0.31807756423950195,
+                0.3654264807701111,
+                0.028118308633565903
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [
+                  "seed"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.13333333333333333,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8366313576698303,
+              "adjusted_score": 0.41831567883491516,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/nsrceliimb/": [
+      {
+        "url": "https://www.linkedin.com/posts/nsrceliimb_nsrcel-femaleleadership-womenininnovation-activity-7346902819142045696-47Fc",
+        "timestamp": "7h Edited",
+        "text": "Join the panel session “Female-led Innovation in Emerging and Climate-Forward Sectors” hosted by NSRCEL in collaboration with AsiaBerlin Summit where the women leaders share their experience in shaping new directions in energy, technology, and sustainability. \nThe discussion will cover practical steps, decisions, and partnerships that support progress in climate and emerging sectors.\n\nHear from:\nFranziska Giffey, Senator, Berlin Senate for Economics\nAnandi Iyer, Director, Fraunhofer-Gesellschaft Office India\nShelly Mittal, Venture Partner–India, Chrysalix Venture Capital\nNaina Padaki, CEO & Co-Founder, TRUE Assistive Technology\nKajal Shah, Co-Founder, Dreamfly Innovations (Moderator)\n\nRSVP Now- https://lu.ma/f9ivzvk2\n\nGIIC Berlin Partner für Wirtschaft und Technologie GmbH European Union\n\nakarsh singh Akshay Joshi\n#NSRCEL #FemaleLeadership  #WomenInInnovation\n#ClimateAction #EmergingSectors #Sustainability #TechForGood\n#WomenInTech #CleanEnergy #InclusiveInnovation #IIMBangalore #PanelDiscussion #Leadership #Innovation",
+        "scraped_at": "2025-07-04T21:29:03.856285",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.21576131552457808,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:23:39.579492",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 798,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "NSRCEL"
+                ],
+                "government_schemes": [
+                  "NSRCEL"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.20785680413246155,
+              "similarities": [
+                0.19520805776119232,
+                0.28726619482040405,
+                0.23018337786197662,
+                0.17585575580596924,
+                0.1507706344127655
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "Capital"
+              ],
+              "financial_score": 0.3,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "neutral",
+              "sentiment_score": 0.5833117961883545,
+              "adjusted_score": 0.29165589809417725,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/nsrceliimb_nsrcel-socialinnovation-techforgood-activity-7346836409778900993-T8oW",
+        "timestamp": "11h",
+        "text": "Join us for the Impact Mixer by Impact Orbit- Tech-Enabled Social Innovations, an initiative by Capgemini in partnership with NSRCEL. This networking event is dedicated to bringing together changemakers, social entrepreneurs, and ecosystem enablers who are passionate about building innovative solutions to create social impact.\n\nWhether you’re a visionary founder, an impact-driven leader, or an ecosystem supporter, this is your opportunity to connect, collaborate, and spark meaningful conversations with like-minded individuals.\n\nSave the date:\n🗓️ Friday, 18th July 2025\n🕔 5:00 PM onwards\nat IIM Bangalore\n\nRSVP Now- https://lu.ma/7bqxgcyw\n\nDon’t miss this chance to expand your network and build new connects.\n\nRameez Roshan Chitvan Chamadia Shivam Punjabi Atlanta Madhukalya\n#NSRCEL #SocialInnovation #TechForGood #SocialImpact\n#Changemakers #SocialEntrepreneur #TechEnabledSocialInnovations #SocialInnovations",
+        "scraped_at": "2025-07-04T21:29:03.856287",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.23354709953069686,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:23:39.764780",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 753,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "NSRCEL"
+                ],
+                "government_schemes": [
+                  "NSRCEL"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.18964749574661255,
+              "similarities": [
+                0.1956728994846344,
+                0.2465323507785797,
+                0.21437545120716095,
+                0.159139484167099,
+                0.13251729309558868
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "18th July 2025"
+              ],
+              "deadline_indicators": [],
+              "temporal_score": 0.3,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8039990067481995,
+              "adjusted_score": 0.40199950337409973,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/nsrceliimb_nsrcel-circulareconomy-lowcarbonfuture-activity-7346507852317958144-6pY2",
+        "timestamp": "1d",
+        "text": "Are you giving used glass a new purpose?\n\nJoin the Circular Economy Incubation Program, an initiative by Pernod Ricard India Foundation, in partnership with NSRCEL. This program is designed to support early-stage startups working in Glass circularity, plastic circularity or climate smart agriculture.\n\nIf your solution focuses on glass cleaning or material innovation - from creating systems for safe reuse to developing new applications using recycled glass, this is your opportunity to take it forward.\n\nThe program offers:\n 🔹 Sector-specific guidance\n 🔹 Fundraising and revenue model readiness\n 🔹 Go-to-market strategies for circular ventures\n 🔹 Ecosystem connects \n\nHelp close the loop on glass - build a solution that creates real circular value.\n\n📅 Applications are closing soon!\n\n🔗 Apply here: https://lnkd.in/gm-dVQWN\n\nMeitY Startup Hub\n\nParvathy A Akshay Joshi Nihal Choudyal Shriyam Yagnik\n#NSRCEL #CircularEconomy #LowCarbonFuture #ClimateInnovation #SustainableStartups #ClimateSmartAgriculture #PlasticCircularity #GlassCircularity",
+        "scraped_at": "2025-07-04T21:29:03.856290",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.3356315061450004,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:23:39.947933",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 863,
+            "pattern_analysis": {
+              "total_score": 0.3,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.3,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "Incubation Program"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "NSRCEL"
+                ],
+                "government_schemes": [
+                  "NSRCEL"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.29389965534210205,
+              "similarities": [
+                0.2771279215812683,
+                0.2926732003688812,
+                0.3525777757167816,
+                0.3396947383880615,
+                0.2074246108531952
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [
+                "close"
+              ],
+              "temporal_score": 0.4,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.661862313747406,
+              "adjusted_score": 0.330931156873703,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/derbifoundation/": [
+      {
+        "url": "https://www.linkedin.com/posts/derbifoundation_facultydevelopment-derbifoundation-innovationcampus-activity-7346390996122857472-kk_h",
+        "timestamp": "1d",
+        "text": "🎓 Academia Meets Innovation at DERBI Foundation! 🧠🚀\n\nWe were delighted to welcome faculty members from the Dayananda Sagar Business Academy as part of a Faculty Development Program (FDP) aimed at bridging the gap between academic knowledge and entrepreneurial application.\n\nThe session included an engaging walkthrough of DERBI Foundation’s lab and Dayananda Sagar University's innovation campus at Kudlu Gate, where faculty had the opportunity to experience the startup ecosystem up close, from ideation spaces to prototyping labs, and incubation support facilities.\n\nThe visit sparked meaningful conversations around how real-world problem-solving, startup exposure, and innovation-driven thinking can be brought into the classroom to better prepare students for tomorrow’s challenges.\n\nWe look forward to more such academia-industry interactions that nurture a stronger entrepreneurial culture on campuses! 🌱💡\n\nDr.Premachandra Sagar | Rohan Prem Sagar | Sathyanarayana B V | Bhavani G | Daamini Sharma | Dr. Adithya Hande\nDayananda Sagar College of Engineering Bangalore | Dayananda Sagar Institutions | Don Bosco Institute of Technology (DBIT), Bengaluru\n\n#FacultyDevelopment #DERBIFoundation #InnovationCampus #DSBA #StartupIndia #AcademiaToInnovation #EntrepreneurialMindset #FutureReadyEducation #IncubationEcosystem #KudluGate #InnovationTour",
+        "scraped_at": "2025-07-04T21:29:03.856293",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.34516100883483886,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:24:40.148869",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1153,
+            "pattern_analysis": {
+              "total_score": 0.3,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.3,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "incubation support"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "SINE"
+                ],
+                "government_schemes": [
+                  "SINE"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.3071810305118561,
+              "similarities": [
+                0.3174870014190674,
+                0.4108121395111084,
+                0.34914159774780273,
+                0.26752278208732605,
+                0.19094160199165344
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [
+                "close"
+              ],
+              "temporal_score": 0.4,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9633541703224182,
+              "adjusted_score": 0.4816770851612091,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/derbifoundation_meitysamridh-meitysamridh-startupindia-activity-7346128993114345475-HMfN",
+        "timestamp": "2d",
+        "text": "We at DERBI Foundation, were delighted to host Dr.Panneerselvam ( PS ) Madanagopal, CEO of MeitY Startup Hub, to review the progress of the #MeitY_SAMRIDH accelerator program and explore deeper collaboration.\n\nDr. Madanagopal toured our incubation and innovation infrastructure, interacted with our team, and had insightful discussions around our strategy to support high-potential startups working in deeptech startups\n\nHe also engaged with the SAMRIDH startup cohort, listening to their journeys and feedback on how the program is helping them build scalable, impactful ventures, with support from MeitY Startup Hub and the Ministry of Electronics and Information Technology.\n\nWe’re excited to deepen our partnership and continue enabling early-stage startups with the resources, mentorship, and market access they need to succeed.\n\nLooking forward to accelerating more digital-first, impact-driven innovations with MeitY Startup Hub!\n\nSathyanarayana B V | Bhavani G | Dr. Adithya Hande | Daamini Sharma\nPankaj Anand | Sajid Raza | \n\nProdoc AI | SUIND | AmpCycle | Indifoot Sports | Lifespark Technologies | \n\n#MeitYSAMRIDH #StartupIndia #MeitYStartupHub #DERBIFoundation #DigitalHealth #ImpactInnovation #AcceleratorProgram #StartupEcosystem #Healthtech #InnovationInIndia",
+        "scraped_at": "2025-07-04T21:29:03.856296",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.2915783956646919,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:24:40.356548",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1088,
+            "pattern_analysis": {
+              "total_score": 0.3,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.3,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "accelerator program"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "Ministry of Electronics and Information Technology"
+                ],
+                "government_schemes": [
+                  "Ministry of Electronics and Information Technology"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.28686362504959106,
+              "similarities": [
+                0.27486664056777954,
+                0.3645930886268616,
+                0.40547114610671997,
+                0.2823166847229004,
+                0.10707058757543564
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "deeptech"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.09999999999999999,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9419540762901306,
+              "adjusted_score": 0.4709770381450653,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/derbifoundation_designthinking-designthinking-startupacceleration-activity-7343238062300139525-2l51",
+        "timestamp": "1w",
+        "text": "🎯 Thank You, Mr. Jagan karthick! 🎯\n\nWe're thrilled to have hosted Mr. Jagan Karthick for a deep-dive workshop on #Design_Thinking — a session that empowered our startups to think empathetically, ideate boldly, and validate early.\n\nWith a structured walkthrough of the Design Thinking framework —\n\nEmpathize → Define → Ideate → Prototype → Test → Iterate\n — Jagan brought clarity on how to approach product development in a user-centric way.\n\nThe session featured powerful startup case studies — showing how design thinking drives real-world innovation.\n\nKey takeaways also included:\n ✅ Strategies for early customer validation\n ✅ Brand differentiation for new markets\n ✅ A sneak peek into pre-incubation planning for low-engaged startups\nThank you, Jagan, for helping our founders sharpen their lens on problem-solving, positioning, and scaling with purpose. 🙌\n\n#DesignThinking #StartupAcceleration #UserCentricInnovation #FounderMindset #DERBIFoundation #MentorshipMatters #InnovationJourney #EarlyStageStartups #ThankYou\n\nSathyanarayana B V | Bhavani G | Dr. Adithya Hande | Daamini Sharma | MeitY Startup Hub | Karnataka Digital Economy Mission (KDEM) | Startup India | Startup Karnataka |",
+        "scraped_at": "2025-07-04T21:29:03.856299",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.2214201914270719,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:24:40.570875",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1013,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "Startup India"
+                ],
+                "government_schemes": [
+                  "Startup India"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.29083797335624695,
+              "similarities": [
+                0.2941504120826721,
+                0.3201819062232971,
+                0.3698071837425232,
+                0.28775376081466675,
+                0.18229667842388153
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [
+                  "prototype"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.13333333333333333,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9784464836120605,
+              "adjusted_score": 0.4892232418060303,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/fittiitdelhi/": [
+      {
+        "url": "https://www.linkedin.com/posts/fittiitdelhi_unnatiai-fitt-iitdelhi-activity-7346754578756866049-MqkR",
+        "timestamp": "17h Edited",
+        "text": "Belagavi, Gets a Boost of AI Brilliance with its UNNATI AI workshop at KLE Academy of Higher Education and Research!\n\nThe UNNATI AI Workshop, organized by FITT, IIT Delhi in collaboration with Microsoft, was hosted at the KAHER Incubation and Innovation Foundation, KLE Academy of Higher Education and Research, Belagavi, Karnataka, brought together a dynamic ecosystem of students, startups, and innovators - all driven by the shared vision of transforming ideas into real-world AI solutions.\n\nThe highlight? FITT introduced its flagship UNNATI AI Accelerator, offering grant support of up to ₹30 Lakhs to selected innovators ready to scale impactful AI-based solutions.\n\nAnother key moment was the insightful session by ITTO (Innovation-Technology Transfer Office Foundation for Innovation Technology Transfer), which opened doors for participants to explore global pathways for deep tech commercialization and innovation transfer.\n\nSpecial thanks to Dr. Preeti K. Doddwad, M.D.S., Professor, Dept. of Conservative Dentistry and Co-ordinator, KLE English Medium Schools, and Dr. Neha Dhaded, Associate Professor, KLE Vishwanath Katti Institute of Dental Sciences, for their support and coordination.\n\nWe extend our heartfelt appreciation to KIIF for hosting the FITT - IIT Delhi's team and for their integral role in the success of this collaborative initiative.\n\n🔗 Want to be part of the UNNATI_AI accelerator?\n 𝗔𝗽𝗽𝗹𝘆 𝗵𝗲𝗿𝗲: https://lnkd.in/dk-2hsjW\n\nHimani Vashisth Kiran S. \n\nSomanna Palacanda | Kate Behncken | Manju D.|Gunjan Patel | Kishore Kumar Thangavelu | Tanishka Roy | Shreya Mehta | Sandeep Aurora |\n\nPreeti Ranjan Panda |Dr Nikhil Agarwal |Tarun Chaturvedi | Ashutosh Pastor ANKIT SAXENA | Namita Gupta | Manveen Chadha | Gaurav Jain | Seema Lamba | Neelabh Pathak | Sseema GiiLL | Nupur Aswani\n\n#UNNATIAI #FITT #IITDelhi #KLEUniversity #KIIF #Microsoft #AIForIndia #ITTO #DeepTech #StartupEcosystem #InnovationToImpact #Belagavi #AIWorkshop #ResearchToMarket #AIforGood",
+        "scraped_at": "2025-07-04T21:29:03.856302",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.32570622459053994,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:25:44.374908",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1774,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "FITT"
+                ],
+                "government_schemes": [
+                  "FITT"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.22483570873737335,
+              "similarities": [
+                0.20752152800559998,
+                0.35846787691116333,
+                0.26461607217788696,
+                0.26430177688598633,
+                0.029271230101585388
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [
+                "30",
+                "30",
+                "30"
+              ],
+              "financial_terms": [
+                "grant"
+              ],
+              "financial_score": 0.8,
+              "has_funding_amounts": true
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": [
+                  "lakh",
+                  "₹",
+                  "lakhs",
+                  "up to",
+                  "support of"
+                ]
+              },
+              "context_score": 0.5,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8792347311973572,
+              "adjusted_score": 0.4396173655986786,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/fittiitdelhi_unnatiai-iitdelhi-microsoftindia-activity-7346042270883729409-jryI",
+        "timestamp": "2d",
+        "text": "💡 Up for grabs: Grant support up to ₹30 Lakhs!\n\nThe UNNATI AI Roadshow is coming to your city — empowering innovators, startups, and dreamers to turn bold ideas into real-world impact!\n\nJoin us for an exclusive AI Innovation Workshop by FITT - IIT Delhi,  KLE Academy of Higher Education and Research, and Microsoft — designed to fuel your vision with cutting-edge tools, expert mentorship, and funding opportunities.\n\nWho’s this for?\nResearchers | Startups | Students | Entrepreneurs | Innovators — basically, anyone ready to disrupt, solve, and build!\n\n🗓 Date: Thursday, 3rd July 2025\n🕙 Time: 10:00 AM onwards\n📍 Venue: JNMC Campus, Nehru Nagar, Belagavi, Karnataka\n\n🔗 Seats are limited — Register now or scan the QR code on the poster!\n\nLet’s unlock India’s AI potential, one idea at a time.\n\nMicrosoft India Karnavati Innovation and Incubation Foundation - KIIF KAHER Incubation and Innovation Foundation \n\nSomanna Palacanda | Kate Behncken | Manju D.|Gunjan Patel | Kishore Kumar Thangavelu | Tanishka Roy | Pallavi Walia | Shreya Mehta | Jyoti Pawar| Sandeep Aurora |Nitu Narula | Anand Gupta| Sundeep Kunchala | Asmi John Akkara | Aparna Kondaboina | Puneet Chandok | Rajiv Kumar | Venkat Padmanabhan | Venkat Krishnan | Rodrigo Kede Lima | Mike Yeh\n\nPreeti Ranjan Panda |Dr Nikhil Agarwal |Tarun Chaturvedi | Ashutosh Pastor ANKIT SAXENA | Namita Gupta | Manveen Chadha | Gaurav Jain | Seema Lamba | Neelabh Pathak | Sseema GiiLL | Nupur Aswani\n\n#UNNATIAI #IITDelhi #MicrosoftIndia #AIWorkshop #StartupEcosystem #KLEBelagavi #InnovationForAll #FITTInitiative #TechForGood",
+        "scraped_at": "2025-07-04T21:29:03.856305",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.37264436662197115,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:25:44.595621",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1440,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "FITT"
+                ],
+                "government_schemes": [
+                  "FITT"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.3047040104866028,
+              "similarities": [
+                0.32779085636138916,
+                0.4088379740715027,
+                0.34607648849487305,
+                0.29636964201927185,
+                0.14444500207901
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "3rd July 2025"
+              ],
+              "deadline_indicators": [],
+              "temporal_score": 0.3,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [
+                "30",
+                "30",
+                "30"
+              ],
+              "financial_terms": [
+                "Grant",
+                "funding"
+              ],
+              "financial_score": 0.8,
+              "has_funding_amounts": true
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": [
+                  "lakh",
+                  "₹",
+                  "lakhs",
+                  "up to"
+                ]
+              },
+              "context_score": 0.39999999999999997,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8775506019592285,
+              "adjusted_score": 0.43877530097961426,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/fittiitdelhi_unityindiversity-spaceforall-proudmoment-activity-7345765410752950272-vQ23",
+        "timestamp": "3d",
+        "text": "FITT proudly celebrates Group Captain Shubhanshu Shukla’s inspiring journey to International Space Station (ISS) Airview, reminding us that we are all citizens of one shared planet. Let’s unite in the spirit of diversity and harmony.  \n\nDr Nikhil Agarwal Gaurav Jain Ashutosh Pastor Tarun Chaturvedi ANKIT SAXENA Preeti Ranjan Panda Anubhav Sen Neelabh Pathak Seema Lamba Sseema GiiLL Namita Gupta Manveen Chadha Vanita V. Kiran Sabale Kiran S. Nupur Aswani \n\n#UnityInDiversity #SpaceForAll #ProudMoment #ISRO #OneEarth #UnityInDiversity #Oneness #HumanityFirst #AnektaMeinEkta #IndiaInSpace #ShubhanshuShukla #FITT",
+        "scraped_at": "2025-07-04T21:29:03.856308",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.17378807194530962,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:25:44.811508",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 454,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "FITT"
+                ],
+                "government_schemes": [
+                  "FITT"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.06835036724805832,
+              "similarities": [
+                0.04396338015794754,
+                0.04346708953380585,
+                0.15551480650901794,
+                0.04477037489414215,
+                0.05403616279363632
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9414206743240356,
+              "adjusted_score": 0.4707103371620178,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/social-alpha/": [
+      {
+        "url": "https://www.linkedin.com/posts/social-alpha_activity-7346945772585631744-0Cwo",
+        "timestamp": "18h Edited",
+        "text": "Innovators working on developing medical devices for screening and diagnosis often struggle with accessing funds for clinical trials and regulatory pathways. At this stage equity funding is almost non-existent.  (Sometimes it may be there but comes with extremely bad terms combined wifh hyper-dilution and horrific captables). \n\nThis is where blended finance needs to be redefined. Capital providers need to understand that  de-risking early stage startups requires a continuum of capital where non dilutive and dilutive capital pools operate synchronously throughtout the product lifecycle depending upon the stage, complexity and market readiness of the innovations. This is not like a relay race where capital providers change roles but more like an orchestra where different pools can synchronise their risk underwriting and maximise the impact while creating value as the innovations transition from the lab to market.\n\n#blendedfinance #valleyofdeath #impact #innovation  Social Alpha",
+        "scraped_at": "2025-07-04T21:29:03.856311",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.13363884170850118,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:26:18.894370",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 937,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.3363431394100189,
+              "similarities": [
+                0.34134623408317566,
+                0.36126065254211426,
+                0.3934498131275177,
+                0.26709404587745667,
+                0.3185649812221527
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "funding",
+                "capital",
+                "equity",
+                "Capital",
+                "finance"
+              ],
+              "financial_score": 0.5,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [
+                  "early stage"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.13333333333333333,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "negative",
+              "sentiment_score": 0.7941614985466003,
+              "adjusted_score": 0.39708074927330017,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/social-alpha_social-alpha-x-cisco-activity-7346496029690642434-1vID",
+        "timestamp": "1d Edited",
+        "text": "In agriculture, productivity is only part of the story. \n\nWithout efficient post-harvest systems, much of what’s grown is lost, or sold at distress prices. \n\nFarmers need access to infrastructure that preserves produce quality, extends shelf-life life, and enables value addition. For perishable crops, in particular, the time between harvest and sale is critical. \n\nWe’re inviting start-ups developing solutions for: \n\n- Affordable, accessible preservation and processing \n- Modular storage with hybrid or passive cooling \n- Off-grid or decentralised post-harvest infrastructure \n- Quality monitoring, grading, and traceability \n\nSolutions should be relevant to smallholder farmers, and adaptable to a range of crops and geographies. \n \nSelected start-ups will receive funding, lab and design support, incubation, mentorship, and access to scale-up networks.\n \nApplications close on 13th July 2025. Apply now: https://lnkd.in/gNwjafu8\n\nSustain Plus | Manoj Kumar | Ganesh Neelam | Cisco | Harish Krishnan | Rohini Kamath | Tarun Anthony\n \n#FarmingForward #PostHarvestInnovation #SocialAlpha #CiscoCSR #DeepTechForAgriculture",
+        "scraped_at": "2025-07-04T21:29:03.856313",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.3042110911508401,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:26:19.088503",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 994,
+            "pattern_analysis": {
+              "total_score": 0.4,
+              "category_scores": {
+                "strong_indicators": 0.4,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "Apply now"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.29078295826911926,
+              "similarities": [
+                0.21558743715286255,
+                0.2370227426290512,
+                0.3594198524951935,
+                0.4210588335990906,
+                0.22082580626010895
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "13th July 2025"
+              ],
+              "deadline_indicators": [
+                "close"
+              ],
+              "temporal_score": 0.7,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "funding"
+              ],
+              "financial_score": 0.3,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [
+                  "scale-up"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.13333333333333333,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "neutral",
+              "sentiment_score": 0.49041256308555603,
+              "adjusted_score": 0.24520628154277802,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/social-alpha_activity-7345509942239404032-e8Cr",
+        "timestamp": "5d",
+        "text": "Impact investing and blended finance were supposed to fund what the market wouldn’t—ideas that are too early, too complex, too local, or too long-term. Instead, they have become vehicles for funding what the market already wants, just with less risk and more narrative dressing.",
+        "scraped_at": "2025-07-04T21:29:03.856316",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.07825488030910491,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:26:19.215842",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 278,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.24050942063331604,
+              "similarities": [
+                0.26575854420661926,
+                0.28349971771240234,
+                0.2861108183860779,
+                0.07893836498260498,
+                0.2882397174835205
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "finance",
+                "funding"
+              ],
+              "financial_score": 0.3,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "neutral",
+              "sentiment_score": 0.48713868856430054,
+              "adjusted_score": 0.24356934428215027,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/deshpandestartups/": [
+      {
+        "url": "https://www.linkedin.com/posts/deshpandestartups_thrilled-to-docketrun-tech-recognized-as-activity-7346522812209119232--Ame",
+        "timestamp": "1d",
+        "text": "Thrilled to DocketRun Tech, recognized as Runner-Up in the GTM Category at the Matrix Startup Awards 2025! This is fantastic validation for their innovative work in industrial AI and IoT.\n\nCongratulations, Team DocketRun and Ajay Kabadi! 🚀",
+        "scraped_at": "2025-07-04T21:29:03.856319",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.05815759658813477,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:26:53.047621",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 238,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.15701094269752502,
+              "similarities": [
+                0.193083256483078,
+                0.12943148612976074,
+                0.23810207843780518,
+                0.19560709595680237,
+                0.028830837458372116
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "IoT"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.09999999999999999,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9842382073402405,
+              "adjusted_score": 0.49211910367012024,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/deshpandestartups_deshpandestartups-foundersplaybook-startupinsights-activity-7344356213054218241-TJR8",
+        "timestamp": "1w Edited",
+        "text": "We recently hosted a fantastic \"Founder's Playbook: Smart Moves for Sustainable Startups\" hybrid session, engaging around 30 entrepreneurs both online and in our auditorium! It was a powerful experience diving into strategic growth for new startups.\n\nThe session, expertly led by Dipanjay Bhalerao, Deputy Director, Indira Institute of Management, Pune (MBA), offered practical and thought-provoking insights:\n\n• Strategic Startup Categorization: Participants gained clarity on distinguishing between High/Low Investment and Innovation models, prompting them to assess their own ventures.\n\n• The B.I.O. Model: Mr. Bhalerao introduced his impactful Business, Investment, and Offering Innovation model, illustrated with compelling examples of capex reduction, smart outsourcing (like Airtel), and revenue streams (like Apple's app ecosystem).\n\n• Innovation vs. Disruption: A crucial discussion that provided a clearer understanding of these pivotal concepts.\n\n• The Power of Collaboration: Emphasizing how partnerships drive significant growth in the startup ecosystem.\n\nA huge thank you to Dipanjay Bhalerao for sharing his profound knowledge and making the session so valuable. We also extend our gratitude to all the entrepreneurs who actively participated and made this event a resounding success!\n\nPadmaraj Pattanashetti | ABHISHEK kajagar | Vishwadharmi K Sharma | Karan SG Doddwad | Vaibhav Dhulla | Ayush Shetty | Soumya Chaugala | Prashant Pammar\n\n#DeshpandeStartups #FoundersPlaybook #StartupInsights #Entrepreneurship #HybridSession #Innovation #CommunityEngagement",
+        "scraped_at": "2025-07-04T21:29:03.856322",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.24767568081617353,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:26:53.252606",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1446,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "SINE"
+                ],
+                "government_schemes": [
+                  "SINE"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.35672545433044434,
+              "similarities": [
+                0.35237812995910645,
+                0.49608349800109863,
+                0.41286319494247437,
+                0.25056540966033936,
+                0.2717370390892029
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "Investment"
+              ],
+              "financial_score": 0.3,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9666745066642761,
+              "adjusted_score": 0.48333725333213806,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/deshpandestartups_hiring-strategic-leaders-activity-7345452841064460289-vvZQ",
+        "timestamp": "4d",
+        "text": "Here are 2 Powerful Roles to Shape Bharat’s Startup Future with Deshpande Startups!\n\nWe’re looking for dynamic leaders to join India’s largest incubator based in Bharat. If you believe the next big startup can rise from Tier 2/3 India — or while solving for it — this is your chance to lead that wave.\n\nOpen Roles:\n• Head – Infinity Innovation Labs: Build India’s most accessible hardware innovation ecosystem.\n• Lead – Startup Programs: Design and run national-level cohorts for early to growth-stage startups.\n\nWhy Deshpande Startups?\nWe’ve incubated 500+ ventures that are creating jobs, solving real-world challenges, and redefining what’s possible from small towns. We're backed by legendary founders and investors from Sierra Atlantic, Sycamore, redBus, and more.\n\nRoles based in Hubli – a fast-growing city with excellent quality of life, minimal traffic, and a thriving airport.\n\nLast date to apply: 10 July 2025\nApply here: https://lnkd.in/g7ugduEv\n\nKnow someone who’d be a great fit? Please tag, share, or refer.\n\nDesh Deshpande | Manish Jaiswal | Sonali Sarma | Raju Reddy | Phanindra Sama | Bharat Singh | Rachit Parekh \n\n#DeshpandeStartups #BharatStartups #StartupJobs #LeadershipRoles #Entrepreneurship #HardwareInnovation #StudentEntrepreneurship #Careers #Hiring #MakeInIndia",
+        "scraped_at": "2025-07-04T21:29:03.856325",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.17202712327241898,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:26:53.472379",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1100,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.2978794574737549,
+              "similarities": [
+                0.3296601474285126,
+                0.32679423689842224,
+                0.37027767300605774,
+                0.26646479964256287,
+                0.196200430393219
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "10 July 2025"
+              ],
+              "deadline_indicators": [
+                "Last date"
+              ],
+              "temporal_score": 0.7,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8938081860542297,
+              "adjusted_score": 0.44690409302711487,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/venture-center-pune/": [
+      {
+        "url": "https://www.linkedin.com/posts/venture-center-pune_pune-startup-startupfounder-activity-7225740220065796097-aSDU",
+        "timestamp": "11mo Edited",
+        "text": "Ready-to-Use Labs, Offices, and Desks and much more at India's largest incubator for science and technology based startups! Come.... 𝗶𝗻𝗰𝘂𝗯𝗮𝘁𝗲 𝘄𝗶𝘁𝗵 𝘂𝘀!\n\nVenture Center is an award winning, leading incubator for deeptech, knowledge intensive startups, and our 𝗥𝗲𝘀𝗶𝗱𝗲𝗻𝘁 𝗜𝗻𝗰𝘂𝗯𝗮𝘁𝗶𝗼𝗻 𝗣𝗿𝗼𝗴𝗿𝗮𝗺 for startups offers a range of benefits—without taking any equity!\n\n1. World-Class Infrastructure\n\nAccess to state-of-the-art labs, fully equipped offices, and flexible desks. Our facilities are designed to meet the diverse needs of startups, providing everything you need to innovate and grow.\n\n2. Expert Mentorship and Guidance\n\n24/7 access to in-house expertise, in addition to customized one-on-one mentoring from industry veterans. \n\n3. Funding Opportunities\n\nAccess to seed funds, CSR funds, and government grants for different stages of your journey.\n\n4. Prime Location\n\nWe are based in Pune, a city known for its thriving tech and innovation scene, and we are in close proximity to prestigious educational institutions and research centers. \n\n5. Comprehensive Ecosystem\n\nOur extensive support network includes legal assistance, business development resources, regulatory and IP support, and access to workshops and events that provide valuable insights and networking opportunities. \n\n6. Vibrant peer group community on our campus\n\nSurround yourself with like-minded innovators and entrepreneurs who can inspire and support your startup journey. \n\n𝗖𝗼𝗻𝘁𝗮𝗰𝘁 𝘂𝘀 𝘁𝗼𝗱𝗮𝘆! We're looking for startups with an innovative idea or technology in the early stages with a scalable business model!\n\n𝗩𝗶𝘀𝗶𝘁: https://lnkd.in/gNjukCqu\n𝗖𝗮𝗹𝗹: +91-9172232211 \n𝗘𝗺𝗮𝗶𝗹: managerincubator@venturecenter.co.in\n\n#pune #startup #startupfounder #entrepreneur #zeroequity #incubator\n\nPremnath Venugopalan Manisha Premnath Soma Chattopadhyay Misaal B. Gayathry S Amruta Gore Dr. Mugdha Potnis-Lele Smita Kale Neha Jacob",
+        "scraped_at": "2025-07-04T21:29:03.856328",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.39983302156130474,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:27:23.981629",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1758,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "SINE"
+                ],
+                "government_schemes": [
+                  "SINE"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.4076612889766693,
+              "similarities": [
+                0.3733702301979065,
+                0.4648512005805969,
+                0.5023485422134399,
+                0.3888480067253113,
+                0.3088884949684143
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [
+                "close"
+              ],
+              "temporal_score": 0.4,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [
+                "5"
+              ],
+              "financial_terms": [
+                "equity",
+                "Funding",
+                "seed"
+              ],
+              "financial_score": 0.8,
+              "has_funding_amounts": true
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "deeptech"
+                ],
+                "stages": [
+                  "seed",
+                  "early stage"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.3666666666666667,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8806864619255066,
+              "adjusted_score": 0.4403432309627533,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/venture-center-pune_were-thrilled-to-share-that-the-global-innovation-activity-7346938376958197760-Yemr",
+        "timestamp": "4h Edited",
+        "text": "We’re thrilled to share that the Global Innovation Fund has made its first investment from the new  Thrive climate‑health impact fund to back Venture Center incubatee Blackfrog Technologies!\n\nBlackfrog has raised a Pre-Series A investment of $1.7 million from the Global Innovation Fund (GIF), with participation from Rainmatter by Zerodha, and the Manipal Education and Medical Group (MEMG). \n\nTheir flagship innovation, Emvólio, is a portable, battery-operated refrigeration system designed for safe last-mile transport of vaccines, insulin, breast milk, blood serums, and more. With built-in IoT features for real-time temperature and location monitoring, Emvólio is already in use across 800+ rural health centres in 16 Indian states, and is now scaling globally.\n\nThis funding will also enable Blackfrog to develop three new cold-chain products for diagnostics, pharma logistics, and clinical research.\n\nAt Venture Center, we’re proud to have supported Blackfrog with incubation, mentoring, and funding on their journey to tackle critical cold-chain challenges in underserved regions — where up to 50% of vaccines are lost due to inadequate storage. Congratulations to Mayur Shetty, Donson D Souza, and the entire Blackfrog team!",
+        "scraped_at": "2025-07-04T21:29:03.856331",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.2685812030235926,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:27:24.197585",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1228,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.3
+              },
+              "matched_patterns": [
+                "Congratulations to"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.2522132098674774,
+              "similarities": [
+                0.21941252052783966,
+                0.19386211037635803,
+                0.29045426845550537,
+                0.4507180452346802,
+                0.10661914944648743
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [
+                "due"
+              ],
+              "temporal_score": 0.4,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [
+                "50"
+              ],
+              "financial_terms": [
+                "Series",
+                "funding",
+                "investment"
+              ],
+              "financial_score": 0.8,
+              "has_funding_amounts": true
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "logistics",
+                  "IoT"
+                ],
+                "stages": [
+                  "pre-series A",
+                  "series A"
+                ],
+                "amounts": [
+                  "up to",
+                  "investment of"
+                ]
+              },
+              "context_score": 0.6666666666666666,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9633021950721741,
+              "adjusted_score": 0.48165109753608704,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/venture-center-pune_congratulations-to-venture-center-incubatee-activity-7346854856864800769-QKYF",
+        "timestamp": "10h Edited",
+        "text": "Congratulations to Venture Center incubatee Lamark Biotech on closing their pre-Series A round, led by IAN Group, including IAN Alpha Fund, powered by BioAngels , Dr Vinayender T., Nita Roy , and \"KNK\" Venkataraman KNK .\n\nFounded by Vaibhav Bhatia , LaMark Biotech is advancing a new class of temperature-resilient biologics, which are ideal for underserved regions with limited cold-chain infrastructure. Their proprietary ProteoStrong™ platform stabilizes fragile protein-based drugs like insulin, monoclonal antibodies, and enzymes without altering their molecular structure.\n\nThis investment will accelerate the development of thermostable insulin and support the expansion of LaMark’s biologics platform for global access. \n\nWe look forward to following Lamark’s progress as they work to bring such critical treatments within reach for many. Wishing the team continued momentum and success.\n\nRead More: https://lnkd.in/gKmXjZQC\n\nPremnath Venugopalan IAN Group (formerly Indian Angel Network)",
+        "scraped_at": "2025-07-04T21:29:03.856334",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.2094008375207583,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:27:24.417965",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 966,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.3
+              },
+              "matched_patterns": [
+                "Congratulations to"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "Indian Angel Network"
+                ],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": [
+                  "Indian Angel Network"
+                ]
+              },
+              "entity_score": 0.4,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.20037147402763367,
+              "similarities": [
+                0.17206454277038574,
+                0.18495261669158936,
+                0.30721956491470337,
+                0.27109336853027344,
+                0.0665273517370224
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "round",
+                "Series",
+                "investment"
+              ],
+              "financial_score": 0.3,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "biotech",
+                  "IoT"
+                ],
+                "stages": [
+                  "pre-series A",
+                  "series A"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.4666666666666666,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9071379899978638,
+              "adjusted_score": 0.4535689949989319,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/venturestudio1/": [
+      {
+        "url": "https://www.linkedin.com/posts/venturestudio1_innovation-startupsupport-prototypinglab-activity-7346135484248612864-FGcc",
+        "timestamp": "2d",
+        "text": "At DST Prayas Shala: Where Ideas Take Shape, we provide innovators and early-stage startups with advanced prototyping infrastructure and specialized technical support.\n\nOur makerspace at Ahmedabad University bridges the gap between concept and market-ready products through sophisticated design and fabrication capabilities. We enable rapid prototyping cycles that help entrepreneurs validate ideas and accelerate time-to-market.\n\nReady to transform your hardware innovation into reality? Connect with our team to explore how DST Prayas Shala can support your venture.\n\n#Innovation #StartupSupport #PrototypingLab #HardwareDevelopment #AhmedabadUniversity",
+        "scraped_at": "2025-07-04T21:29:03.856337",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.23816880375146868,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:27:55.289537",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 566,
+            "pattern_analysis": {
+              "total_score": 0.2,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.2,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [
+                "help entrepreneurs"
+              ],
+              "pattern_count": 1
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "DST"
+                ],
+                "government_schemes": [
+                  "DST"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.19989648461341858,
+              "similarities": [
+                0.22177977859973907,
+                0.20857280492782593,
+                0.21883860230445862,
+                0.19913533329963684,
+                0.1511560082435608
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.7273732423782349,
+              "adjusted_score": 0.36368662118911743,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/venturestudio1_bionest-ahmedabaduniversity-biotechstartups-activity-7345763124731437057-FSe0",
+        "timestamp": "3d",
+        "text": "Inside Bio-NEST, where Innovation meets infrastructure. Ever wondered how biotech ideas turn into real-world solutions? At Bio-NEST, Ahmedabad University, startups get access to high-end tools, expert support, and a vibrant community.\n\nPeek into one of our core instruments, a lyophilized, used to extend product shelf life in biopharma, food, and cosmetics without damaging properties.\n\nWhether you're building in health, agri, or industrial biotech, Bio-NEST offers:\n✅ Cutting-edge lab equipment\n✅ Custom support for early-stage ventures\n✅ A thriving network of innovators\n\n📩 Write to bionest@ahduni.edu.in to get started.\n\n#BioNest #AhmedabadUniversity #BiotechStartups #FreezeDrying #InnovationLab #DeepTech #StartupIndia #LabToMarket",
+        "scraped_at": "2025-07-04T21:29:03.856339",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.1454596522450447,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:27:55.486936",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 614,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.30734923481941223,
+              "similarities": [
+                0.2400379776954651,
+                0.37383583188056946,
+                0.402023047208786,
+                0.38283419609069824,
+                0.138015016913414
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [
+                "end"
+              ],
+              "temporal_score": 0.4,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "biotech",
+                  "IoT"
+                ],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.19999999999999998,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.7742906808853149,
+              "adjusted_score": 0.38714534044265747,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/venturestudio1_innovation-entrepreneurship-3dprinting-activity-7345735054624550913-bDG1",
+        "timestamp": "3d Edited",
+        "text": "Over the past two weeks, VentureStudio hosted two engaging events that brought together students, makers, and founders from across the ecosystem.\n\nWe began with a hands-on 3D Printing Workshop at DST Prayas Shala, where participants explored the fundamentals of additive manufacturing, from basic design principles to operating a 3D printer. Attendees created their own prototypes and gained practical exposure to tools that enable rapid innovation. \n\nThis was followed by a powerful panel discussion on \"Building Startup Teams and Company Culture,\" featuring founders who’ve built successful ventures across sectors. Dr. Purav Gandhi (Healthark), Aenik Shah (Wizzy.ai), Abhishek Acharya (Theka Coffee), Shalin (Shawn) Parikh (MYCPE ONE), Shrijay Sheth (LegalWiz.in) and Jatin Chaudhary (eChai Ventures) shared hard-earned insights on hiring, values, and leadership. The room was filled with students, early-stage entrepreneurs, and professionals eager to learn what it really takes to build cohesive, high-performing teams.\n\nThank you to all the speakers and participants for making these sessions impactful. Stay tuned for more events from VentureStudio.\n\n#Innovation #Entrepreneurship #3DPrinting #StartupCulture #AhmedabadUniversity #StartupIndia #DesignToPrototype #Founders #TeamBuilding",
+        "scraped_at": "2025-07-04T21:29:03.856342",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.20854675342639287,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:27:55.682107",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1152,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "DST"
+                ],
+                "government_schemes": [
+                  "DST"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.23104265332221985,
+              "similarities": [
+                0.2342142015695572,
+                0.2999807596206665,
+                0.292277455329895,
+                0.19259288907051086,
+                0.13614796102046967
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [
+                  "prototype"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.13333333333333333,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8222808837890625,
+              "adjusted_score": 0.41114044189453125,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/cultiv8coimbatore/": [
+      {
+        "url": "https://www.linkedin.com/posts/cultiv8coimbatore_is-the-exit-strategy-blueprint-workshop-for-activity-7346043564851679235-Vzn9",
+        "timestamp": "2d Edited",
+        "text": "Is the Exit Strategy Blueprint Workshop for you?\n\nWhether you're:\n ✅ A startup planning to raise funds (with MVP/Prototype ready)\n ✅ Already raised funds and want to plan investor returns\n ✅ Looking to raise subsequent rounds\n ✅ Or have raised grants and want to exit smartly\n👉 This workshop is for YOU.\n\n📅 Date: 26th July 2025\n 🕙 Time: 10:00 AM – 12:30 PM\n\nLearn how to build smart and exit right.\nRegister Now - https://lu.ma/4j3c0sty\n\nCoimbatore Institute of Engineering and Technology (Official Page) eAuditor Office: Fractional/Virtual CFO StartupTN Srisakthi Karthikeyan Dr Kaarthick Balakrishnan Anuvind Jayan SriHari Pranesh Sathish Ramalingam Manikanda Subramanian\n\n#Startups #ExitStrategy #Fundraising #StartupIndia #InvestorReadiness #StartupWorkshop #StartupGrowth #Cultiv8 #CoimbatoreStartups",
+        "scraped_at": "2025-07-04T21:29:03.856345",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.13586328307787576,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:28:26.715100",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 642,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.336771160364151,
+              "similarities": [
+                0.41128137707710266,
+                0.37777021527290344,
+                0.4191896915435791,
+                0.249393031001091,
+                0.22622156143188477
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "26th July 2025"
+              ],
+              "deadline_indicators": [],
+              "temporal_score": 0.3,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [
+                  "prototype",
+                  "MVP"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.26666666666666666,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "neutral",
+              "sentiment_score": 0.5472376942634583,
+              "adjusted_score": 0.2736188471317291,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/cultiv8coimbatore_cultiv8-in-association-with-eauditor-office-activity-7345357737741963266-CX7L",
+        "timestamp": "4d Edited",
+        "text": "Cultiv8 in association with eAuditor Office: Fractional/Virtual CFO and StartupTN presents - 🚀 EXIT Strategy Blueprint — Build with the End in Mind\n\nThe EXIT Strategy Blueprint is a focused in person workshop designed to help startup founders understand how to scale smart and exit strong.\n\nThis session empowers founders to approach growth with clarity, confidence, and a long-term vision.\n\nBuild smart. Exit right.\n\nDate: 26th July, 2025.\n\nTime: 10:00 AM - 12:30 PM.\n\nVenue: Coimbatore ( exact venue will be announced shortly)\n\n🎟️ Registration Fee: EARLY BIRD OFFER – worth ₹̶1̶9̶9̶9̶ at Just ₹499 !\n\n⏳ Limited time only — grab your spot now!\n\n🔗Register Now: https://lu.ma/4j3c0sty\n\nSrisakthi Karthikeyan Sathish Ramalingam Anuvind Jayan Dr Kaarthick Balakrishnan SriHari Pranesh Gayathri C Rajsekar Sivasamy Senthilkumar Rajappan Ramshankar C S Shanmugam Veerappan CIET Coimbatore Manikanda Subramanian Navaneethan K. Ramshankar C S Ratti Bhalla Kunal Banthia NageshwaraKumar Ramalingam Pravin Radhakrishnan Vignesh Kumar Gowtham Krishnamoorthy Gautham Palaniswamy",
+        "scraped_at": "2025-07-04T21:29:03.856347",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.17969775021076204,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:28:26.933826",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1035,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.29550066590309143,
+              "similarities": [
+                0.3207172155380249,
+                0.29837632179260254,
+                0.36005446314811707,
+                0.23080739378929138,
+                0.2675477862358093
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [
+                "End"
+              ],
+              "temporal_score": 0.4,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [
+                "499"
+              ],
+              "financial_terms": [],
+              "financial_score": 0.5,
+              "has_funding_amounts": true
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": [
+                  "₹"
+                ]
+              },
+              "context_score": 0.09999999999999999,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "neutral",
+              "sentiment_score": 0.6149060130119324,
+              "adjusted_score": 0.3074530065059662,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/cultiv8coimbatore_founderburnout-startuplife-mentalwellness-activity-7344205341896704000-smOe",
+        "timestamp": "1w",
+        "text": "🚨 Startup Founders, This One's for You!\n\n Burning the midnight oil? Remember, you are your startup’s greatest asset. \n Even machines need maintenance — so do YOU.\n\n 🔋 Take a break. Recharge. Come back stronger.\n✨ Rest is not a luxury. It’s a necessity.\n\n#FounderBurnout #StartupLife #MentalWellness #HustleWithBalance #Cultiv8 #StartupSupport #RechargeAndRise",
+        "scraped_at": "2025-07-04T21:29:03.856350",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.05176877081394196,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:28:27.068877",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 246,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.1965068280696869,
+              "similarities": [
+                0.23571157455444336,
+                0.17923074960708618,
+                0.2338504195213318,
+                0.11864699423313141,
+                0.21509438753128052
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8917098641395569,
+              "adjusted_score": 0.44585493206977844,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ],
+    "https://www.linkedin.com/company/icreatenextgen/": [
+      {
+        "url": "https://www.linkedin.com/posts/icreatenextgen_mentoring-session-protoquik-launchpad-activity-7346843106442383360-JZ5S",
+        "timestamp": "11h",
+        "text": "🧠 From Vision to Validation - an eye-opening session by Yoav Fekete, Founder of NaadLabs, for ProtoQuik Launchpad - Cohort 1 (Robotics).\n\nStartups were pushed to rethink how they build:\n✔ Love the problem, not the product\n✔ Test fast, fail smart\n✔ Build for real-world impact\n\nWith invaluable insights on product-market fit, MVPs in robotics, and why most startups fail, this session marked a powerful mindset shift for our cohort - from just building tech to solving meaningful problems.\n\nStay tuned for more moments from the journey!\n\n#ProtoQuikLaunchpad #iCreateWithYou #RoboticsStartups #MentorshipMatters #NaadLabs #EntrepreneurMindset #StartupLife #DeepTech #Robotics\nGVFL | MeitY Startup Hub | MathWorks | IT PARK Uzbekistan | InnoA - Innovation Asia Ventures | AcxelerateIndia | Conquest, BITS Pilani | EIT Global Outreach |  Avinash Punekar | Dr. Tejashree Shah. (h.c.) | Siddharth Pareek | Prasen Vinchurkar | Hiiren Y. | Dr. Raashid Saiyed | Dr. Sanjeev K Yadav | Anish Chavda | Dr.Praveen D. | Dr Guru | ARTPARK | IHFC (TIH of IIT Delhi) | EECS IISc | IoT & Robotics Lab | E&TC Department, JEC | e-Yantra, IIT Bombay | AICRA - All India Council for Robotics & Automation | COEP Technological University | Parul University | Nirma University | Startup India | Kaushalya The Skill University | Indian Institute of Technology, Madras | Manoj Bhataria | AVINASH PANCHAL | Noa Muzzafi नेहा 诺亚 | Nehaa Sharma | TiE Ahmedabad | Yogesh Kathrecha | Parimal Verma",
+        "scraped_at": "2025-07-04T21:29:03.856353",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.21626837333043414,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:29:03.325906",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1332,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "Startup India"
+                ],
+                "government_schemes": [
+                  "Startup India"
+                ],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.7,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.2311771810054779,
+              "similarities": [
+                0.22705307602882385,
+                0.3248179852962494,
+                0.2730463743209839,
+                0.22246304154396057,
+                0.10850553214550018
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [],
+              "financial_score": 0.0,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [
+                  "IoT"
+                ],
+                "stages": [
+                  "MVP"
+                ],
+                "amounts": []
+              },
+              "context_score": 0.2333333333333333,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.7303385138511658,
+              "adjusted_score": 0.3651692569255829,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/icreatenextgen_icreatewithyou-startupjobs-venturecapital-activity-7346523119471226880-FjWx",
+        "timestamp": "1d",
+        "text": "We’re Hiring at iCreate!\nJoin India’s leading innovation ecosystem and be a part of our mission to empower cutting-edge startups. We’re looking for dynamic professionals to join our growing team at the iCreate campus near Ahmedabad.\n\n🟢 Open Positions:\n🔹 Executive – Admin (0–1 yrs)\n🔹 Investment Associate (3–5 yrs)\n🔹 Sr. Investment Associate (5–7 yrs)\n🗺️ Location: iCreate Campus, Devdholera, Opp. Kensville Golf Club, Rajkot-Bavla Highway, Ahmedabad – 382240\n 📅 Joining: ASAP\n📍 Map: https://lnkd.in/dMGxcpnR\n\n 📧 To Apply, send an email to careers@icreate.org.in with your updated CV and a cover letter.\n🔗 Explore more: www.icreate.org.in/careers\n\n#iCreateWithYou #StartupJobs #VentureCapital #StartupEcosystem #AhmedabadJobs #HiringNow #StartupCareers #AdminJobs #InvestmentRoles #InnovationIndia Avinash Punekar | Hiiren Y. | Parimal Verma | Anushka Raghuvanshi |",
+        "scraped_at": "2025-07-04T21:29:03.856355",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.08916923731565476,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:29:03.581004",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 688,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [],
+                "government_schemes": [],
+                "corporate_funders": [],
+                "incubators": []
+              },
+              "entity_score": 0.0,
+              "has_credible_source": false
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.2514764070510864,
+              "similarities": [
+                0.2737940549850464,
+                0.3119211792945862,
+                0.2671297490596771,
+                0.23652055859565735,
+                0.16801655292510986
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [],
+              "deadline_indicators": [],
+              "temporal_score": 0.0,
+              "has_deadlines": false
+            },
+            "financial_analysis": {
+              "amounts_found": [],
+              "financial_terms": [
+                "Investment"
+              ],
+              "financial_score": 0.3,
+              "has_funding_amounts": false
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": []
+              },
+              "context_score": 0.0,
+              "is_startup_relevant": false
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.8579110503196716,
+              "adjusted_score": 0.4289555251598358,
+              "is_positive": false
+            }
+          }
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/icreatenextgen_clearskieschallenge-deadlineextended-icreatewithyou-activity-7346428082724966400-CTF7",
+        "timestamp": "1d",
+        "text": "🌫️ Good news for innovators!\nThe deadline to apply for the Clear Skies Challenge 2025 has been extended to 15 July 2025.\nOrganized by IIT Tirupati Navavishkar I-Hub Foundation, this national innovation hackathon invites students, startups, and researchers to develop impactful solutions for India’s air pollution crisis.\n🎯 Focus Cities: Gurugram, Varanasi, Vizianagaram\n\n🚀 If you're working on impactful solutions for air pollution - this is your chance to build for a better tomorrow.\n🗓️ New Deadline: 15 July 2025\n\n🏆 Selected teams will pitch for up to ₹2 Cr funding, get expert mentorship, and access iCreate’s rapid prototyping lab at startup-friendly rates.\n✨ iCreate is proud to be the Incubation Partner for this national innovation challenge.\n\n🔗 Know more here: https://lnkd.in/dmU_VAdU\n\n#ClearSkiesChallenge #DeadlineExtended #iCreateWithYou #HackForImpact #ClimateInnovation #AirPollutionSolutions #StartupIndia #IITTN #NIFIEC\n\nAvinash Punekar | Siddharth Pareek | Riya Singha | Divyalax Chauhan | Abhilash Saini | Roshan Srivastav | Indian Institute of Technology, Tirupati | Centre of Data for Public Good (CDPG), FSID, IISc Bangalore | Google | A-PAG | TiE Delhi-NCR | Council on Energy, Environment and Water (CEEW) | Grow Billion Trees | ACIC CBIT",
+        "scraped_at": "2025-07-04T21:29:03.856358",
+        "grant_analysis": {
+          "is_grant_opportunity": false,
+          "confidence_score": 0.39263086900115013,
+          "analysis_message": "Analysis complete",
+          "analyzed_at": "2025-07-04T21:29:03.809805",
+          "version": "2.0",
+          "detailed_analysis": {
+            "text_length": 1101,
+            "pattern_analysis": {
+              "total_score": 0,
+              "category_scores": {
+                "strong_indicators": 0.0,
+                "medium_indicators": 0.0,
+                "weak_indicators": 0.0,
+                "negative_indicators": -0.0
+              },
+              "matched_patterns": [],
+              "pattern_count": 0
+            },
+            "entity_analysis": {
+              "entities": {
+                "funding_bodies": [
+                  "ITC"
+                ],
+                "government_schemes": [],
+                "corporate_funders": [
+                  "ITC"
+                ],
+                "incubators": []
+              },
+              "entity_score": 0.5,
+              "has_credible_source": true
+            },
+            "semantic_analysis": {
+              "semantic_score": 0.22923927009105682,
+              "similarities": [
+                0.28287261724472046,
+                0.26563379168510437,
+                0.2612684965133667,
+                0.2940589189529419,
+                0.04236258566379547
+              ],
+              "is_semantically_relevant": "False"
+            },
+            "temporal_analysis": {
+              "dates_found": [
+                "15 July 2025",
+                "15 July 2025"
+              ],
+              "deadline_indicators": [
+                "deadline",
+                "Deadline"
+              ],
+              "temporal_score": 0.8999999999999999,
+              "has_deadlines": true
+            },
+            "financial_analysis": {
+              "amounts_found": [
+                "2",
+                "2"
+              ],
+              "financial_terms": [
+                "funding"
+              ],
+              "financial_score": 0.8,
+              "has_funding_amounts": true
+            },
+            "context_analysis": {
+              "context_matches": {
+                "sectors": [],
+                "stages": [],
+                "amounts": [
+                  "₹",
+                  "up to"
+                ]
+              },
+              "context_score": 0.19999999999999998,
+              "is_startup_relevant": true
+            },
+            "sentiment_analysis": {
+              "sentiment_label": "positive",
+              "sentiment_score": 0.9297991394996643,
+              "adjusted_score": 0.46489956974983215,
+              "is_positive": false
+            }
+          }
+        }
+      }
+    ]
+  }
+}
